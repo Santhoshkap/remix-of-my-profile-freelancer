@@ -13,14 +13,14 @@
   z-index: 9999;
 }
 .header ul {
-  font-size: 12px;
+  font-size: 10px;
   display: flex;
   flex-direction: column;
   margin: 0;
   padding: 0;
   list-style: none;
-  column-gap: 40px;
-  row-gap: 8px;
+  column-gap: 20px;
+  row-gap: 6px;
   align-items: end;
   font-family: "Orbitron", sans-serif;
 }
@@ -60,13 +60,20 @@
   .header ul {
     flex-direction: row;
     align-items: center;
-    font-size: 12px;
+    font-size: 11px;
+    column-gap: 24px;
   }
   .header ul li {
     color: hsl(200, 20%, 90%);
   }
   .navbar-title {
     font-size: 16px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .header ul {
+    column-gap: 30px;
+    font-size: 12px;
   }
 }
 @media only screen and (min-width: 1200px) {
