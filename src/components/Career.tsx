@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 const experiences = [
   {
     title: "Senior Manager – GRC",
-    company: "Dexian (Global)",
+    company: "Dexian India Technologies Pvt. Ltd – Global",
     period: "2023 – Present",
     highlights: [
       "Built and scaled global GRC & cybersecurity advisory services",
