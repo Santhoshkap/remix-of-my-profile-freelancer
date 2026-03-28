@@ -238,30 +238,18 @@ function CertificationsCanvas() {
     return () => observer.disconnect();
   }, []);
 
-  const materials = useMemo(() => {
-    return certifications.map((cert) => {
-      const texture = createTextTexture(cert);
-      return new THREE.MeshPhysicalMaterial({
-        map: texture,
-        emissive: "#ffffff",
-        emissiveMap: texture,
-        emissiveIntensity: 0.35,
-        metalness: 0.5,
-        roughness: 1,
-        clearcoat: 0.1,
-      });
-    });
+  const textures = useMemo(() => {
+    return certifications.map((cert) => createTextTexture(cert));
   }, []);
 
   const spheres = useMemo(
     () =>
       certifications.map((_cert, i) => ({
         scale: 0.85,
-        material: materials[i],
+        texture: textures[i],
         gridTarget: getGridPosition(i) as [number, number, number],
-        textureRotationOffset: new THREE.Euler(0, 0, 0),
       })),
-    [materials]
+    [textures]
   );
 
   return (
