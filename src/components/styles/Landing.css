@@ -54,8 +54,8 @@
   display: none;
   width: 300px;
   height: 300px;
-  background-color: hsl(270, 80%, 60%);
-  box-shadow: inset -50px 40px 50px hsla(270, 80%, 50%, 0.6);
+  background-color: hsl(190, 100%, 50%);
+  box-shadow: inset -50px 40px 50px hsla(190, 100%, 40%, 0.6);
   filter: blur(50px);
   border-radius: 50%;
   animation: loadingCircle2 5s linear infinite;
@@ -367,4 +367,84 @@
   width: 100%;
   height: 100%;
   z-index: 0;
+}
+
+/* 3D Floating geometric shapes */
+.cyber-geo {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid hsla(190, 100%, 50%, 0.15);
+  transform-style: preserve-3d;
+  perspective: 600px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cyber-geo-cube {
+  box-shadow: 0 0 15px hsla(190, 100%, 50%, 0.08), inset 0 0 10px hsla(190, 100%, 50%, 0.04);
+}
+
+.cyber-geo-octahedron {
+  width: 30px;
+  height: 30px;
+  border-radius: 2px;
+  border-color: hsla(190, 100%, 50%, 0.12);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  background: hsla(190, 100%, 50%, 0.04);
+  box-shadow: 0 0 20px hsla(190, 100%, 50%, 0.06);
+}
+
+.cyber-geo-ring {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1.5px solid hsla(190, 100%, 50%, 0.12);
+  background: transparent;
+  box-shadow: 0 0 12px hsla(190, 100%, 50%, 0.06), inset 0 0 12px hsla(190, 100%, 50%, 0.03);
+}
+
+.cyber-geo-pyramid {
+  width: 35px;
+  height: 35px;
+  border: none;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  background: hsla(190, 100%, 50%, 0.05);
+  box-shadow: 0 0 15px hsla(190, 100%, 50%, 0.06);
+  border-bottom: 1.5px solid hsla(190, 100%, 50%, 0.15);
+}
+
+/* Holographic data ring */
+.cyber-holo-ring {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px dashed hsla(190, 100%, 50%, 0.1);
+  box-shadow: 0 0 20px hsla(190, 100%, 50%, 0.05), inset 0 0 20px hsla(190, 100%, 50%, 0.03);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cyber-holo-ring::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px solid hsla(190, 100%, 50%, 0.08);
+}
+
+.cyber-holo-ring::after {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border-radius: 50%;
+  border: 1px dotted hsla(190, 100%, 50%, 0.06);
+}
+
+@media screen and (max-width: 768px) {
+  .cyber-geo, .cyber-holo-ring {
+    opacity: 0.5;
+    transform: scale(0.7);
+  }
 }

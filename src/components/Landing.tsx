@@ -29,6 +29,58 @@ const Landing = ({ children }: PropsWithChildren) => {
           <div className="cyber-particle" style={{ top: "20%", left: "50%", animationDelay: "3.1s" }} />
           <div className="cyber-particle" style={{ top: "85%", left: "40%", animationDelay: "1.8s" }} />
 
+          {/* 3D Floating geometric shapes */}
+          <motion.div
+            className="cyber-geo cyber-geo-cube"
+            style={{ top: "12%", right: "12%" }}
+            animate={{
+              rotateX: [0, 360],
+              rotateY: [0, 360],
+              rotateZ: [0, 180],
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className="cyber-geo cyber-geo-octahedron"
+            style={{ bottom: "20%", right: "8%" }}
+            animate={{
+              rotateX: [0, -360],
+              rotateY: [0, 360],
+              y: [0, -15, 0],
+            }}
+            transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="cyber-geo cyber-geo-ring"
+            style={{ top: "40%", left: "5%" }}
+            animate={{
+              rotateY: [0, 360],
+              rotateX: [65, 65],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className="cyber-geo cyber-geo-pyramid"
+            style={{ bottom: "30%", left: "15%" }}
+            animate={{
+              rotateY: [0, 360],
+              y: [0, -10, 0],
+            }}
+            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          {/* 3D Holographic data ring */}
+          <motion.div
+            className="cyber-holo-ring"
+            style={{ top: "25%", right: "20%" }}
+            animate={{
+              rotateX: [65, 65],
+              rotateZ: [0, 360],
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          />
+
           {/* Floating hex data */}
           <motion.div
             className="cyber-hex-stream"
