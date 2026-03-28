@@ -1,64 +1,32 @@
 
 
-# Fix Spacing, Headings, Work Carousel & Remove TechStack
+# Update Work Carousel Content
 
-## 1. Reduce Section Spacing Globally
+## What Changes
 
-Standardize all section padding to a tighter, consistent value (~40px mobile, ~60px desktop):
+Update `src/components/Work.tsx` to:
 
-| Section | Current | New |
-|---|---|---|
-| About (.about-section) | `padding: 60px 0` | `padding: 40px 0` |
-| WhatIDo (.wid-section) | `padding: 60px 0` | `padding: 40px 0` |
-| Career | `py-20 md:py-32` | `py-10 md:py-16` |
-| Achievements | `py-6 md:py-10` | `py-8 md:py-12` (fine, keep similar) |
-| Certifications | `py-10 md:py-16` | `py-8 md:py-12` |
-| Work (.work-section) | `padding: 80px 0` | `padding: 40px 0` |
-| Contact | reduce bottom heading margin from `mb-16 md:mb-20` to `mb-8 md:mb-12` |
+1. **Add new fields** to the project data: `toolsLabel` (custom label per card), `delivery` (What I Deliver text), and optional `highlight` (the Automation & Innovation differentiator line).
 
-Also reduce inner heading margins (e.g. Career `mb-16 md:mb-24` → `mb-8 md:mb-12`).
+2. **Updated project content:**
 
-## 2. Two-Color Headings for All Sections
+| # | Title | Category | Tools Label | Tools | Delivery | Highlight |
+|---|-------|----------|-------------|-------|----------|-----------|
+| 01 | GRC Programme Implementation | Enterprise Governance & Risk Management | Frameworks & Standards | ISO 27001 · ISO 27701 · ISO 22301 · NIST CSF · SOC 2 · SOX · ITGC · CMMI · Enterprise Risk Management | End-to-end GRC program design, control frameworks, risk registers, SoA, audit readiness, and scalable governance models | — |
+| 02 | SOC 2 & Compliance Automation | Continuous Compliance & Audit Readiness | Tools & Automation | Drata · Sprinto · Thoropass · Hyperproof · Archer GRC · Evidence Management · Control Mapping | Automated compliance programs, continuous monitoring, audit workflows, and scalable control automation for SaaS & cloud | **Automation & Innovation** — Built and enabled automated GRC and compliance platforms — helping organizations scale continuous compliance, reduce manual effort, and accelerate audit readiness |
+| 03 | Privacy & Data Protection | GDPR, DPDP Act & HIPAA Compliance | Privacy Frameworks & Practices | GDPR · DPDP Act · HIPAA · DPIA · RoPA · Data Mapping · Consent Governance · Cross-Border Transfers | End-to-end privacy programs, data lifecycle governance, regulatory alignment, and privacy risk reduction | — |
+| 04 | vCISO Advisory Services | Board-Level Cybersecurity Strategy | Strategy & Risk Leadership | Cyber Risk Roadmaps · ITGC · Board Reporting · Vendor Risk · Third-Party Risk · Enterprise Risk | Strategic advisory, security roadmaps, executive reporting, and translating cyber risk into business decisions | — |
 
-Make every section heading use a two-tone style (white + cyan accent) like "My Work":
+3. **Render updates** in the carousel slide template:
+   - Change the static "Frameworks & Tools" label to use `project.toolsLabel`
+   - Add a new "What I Deliver" block below tools with the same styling pattern
+   - Add the highlight line (styled with a subtle cyan accent/border-left) below the delivery text on card 02
 
-- **About Me** → "About **Me**" (accent on "Me")
-- **What I Deliver** → already has accent on "Deliver" ✓
-- **Experience** → "My **Experience**" (accent on "Experience")
-- **Achievements & Recognition** → "Achievements & **Recognition**" (accent on "Recognition")
-- **My Certifications** → "My **Certifications**" (accent on "Certifications")
-- **My Work** → already two-tone ✓
-- **Get In Touch** → "Get In **Touch**" (accent on "Touch")
-
-The accent `<span>` uses `color: var(--accentColor)` (cyan) — same pattern as Work section.
-
-## 3. Fix Work Carousel — 4 Projects, Fix Sizing
-
-The carousel has 4 projects (GRC, SOC 2, Privacy, vCISO) with `min-width: 100%` slides. The dots correctly show 4. The issue is likely the carousel container width or content overflowing. Will:
-
-- Remove the `section-container` width constraint on the work container so the carousel uses full available width
-- Ensure each slide's content fits properly within the viewport without cutting off
-- Verify all 4 dots correspond to 4 slides correctly
-
-**Files:** `Work.css` — adjust `.work-section` and `.carousel-content` sizing, and `Work.tsx` if needed.
-
-## 4. Remove TechStack Section Entirely
-
-- **`MainContainer.tsx`**: Remove the lazy import of `TechStack`, remove the `<Suspense><TechStack /></Suspense>` block
-- **`TechStack.tsx`**: Delete or leave unused (will remove import references)
-- This removes the "My Toolkit" 3D bouncing spheres section completely
+4. **CSS additions** in `Work.css`:
+   - `.carousel-delivery` — styled like `.carousel-tools` with label + description
+   - `.carousel-highlight` — small italic line with left cyan border, subtle glow
 
 ## Files Modified
-
-1. **`src/components/styles/About.css`** — reduce padding
-2. **`src/components/styles/WhatIDo.css`** — reduce padding
-3. **`src/components/styles/Career.css`** — reduce padding
-4. **`src/components/styles/Work.css`** — reduce padding, fix carousel sizing
-5. **`src/components/styles/Contact.css`** — reduce spacing
-6. **`src/components/About.tsx`** — two-color heading
-7. **`src/components/Career.tsx`** — two-color heading + reduce spacing classes
-8. **`src/components/Achievements.tsx`** — two-color heading + adjust spacing
-9. **`src/components/CertificationsSection.tsx`** — two-color heading + adjust spacing
-10. **`src/components/Contact.tsx`** — two-color heading + reduce margin
-11. **`src/components/MainContainer.tsx`** — remove TechStack import and rendering
+- `src/components/Work.tsx` — data + template
+- `src/components/styles/Work.css` — new styles for delivery & highlight blocks
 
