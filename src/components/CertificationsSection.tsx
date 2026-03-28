@@ -23,6 +23,20 @@ const certifications = [
   "CSCP", "IPMP", "IBM AI Eng.", "CQI",
 ];
 
+function getCertColor(cert: string): { bg: string; ring: string; text: string } {
+  if (["CISA", "CISM", "CCISO", "CC", "HITRUST CCSFP"].includes(cert))
+    return { bg: "rgba(0, 102, 255, 0.7)", ring: "#3399ff", text: "#ffffff" };
+  if (["GRCP", "GRCA", "CRCMP", "CSOE"].includes(cert))
+    return { bg: "rgba(139, 92, 246, 0.7)", ring: "#a78bfa", text: "#ffffff" };
+  if (cert.startsWith("ISO") || cert.startsWith("IRCA"))
+    return { bg: "rgba(6, 182, 212, 0.7)", ring: "#22d3ee", text: "#ffffff" };
+  if (["GDPR Expert", "DPDP Specialist"].includes(cert))
+    return { bg: "rgba(16, 185, 129, 0.7)", ring: "#34d399", text: "#ffffff" };
+  if (["PMP", "Scrum Master", "ITIL v4", "Six Sigma GB"].includes(cert))
+    return { bg: "rgba(245, 158, 11, 0.7)", ring: "#fbbf24", text: "#ffffff" };
+  return { bg: "rgba(236, 72, 153, 0.7)", ring: "#f472b6", text: "#ffffff" };
+}
+
 const skillCategories = [
   {
     title: "GRC & Risk Management",
@@ -53,41 +67,58 @@ function createTextTexture(text: string): THREE.CanvasTexture {
   canvas.width = size;
   canvas.height = size;
   const ctx = canvas.getContext("2d")!;
+  const colors = getCertColor(text);
 
-  // Dark translucent background
-  ctx.fillStyle = "rgba(10, 15, 30, 0.85)";
+  // Colored gradient background
+  const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  gradient.addColorStop(0, colors.bg);
+  gradient.addColorStop(1, "rgba(5, 10, 20, 0.9)");
+  ctx.fillStyle = gradient;
   ctx.beginPath();
   ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
   ctx.fill();
 
-  // Subtle border ring
-  ctx.strokeStyle = "rgba(0, 220, 255, 0.3)";
-  ctx.lineWidth = 4;
+  // Bright border ring
+  ctx.strokeStyle = colors.ring;
+  ctx.lineWidth = 8;
   ctx.beginPath();
-  ctx.arc(size / 2, size / 2, size / 2 - 8, 0, Math.PI * 2);
+  ctx.arc(size / 2, size / 2, size / 2 - 10, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Text
-  ctx.fillStyle = "#00e5ff";
+  // Text settings
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  // Auto-size font
-  let fontSize = text.length > 12 ? 36 : text.length > 8 ? 44 : 56;
+  // Auto-size font — much larger
+  let fontSize = text.length > 12 ? 44 : text.length > 8 ? 56 : 80;
   ctx.font = `bold ${fontSize}px 'Orbitron', 'Inter', sans-serif`;
 
   // Word wrap for long texts
   const words = text.split(" ");
-  if (words.length > 1 && ctx.measureText(text).width > size * 0.75) {
+  const drawText = (lines: string[], baseFontSize: number) => {
+    ctx.font = `bold ${baseFontSize}px 'Orbitron', 'Inter', sans-serif`;
+    // Glow effect
+    ctx.shadowColor = colors.ring;
+    ctx.shadowBlur = 20;
+    // Stroke
+    ctx.strokeStyle = colors.ring;
+    ctx.lineWidth = 3;
+    ctx.fillStyle = colors.text;
+
+    const lineHeight = baseFontSize * 1.15;
+    const startY = size / 2 - ((lines.length - 1) * lineHeight) / 2;
+    lines.forEach((line, i) => {
+      const y = startY + i * lineHeight;
+      ctx.strokeText(line, size / 2, y);
+      ctx.fillText(line, size / 2, y);
+    });
+  };
+
+  if (words.length > 1 && ctx.measureText(text).width > size * 0.7) {
     const mid = Math.ceil(words.length / 2);
-    const line1 = words.slice(0, mid).join(" ");
-    const line2 = words.slice(mid).join(" ");
-    fontSize = Math.min(fontSize, 38);
-    ctx.font = `bold ${fontSize}px 'Orbitron', 'Inter', sans-serif`;
-    ctx.fillText(line1, size / 2, size / 2 - fontSize * 0.55);
-    ctx.fillText(line2, size / 2, size / 2 + fontSize * 0.55);
+    drawText([words.slice(0, mid).join(" "), words.slice(mid).join(" ")], Math.min(fontSize, 42));
   } else {
-    ctx.fillText(text, size / 2, size / 2);
+    drawText([text], fontSize);
   }
 
   const texture = new THREE.CanvasTexture(canvas);
@@ -134,7 +165,7 @@ function CertSphere({
   return (
     <RigidBody
       linearDamping={0.75}
-      angularDamping={0.15}
+      angularDamping={0.9}
       friction={0.2}
       position={[r(20), r(20) - 25, r(20) - 10]}
       ref={api}
@@ -209,10 +240,10 @@ function CertificationsCanvas() {
         map: texture,
         emissive: "#ffffff",
         emissiveMap: texture,
-        emissiveIntensity: 0.35,
-        metalness: 0.5,
-        roughness: 1,
-        clearcoat: 0.1,
+        emissiveIntensity: 0.8,
+        metalness: 0.2,
+        roughness: 0.3,
+        clearcoat: 0.5,
       });
     });
   }, []);
