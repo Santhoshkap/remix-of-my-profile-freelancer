@@ -381,14 +381,17 @@
 
 @media only screen and (max-width: 768px) {
   .carousel-image-wrapper { display: none; }
-  .carousel-content { padding: 0 10px; }
+  .carousel-content { padding: 0 15px; }
   .carousel-slide { padding: 20px 0; }
-  .carousel-number h3 { font-size: 28px; }
-  .carousel-details h4 { font-size: 17px; }
-  .carousel-category { font-size: 13px; }
-  .carousel-tools p, .carousel-delivery p { font-size: 12px; }
+  .carousel-info { gap: 12px; flex-direction: column; }
+  .carousel-number h3 { font-size: 24px; }
+  .carousel-details { width: 100%; overflow: hidden; }
+  .carousel-details h4 { font-size: 16px; word-wrap: break-word; overflow-wrap: break-word; }
+  .carousel-category { font-size: 12px; word-wrap: break-word; overflow-wrap: break-word; }
+  .carousel-tools p, .carousel-delivery p { font-size: 12px; word-wrap: break-word; overflow-wrap: break-word; }
+  .carousel-tools .tools-label, .carousel-delivery .delivery-label { font-size: 12px; }
+  .carousel-highlight { padding: 8px 12px; }
   .carousel-highlight p { font-size: 11px; }
-  .carousel-info { gap: 15px; }
   .work-section h2 { font-size: 32px; margin-bottom: 20px; }
   .carousel-arrow { width: 34px; height: 34px; font-size: 16px; }
   .carousel-arrow-left { left: 5px; }
