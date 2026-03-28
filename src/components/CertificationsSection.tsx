@@ -77,27 +77,29 @@ export default function CertificationsSection() {
         <StaggerContainer className="grid sm:grid-cols-2 gap-5 md:gap-6 max-w-4xl mx-auto" stagger={0.12}>
           {skillCategories.map((cat) => (
             <StaggerItem key={cat.title}>
-              <MagneticHover>
-                <div className="glass rounded-2xl p-6 md:p-7 border-glow hover:box-glow transition-all duration-500 group h-full">
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                      <cat.icon className="w-4 h-4 text-primary" />
+              <Tilt3D intensity={12}>
+                <MagneticHover>
+                  <div className="glass rounded-2xl p-6 md:p-7 border-glow hover:box-glow transition-all duration-500 group h-full">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <cat.icon className="w-4 h-4 text-primary" />
+                      </div>
+                      <h3 className="text-sm font-display font-semibold text-primary tracking-wider uppercase">{cat.title}</h3>
                     </div>
-                    <h3 className="text-sm font-display font-semibold text-primary tracking-wider uppercase">{cat.title}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {cat.skills.map((skill) => (
+                        <motion.span
+                          key={skill}
+                          whileHover={{ scale: 1.05, borderColor: "hsl(190 100% 50% / 0.4)" }}
+                          className="text-xs px-3 py-1.5 rounded-full border border-border/40 text-muted-foreground hover:text-foreground/80 transition-all duration-300 font-body cursor-default tracking-wide"
+                        >
+                          {skill}
+                        </motion.span>
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {cat.skills.map((skill) => (
-                      <motion.span
-                        key={skill}
-                        whileHover={{ scale: 1.05, borderColor: "hsl(190 100% 50% / 0.4)" }}
-                        className="text-xs px-3 py-1.5 rounded-full border border-border/40 text-muted-foreground hover:text-foreground/80 transition-all duration-300 font-body cursor-default tracking-wide"
-                      >
-                        {skill}
-                      </motion.span>
-                    ))}
-                  </div>
-                </div>
-              </MagneticHover>
+                </MagneticHover>
+              </Tilt3D>
             </StaggerItem>
           ))}
         </StaggerContainer>

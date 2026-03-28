@@ -121,24 +121,26 @@ const Career = () => {
               />
 
               <div className={`ml-12 md:ml-0 md:w-1/2 ${i % 2 === 0 ? "md:pl-10" : "md:pr-10 md:text-right"}`}>
-                <MagneticHover>
-                  <div className="glass rounded-xl p-5 md:p-6 border-glow hover:box-glow transition-all duration-500 group">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Briefcase className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span className="text-xs text-primary font-body font-semibold tracking-widest uppercase">{exp.period}</span>
+                <Tilt3D intensity={10}>
+                  <MagneticHover>
+                    <div className="glass rounded-xl p-5 md:p-6 border-glow hover:box-glow transition-all duration-500 group">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Briefcase className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span className="text-xs text-primary font-body font-semibold tracking-widest uppercase">{exp.period}</span>
+                      </div>
+                      <h3 className="text-base md:text-lg font-display font-semibold text-foreground mb-1 leading-snug">{exp.title}</h3>
+                      <p className="text-sm text-primary/50 font-body mb-4">{exp.company}</p>
+                      <ul className={`space-y-2.5 ${i % 2 === 0 ? "" : "md:text-left"}`}>
+                        {exp.highlights.map((h, j) => (
+                          <li key={j} className="text-xs md:text-sm text-muted-foreground font-body flex gap-2 leading-relaxed">
+                            <span className="text-primary/40 mt-0.5 flex-shrink-0">▹</span>
+                            <span>{h}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <h3 className="text-base md:text-lg font-display font-semibold text-foreground mb-1 leading-snug">{exp.title}</h3>
-                    <p className="text-sm text-primary/50 font-body mb-4">{exp.company}</p>
-                    <ul className={`space-y-2.5 ${i % 2 === 0 ? "" : "md:text-left"}`}>
-                      {exp.highlights.map((h, j) => (
-                        <li key={j} className="text-xs md:text-sm text-muted-foreground font-body flex gap-2 leading-relaxed">
-                          <span className="text-primary/40 mt-0.5 flex-shrink-0">▹</span>
-                          <span>{h}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </MagneticHover>
+                  </MagneticHover>
+                </Tilt3D>
               </div>
             </motion.div>
           ))}
