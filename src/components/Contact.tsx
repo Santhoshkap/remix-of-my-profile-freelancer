@@ -13,7 +13,7 @@ const contactLinks = [
   { icon: Mail, label: "santhoshkapalavai@gmail.com", href: "mailto:santhoshkapalavai@gmail.com" },
   { icon: Phone, label: "+91-8125414012", href: "tel:+918125414012" },
   { icon: Linkedin, label: "LinkedIn Profile", href: "https://www.linkedin.com/in/santhosh-kapalavai/" },
-  { icon: MapPin, label: "India / Global", href: "#" },
+  { icon: MapPin, label: "Bangalore, India", href: "#" },
 ];
 
 const Contact = () => {
