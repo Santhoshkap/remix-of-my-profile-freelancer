@@ -1,39 +1,32 @@
 
-Issue findings
-- Screenshot review shows the Privacy card gets the expected hover state, while GRC appears inconsistent.
-- The current GRC behavior is tied mostly to text-level hover (`.wid-card-title:hover`) instead of reliable card-level hover (`.wid-card:hover ...`), so it fails depending on exact cursor position.
-- Loader feels slow because timing is compounded by both delayed phase transitions and a slow progress tail.
 
-Implementation plan
+# Plan: Update Metadata, Favicon & Open Graph
 
-1) Make GRC hover behavior identical to Privacy card
-- Refactor hover trigger in `WhatIDo.css` from element-only hover to card-level hover:
-  - `.wid-card:hover .wid-card-title`
-  - `.wid-card:hover .wid-card-subtitle`
-  - include `:focus-within` for keyboard parity.
-- Keep shield decoration non-interactive (`pointer-events: none`) and ensure card text stack is always hoverable (explicit z-index/position on content block if needed).
-- Keep the same cyan glow style token as Privacy so both cards animate identically.
+## Changes
 
-2) Speed up loading experience (without downgrading visuals)
-- In `Loading.tsx`, reduce staged waits:
-  - post-100% wait, ready hold, flash duration, and exit delay.
-- In `setProgress`, increase progress cadence so it reaches completion faster after model load.
-- Light performance trim:
-  - reduce network canvas node density and update frequency for secondary effects (hex stream), preserving premium shield visuals.
+### 1. Custom Favicon from Headshot
+- Copy uploaded headshot to `public/favicon.jpg`
+- Add `<link rel="icon">` in `index.html` pointing to `/favicon.jpg`
+- Delete `public/favicon.ico` if it exists (browsers auto-request it)
 
-3) Reconfirm mobile single-line title stability
-- In `Landing.css`, harden one-line behavior for “GRC & Cybersecurity” with compact responsive typography (`clamp`) and nowrap safeguards for small widths.
+### 2. Update `index.html` Metadata
+- **Title**: `Santhosh Kapalavai | GRC & Cybersecurity Leader`
+- **Description**: Keep current description
+- **OG image**: Point `og:image` and `twitter:image` to `/favicon.jpg` (self-hosted headshot). Note: for best social sharing results, a higher-res version or dedicated OG image (1200x630) would be ideal — but the headshot will work.
+- **OG title**: `Santhosh Kapalavai | GRC & Cybersecurity Leader`
+- **OG description**: Keep current
+- **twitter:site**: Update from `@Lovable` to Santhosh's handle (or remove)
+- Add `og:url` meta tag
+- Remove the TODO comment
 
-Files to update
-- `src/components/styles/WhatIDo.css`
-- `src/components/WhatIDo.tsx` (only if a content wrapper/class hook is needed)
-- `src/components/Loading.tsx`
-- `src/components/styles/Loading.css`
-- `src/components/styles/Landing.css`
+### 3. Copy Headshot for OG Image
+- Also copy headshot to `public/images/og-profile.jpg` for the OG image tag (social platforms need an absolute URL, so we'll use a relative path that works with the deployed domain)
 
-Validation checklist before publish
-- Desktop: Hover GRC and Privacy titles/subtitles/tags and confirm identical color/glow transitions.
-- Verify GRC hover triggers from full card hover, not only exact text hitbox.
-- Confirm no hover effect leaked to long descriptive paragraphs.
-- Loader: visibly faster transition from splash to site while shield remains premium.
-- Mobile (320/360/390/414): “GRC & Cybersecurity” stays on one line and no horizontal overflow.
+## Files Modified
+
+| File | Change |
+|------|--------|
+| `public/favicon.jpg` | Copied from uploaded headshot |
+| `public/images/og-profile.jpg` | Same headshot for OG meta |
+| `index.html` | Updated title, favicon link, OG/Twitter meta tags |
+
