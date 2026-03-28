@@ -2,8 +2,7 @@
   position: fixed;
   width: 100vw;
   height: var(--vh);
-  /* background-image: linear-gradient(#cbb1ff, #d8c4ff); */
-  background-color: #0a1a1a;
+  background-color: hsl(230, 25%, 7%);
   z-index: 999999999;
   display: flex;
   place-items: center;
@@ -13,23 +12,23 @@
 .loading-button {
   padding: 20px 50px;
   border-radius: 100px;
-  background-color: #000;
+  background-color: hsl(230, 20%, 10%);
   overflow: hidden;
   font-size: 18px;
   font-weight: 500;
   position: relative;
   z-index: 9;
+  border: 1px solid hsl(190, 100%, 50%, 0.2);
 }
 
 .loading-button::before {
   content: "";
-  background-color: #ffffff;
+  background-color: hsl(190, 100%, 50%);
   top: var(--mouse-y);
   left: var(--mouse-x);
   border-radius: 50%;
   width: 60px;
   height: 60px;
-  opacity: 1;
   position: absolute;
   z-index: 99;
   filter: blur(60px);
@@ -52,11 +51,11 @@
   min-width: 0px;
   min-height: 0px;
   border-radius: 100px;
-  background-color: #000;
+  background-color: hsl(230, 20%, 10%);
   overflow: hidden;
   transition: 0.8s ease-in-out;
   transition-delay: 0.2s;
-  box-shadow: 0px 15px 15px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 15px 15px 0px rgba(0, 0, 0, 0.2), 0 0 30px hsl(190, 100%, 50%, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,7 +76,7 @@
 }
 
 .loading-hover {
-  background-color: #2dd4bf;
+  background-color: hsl(190, 100%, 50%);
   width: 250px;
   height: 120px;
   position: absolute;
@@ -101,11 +100,13 @@
 
 .loading-content {
   position: relative;
-  background-color: #000;
+  background-color: hsl(230, 20%, 10%);
   width: 100%;
   overflow: hidden;
   transition: 0.6s;
   text-transform: uppercase;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 1px;
 }
 
 .loading-content-in {
@@ -127,6 +128,7 @@
   text-align: center;
   transition: 1s;
   max-width: var(--Lsize);
+  font-family: "Orbitron", sans-serif;
 }
 
 .loading-clicked .loading-content2 {
@@ -141,6 +143,7 @@
   right: 0;
   transform: translateY(-50%);
   opacity: 0.7;
+  color: hsl(190, 100%, 50%);
 }
 
 .loading-box {
@@ -150,7 +153,7 @@
   transform: translate(100%, -50%);
   width: 15px;
   height: 25px;
-  background-color: white;
+  background-color: hsl(190, 100%, 50%);
   animation: blink 1s linear infinite;
 }
 
@@ -186,7 +189,6 @@
   position: absolute;
   width: 100%;
   max-width: var(--Lsize);
-  /* height: 45px; */
   top: 50%;
   transition: 1s;
   left: 50px;
@@ -210,31 +212,21 @@
   left: 50%;
   transform: translateX(-50%);
   top: 0;
-  color: var(--backgroundColor);
+  color: hsl(190, 100%, 50%);
 }
 
 .loader-title {
   font-weight: 700;
   font-size: 14px;
   letter-spacing: 0.2px;
+  font-family: "Orbitron", sans-serif;
 }
 
 @keyframes blink {
-  0% {
-    opacity: 0;
-  }
-
-  25% {
-    opacity: 1;
-  }
-
-  75% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
+  0% { opacity: 0; }
+  25% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .loading-complete .loading-box {
@@ -244,9 +236,7 @@
 }
 
 @keyframes blinkDone {
-  to {
-    opacity: 0;
-  }
+  to { opacity: 0; }
 }
 
 .loaderGame-container {
@@ -272,13 +262,8 @@
 }
 
 @keyframes loaderGame {
-  0% {
-    transform: translateX(0px);
-  }
-
-  100% {
-    transform: translateX(-300px);
-  }
+  0% { transform: translateX(0px); }
+  100% { transform: translateX(-300px); }
 }
 
 .loaderGame-line {
@@ -288,7 +273,7 @@
   position: relative;
   width: 10px;
   height: 60px;
-  background-color: #000;
+  background-color: hsl(230, 20%, 10%);
   display: block;
 }
 
@@ -304,7 +289,7 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: #2dd4bf;
+  background-color: hsl(190, 100%, 50%);
   animation: ball25 7s infinite;
   transform: translateY(10px);
   animation-timing-function: cubic-bezier(0.3, 1.18, 0.63, 1.28);
@@ -316,10 +301,11 @@
   left: 0;
   width: 100%;
   transform: translateY(-50%);
-  color: var(--backgroundColor);
+  color: hsl(230, 15%, 18%);
   font-size: 60px;
   font-weight: 600;
   text-transform: uppercase;
+  font-family: "Orbitron", sans-serif;
 }
 
 .loading-marquee span {
@@ -331,7 +317,7 @@
   content: "";
   width: 20px;
   height: 20px;
-  background-color: var(--backgroundColor);
+  background-color: hsl(230, 15%, 18%);
   position: absolute;
   top: 50%;
   border-radius: 50px;
@@ -339,54 +325,60 @@
   transform: translate(-50%, -50%);
 }
 
+/* Scanning lines overlay */
+.loading-screen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    hsl(190, 100%, 50%, 0.02) 2px,
+    hsl(190, 100%, 50%, 0.02) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Corner brackets */
+.loading-screen::after {
+  content: "";
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  right: 30px;
+  bottom: 30px;
+  border: 1px solid hsl(190, 100%, 50%, 0.1);
+  pointer-events: none;
+  z-index: 1;
+}
+
 @keyframes ball25 {
-  0% {
-    transform: translateY(70px);
-  }
-
-  15% {
-    transform: translateY(10px);
-  }
-
-  30% {
-    transform: translateY(70px);
-  }
-
-  45% {
-    transform: translateY(10px);
-  }
-
-  67% {
-    transform: translateY(70px);
-  }
-
-  80% {
-    transform: translateY(10px);
-  }
-
-  90% {
-    transform: translateY(70px);
-  }
-
-  100% {
-    transform: translateY(70px);
-  }
+  0% { transform: translateY(70px); }
+  15% { transform: translateY(10px); }
+  30% { transform: translateY(70px); }
+  45% { transform: translateY(10px); }
+  67% { transform: translateY(70px); }
+  80% { transform: translateY(10px); }
+  90% { transform: translateY(70px); }
+  100% { transform: translateY(70px); }
 }
 
 @media only screen and (min-width: 1400px) {
   .loading-wrap {
     --Lsize: 210px;
   }
-
   .loading-button {
     padding: 30px 70px;
     font-size: 25px;
   }
-
   .loading-container {
     left: 70px;
   }
-
   .loading-marquee {
     font-size: 100px;
   }
@@ -396,7 +388,6 @@
   .loading-header {
     padding: 20px 0px;
   }
-
   .loader-title {
     font-size: 16px;
   }
@@ -406,7 +397,6 @@
   .loading-header {
     padding: 35px 0px;
   }
-
   .loader-title {
     font-size: 18px;
   }

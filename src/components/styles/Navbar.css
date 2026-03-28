@@ -22,11 +22,12 @@
   column-gap: 40px;
   row-gap: 8px;
   align-items: end;
+  font-family: "Orbitron", sans-serif;
 }
 .header ul li {
   margin-left: 0px;
   letter-spacing: 1px;
-  color: #ccc;
+  color: hsl(200, 20%, 75%);
   font-weight: 600;
   cursor: pointer;
 }
@@ -39,11 +40,14 @@
   font-size: 15px;
   letter-spacing: 1px;
   font-weight: 500;
+  font-family: "Inter", sans-serif;
 }
 .navbar-title {
   font-weight: 700;
   font-size: 14px;
   letter-spacing: 0.2px;
+  font-family: "Orbitron", sans-serif;
+  color: hsl(190, 100%, 50%);
 }
 @media only screen and (min-width: 500px) {
   .header {
@@ -52,10 +56,10 @@
   .header ul {
     flex-direction: row;
     align-items: center;
-    font-size: 14px;
+    font-size: 12px;
   }
   .header ul li {
-    color: #eae5ec;
+    color: hsl(200, 20%, 90%);
   }
   .navbar-title {
     font-size: 16px;
@@ -71,8 +75,8 @@
     padding: 35px 0px;
   }
   .header ul {
-    column-gap: 80px;
-    font-size: 16px;
+    column-gap: 50px;
+    font-size: 13px;
   }
   .navbar-connect {
     font-size: 16px;
