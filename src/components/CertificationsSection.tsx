@@ -1,5 +1,5 @@
 import { ShieldCheck, Lock, Eye, Server } from "lucide-react";
-import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover } from "./AnimationUtils";
+import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover, Tilt3D } from "./AnimationUtils";
 import { motion } from "framer-motion";
 
 const certifications = [
