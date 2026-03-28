@@ -49,6 +49,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <About />
             <WhatIDo />
             <Career />
+            <Achievements />
             <CertificationsSection />
             <Work />
             {isDesktopView && (
