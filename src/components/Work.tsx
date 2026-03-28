@@ -120,9 +120,18 @@ const Work = () => {
                           {project.category}
                         </p>
                         <div className="carousel-tools">
-                          <span className="tools-label">Frameworks & Tools</span>
+                          <span className="tools-label">{project.toolsLabel}</span>
                           <p>{project.tools}</p>
                         </div>
+                        <div className="carousel-delivery">
+                          <span className="delivery-label">What I Deliver</span>
+                          <p>{project.delivery}</p>
+                        </div>
+                        {project.highlight && (
+                          <div className="carousel-highlight">
+                            <p>{project.highlight}</p>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="carousel-image-wrapper">

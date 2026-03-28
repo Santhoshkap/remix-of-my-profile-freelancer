@@ -114,6 +114,45 @@
   line-height: 1.6;
 }
 
+.carousel-delivery {
+  margin-top: 14px;
+}
+
+.carousel-delivery .delivery-label {
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.carousel-delivery p {
+  font-weight: 300;
+  color: hsl(200 15% 55%);
+  margin: 6px 0 0;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  line-height: 1.6;
+}
+
+.carousel-highlight {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-left: 2px solid hsl(190 100% 50%);
+  background: hsl(190 100% 50% / 0.05);
+  border-radius: 0 6px 6px 0;
+}
+
+.carousel-highlight p {
+  font-size: 13px;
+  font-weight: 300;
+  font-style: italic;
+  color: hsl(190 80% 70%);
+  margin: 0;
+  line-height: 1.5;
+  letter-spacing: 0.3px;
+}
+
 .carousel-image-wrapper {
   flex: 1;
   min-width: 0;
