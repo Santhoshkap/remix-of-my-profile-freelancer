@@ -134,9 +134,10 @@ const Contact = () => {
                 />
                 <motion.button
                   type="submit"
+                  disabled={isSubmitting}
                   whileHover={{ scale: 1.02, boxShadow: "0 0 30px hsl(190 100% 50% / 0.25)" }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm transition-all box-glow flex items-center justify-center gap-2 font-display tracking-wider"
+                  className="w-full py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm transition-all box-glow flex items-center justify-center gap-2 font-display tracking-wider disabled:opacity-60"
                 >
                   <AnimatePresence mode="wait">
                     {sent ? (
