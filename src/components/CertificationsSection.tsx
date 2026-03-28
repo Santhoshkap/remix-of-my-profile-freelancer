@@ -1,9 +1,9 @@
 import { ShieldCheck, Lock, Eye, Server } from "lucide-react";
 import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover, Tilt3D } from "./AnimationUtils";
 import { motion } from "framer-motion";
-import { lazy, Suspense, useEffect, useRef, useState, useMemo } from "react";
+import { Suspense, useEffect, useRef, useState, useMemo, useCallback } from "react";
 import * as THREE from "three";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { EffectComposer, N8AO } from "@react-three/postprocessing";
 import {
@@ -22,6 +22,23 @@ const certifications = [
   "PMP", "Scrum Master", "ITIL v4", "Six Sigma GB",
   "CSCP", "IPMP", "IBM AI Eng.", "CQI",
 ];
+
+// Pad to 24 for a clean 6x4 grid
+const paddedCerts = [...certifications];
+while (paddedCerts.length < 24) paddedCerts.push("");
+
+const COLS = 4;
+const ROWS = 6;
+const GRID_SPACING_X = 3.8;
+const GRID_SPACING_Y = 2.8;
+
+function getGridPosition(index: number): [number, number, number] {
+  const col = index % COLS;
+  const row = Math.floor(index / COLS);
+  const x = (col - (COLS - 1) / 2) * GRID_SPACING_X;
+  const y = ((ROWS - 1) / 2 - row) * GRID_SPACING_Y;
+  return [x, y, 0];
+}
 
 const skillCategories = [
   {
@@ -54,29 +71,24 @@ function createTextTexture(text: string): THREE.CanvasTexture {
   canvas.height = size;
   const ctx = canvas.getContext("2d")!;
 
-  // Dark translucent background
   ctx.fillStyle = "rgba(10, 15, 30, 0.85)";
   ctx.beginPath();
   ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
   ctx.fill();
 
-  // Subtle border ring
   ctx.strokeStyle = "rgba(0, 220, 255, 0.3)";
   ctx.lineWidth = 4;
   ctx.beginPath();
   ctx.arc(size / 2, size / 2, size / 2 - 8, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Text
   ctx.fillStyle = "#00e5ff";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  // Auto-size font
   let fontSize = text.length > 12 ? 36 : text.length > 8 ? 44 : 56;
   ctx.font = `bold ${fontSize}px 'Orbitron', 'Inter', sans-serif`;
 
-  // Word wrap for long texts
   const words = text.split(" ");
   if (words.length > 1 && ctx.measureText(text).width > size * 0.75) {
     const mid = Math.ceil(words.length / 2);
@@ -102,6 +114,8 @@ type CertSphereProps = {
   r?: typeof THREE.MathUtils.randFloatSpread;
   material: THREE.MeshPhysicalMaterial;
   isActive: boolean;
+  isHovered: boolean;
+  gridTarget: [number, number, number];
 };
 
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
@@ -112,23 +126,57 @@ function CertSphere({
   r = THREE.MathUtils.randFloatSpread,
   material,
   isActive,
+  isHovered,
+  gridTarget,
 }: CertSphereProps) {
   const api = useRef<RapierRigidBody | null>(null);
+  const targetVec = useMemo(() => new THREE.Vector3(...gridTarget), [gridTarget]);
 
   useFrame((_state, delta) => {
-    if (!isActive) return;
+    if (!isActive || !api.current) return;
     delta = Math.min(0.1, delta);
-    const impulse = vec
-      .copy(api.current!.translation())
-      .normalize()
-      .multiply(
-        new THREE.Vector3(
-          -50 * delta * scale,
-          -150 * delta * scale,
-          -50 * delta * scale
-        )
+
+    if (isHovered) {
+      // Move toward grid position
+      const current = api.current.translation();
+      const diff = new THREE.Vector3(
+        targetVec.x - current.x,
+        targetVec.y - current.y,
+        targetVec.z - current.z
       );
-    api.current?.applyImpulse(impulse, true);
+      const dist = diff.length();
+      
+      // Strong spring force toward target
+      const springForce = diff.multiplyScalar(80 * delta * scale);
+      api.current.applyImpulse(springForce, true);
+      
+      // Damping to settle
+      const vel = api.current.linvel();
+      api.current.applyImpulse(
+        new THREE.Vector3(-vel.x * 8 * delta, -vel.y * 8 * delta, -vel.z * 8 * delta),
+        true
+      );
+      
+      // Angular damping to stop spinning
+      const angVel = api.current.angvel();
+      api.current.applyTorqueImpulse(
+        new THREE.Vector3(-angVel.x * 2 * delta, -angVel.y * 2 * delta, -angVel.z * 2 * delta),
+        true
+      );
+    } else {
+      // Default: float toward center (original behavior)
+      const impulse = vec
+        .copy(api.current.translation())
+        .normalize()
+        .multiply(
+          new THREE.Vector3(
+            -50 * delta * scale,
+            -150 * delta * scale,
+            -50 * delta * scale
+          )
+        );
+      api.current.applyImpulse(impulse, true);
+    }
   });
 
   return (
@@ -162,12 +210,18 @@ function CertSphere({
 type PointerProps = {
   vec?: THREE.Vector3;
   isActive: boolean;
+  isHovered: boolean;
 };
 
-function Pointer({ vec = new THREE.Vector3(), isActive }: PointerProps) {
+function Pointer({ vec = new THREE.Vector3(), isActive, isHovered }: PointerProps) {
   const ref = useRef<RapierRigidBody>(null);
   useFrame(({ pointer, viewport }) => {
     if (!isActive) return;
+    if (isHovered) {
+      // Move pointer out of the way when in grid mode
+      ref.current?.setNextKinematicTranslation(new THREE.Vector3(100, 100, 100));
+      return;
+    }
     const targetVec = vec.lerp(
       new THREE.Vector3(
         (pointer.x * viewport.width) / 2,
@@ -189,6 +243,7 @@ function Pointer({ vec = new THREE.Vector3(), isActive }: PointerProps) {
 // --- 3D Canvas wrapper ---
 function CertificationsCanvas() {
   const [isActive, setIsActive] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const section = document.getElementById("certifications");
@@ -203,7 +258,7 @@ function CertificationsCanvas() {
   }, []);
 
   const materials = useMemo(() => {
-    return certifications.map((cert) => {
+    return paddedCerts.filter(Boolean).map((cert) => {
       const texture = createTextTexture(cert);
       return new THREE.MeshPhysicalMaterial({
         map: texture,
@@ -219,15 +274,20 @@ function CertificationsCanvas() {
 
   const spheres = useMemo(
     () =>
-      certifications.map((_cert, i) => ({
+      paddedCerts.filter(Boolean).map((_cert, i) => ({
         scale: [0.7, 0.85, 0.95, 0.8, 1.0][i % 5],
         material: materials[i],
+        gridTarget: getGridPosition(i) as [number, number, number],
       })),
     [materials]
   );
 
   return (
-    <div className="w-full h-[450px] md:h-[500px] relative">
+    <div
+      className="w-full h-[450px] md:h-[550px] relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <Canvas
         shadows
         gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
@@ -245,9 +305,9 @@ function CertificationsCanvas() {
         />
         <directionalLight position={[0, 5, -4]} intensity={2} />
         <Physics gravity={[0, 0, 0]}>
-          <Pointer isActive={isActive} />
+          <Pointer isActive={isActive} isHovered={isHovered} />
           {spheres.map((props, i) => (
-            <CertSphere key={i} {...props} isActive={isActive} />
+            <CertSphere key={i} {...props} isActive={isActive} isHovered={isHovered} />
           ))}
         </Physics>
         <Environment
@@ -259,6 +319,10 @@ function CertificationsCanvas() {
           <N8AO color="#0f002c" aoRadius={2} intensity={1.15} />
         </EffectComposer>
       </Canvas>
+      {/* Hover hint */}
+      <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-muted-foreground/50 font-body tracking-wider transition-opacity duration-500 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
+        Hover to reveal certifications
+      </div>
     </div>
   );
 }
@@ -295,7 +359,6 @@ export default function CertificationsSection() {
 
   return (
     <section id="certifications" className="py-20 md:py-32 relative overflow-hidden" style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
-      {/* Subtle radial background */}
       <div className="absolute inset-0 z-0 opacity-[0.03]" style={{
         backgroundImage: "radial-gradient(ellipse at 30% 50%, hsl(190 100% 50%), transparent 60%), radial-gradient(ellipse at 70% 50%, hsl(270 80% 60%), transparent 60%)",
       }} />
@@ -314,16 +377,14 @@ export default function CertificationsSection() {
           />
         </SectionReveal>
 
-        {/* 3D Certifications on desktop, badges on mobile */}
         {isDesktop ? (
-          <Suspense fallback={<div className="w-full h-[500px] flex items-center justify-center text-muted-foreground">Loading certifications...</div>}>
+          <Suspense fallback={<div className="w-full h-[550px] flex items-center justify-center text-muted-foreground">Loading certifications...</div>}>
             <CertificationsCanvas />
           </Suspense>
         ) : (
           <MobileCertBadges />
         )}
 
-        {/* Skill categories */}
         <StaggerContainer className="grid sm:grid-cols-2 gap-5 md:gap-6 max-w-4xl mx-auto mt-16 md:mt-20" stagger={0.12}>
           {skillCategories.map((cat) => (
             <StaggerItem key={cat.title}>
