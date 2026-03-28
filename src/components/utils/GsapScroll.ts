@@ -114,7 +114,7 @@ export function setCharTimeline(
         .fromTo(
           ".character-model",
           { y: "0%" },
-          { y: "-100%", duration: 4, ease: "none", delay: 1 },
+          { y: "-120%", duration: 4, ease: "none", delay: 1 },
           0
         )
         .fromTo(".whatIDO", { y: 0 }, { y: "15%", duration: 2 }, 0)

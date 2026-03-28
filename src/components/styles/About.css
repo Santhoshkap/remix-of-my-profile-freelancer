@@ -158,7 +158,7 @@
 
 .accent-text {
   color: var(--accentColor);
-  text-shadow: 0 0 12px hsla(190, 100%, 50%, 0.3);
+  text-shadow: 0 0 16px hsla(190, 100%, 50%, 0.4), 0 0 32px hsla(190, 100%, 50%, 0.15);
 }
 
 /* ── Glow Divider ── */
