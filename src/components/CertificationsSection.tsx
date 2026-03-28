@@ -342,7 +342,7 @@ export default function CertificationsSection() {
             whileInView={{ width: 80 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-0.5 bg-primary/50 mx-auto mb-12 md:mb-16"
+            className="h-0.5 bg-primary/50 mx-auto mb-6 md:mb-8"
           />
         </SectionReveal>
 

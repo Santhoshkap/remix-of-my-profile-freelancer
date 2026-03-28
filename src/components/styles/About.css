@@ -191,7 +191,7 @@
     max-width: 1920px;
     min-height: var(--vh);
     height: auto;
-    padding: 120px 0 40px;
+    padding: 60px 0 40px;
   }
   .about-grid {
     flex-direction: row;

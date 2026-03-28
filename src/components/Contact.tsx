@@ -56,7 +56,7 @@ const Contact = () => {
             whileInView={{ width: 80 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-0.5 bg-primary/50 mx-auto mb-16 md:mb-20"
+            className="h-0.5 bg-primary/50 mx-auto mb-8 md:mb-12"
           />
         </SectionReveal>
 
