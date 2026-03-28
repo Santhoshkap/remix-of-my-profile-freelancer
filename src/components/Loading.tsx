@@ -151,10 +151,10 @@ const Loading = ({ percent }: { percent: number }) => {
             setTimeout(() => {
               module.initialFX?.();
               setIsLoading(false);
-            }, 600);
+            }, 300);
           });
-        }, 200);
-      }, 800);
+        }, 150);
+      }, 400);
       return () => clearTimeout(timer);
     }
   }, [phase, setIsLoading]);
