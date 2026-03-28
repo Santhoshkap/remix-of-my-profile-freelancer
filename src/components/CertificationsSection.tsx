@@ -212,7 +212,7 @@ function Pointer({ vec = new THREE.Vector3(), isActive }: PointerProps) {
 
   return (
     <RigidBody position={[100, 100, 100]} type="kinematicPosition" colliders={false} ref={ref}>
-      <BallCollider args={[2]} />
+      <BallCollider args={[1.5]} />
     </RigidBody>
   );
 }
