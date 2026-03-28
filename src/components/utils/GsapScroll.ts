@@ -29,9 +29,9 @@ export function setCharTimeline(
   });
   const tl3 = gsap.timeline({
     scrollTrigger: {
-      trigger: ".career-section",
-      start: "top bottom",
-      end: "top top",
+      trigger: ".whatIDO",
+      start: "top top",
+      end: "bottom bottom",
       scrub: true,
       invalidateOnRefresh: true,
     },
