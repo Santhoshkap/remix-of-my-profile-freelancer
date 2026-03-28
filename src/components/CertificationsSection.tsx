@@ -34,29 +34,45 @@ function getGridPosition(index: number): [number, number, number] {
   return [x, y, 0];
 }
 
-// --- Text billboard texture (transparent bg, just text) ---
-function createLabelTexture(text: string): THREE.CanvasTexture {
-  const size = 256;
+// Bake text onto a 512x512 canvas with dark vignette background
+function createSphereTexture(text: string): THREE.CanvasTexture {
+  const size = 512;
   const canvas = document.createElement("canvas");
   canvas.width = size;
   canvas.height = size;
   const ctx = canvas.getContext("2d")!;
 
-  ctx.clearRect(0, 0, size, size);
+  // Dark vignette background
+  const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  gradient.addColorStop(0, "rgba(20, 25, 60, 0.95)");
+  gradient.addColorStop(0.7, "rgba(15, 18, 45, 0.98)");
+  gradient.addColorStop(1, "rgba(8, 10, 30, 1)");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, size, size);
 
+  // Subtle ring accent
+  ctx.strokeStyle = "rgba(0, 229, 255, 0.15)";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(size / 2, size / 2, size * 0.38, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Text
   ctx.fillStyle = "#00e5ff";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  let fontSize = text.length > 8 ? 40 : text.length > 5 ? 52 : 64;
-  ctx.font = `bold ${fontSize}px 'Orbitron', 'Inter', sans-serif`;
+  let fontSize: number;
+  if (text.length > 8) fontSize = 24;
+  else if (text.length > 5) fontSize = 30;
+  else fontSize = 38;
 
-  // Add subtle text shadow for readability
-  ctx.shadowColor = "rgba(0, 229, 255, 0.6)";
-  ctx.shadowBlur = 12;
+  ctx.font = `bold ${fontSize}px 'Orbitron', 'Inter', sans-serif`;
+  ctx.shadowColor = "rgba(0, 229, 255, 0.8)";
+  ctx.shadowBlur = 16;
   ctx.fillText(text, size / 2, size / 2);
-  // Double pass for glow
-  ctx.shadowBlur = 4;
+  // Second pass for stronger glow
+  ctx.shadowBlur = 6;
   ctx.fillText(text, size / 2, size / 2);
 
   const texture = new THREE.CanvasTexture(canvas);
@@ -64,66 +80,65 @@ function createLabelTexture(text: string): THREE.CanvasTexture {
   return texture;
 }
 
-// Glass material for all spheres (shared)
-const glassMaterial = new THREE.MeshPhysicalMaterial({
-  color: new THREE.Color("hsl(210, 30%, 25%)"),
-  metalness: 0.1,
-  roughness: 0.05,
-  transmission: 0.92,
-  thickness: 1.5,
-  ior: 1.5,
-  envMapIntensity: 1.5,
-  clearcoat: 1,
-  clearcoatRoughness: 0.05,
-  transparent: true,
-  opacity: 0.85,
-});
-
 const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-const labelGeometry = new THREE.PlaneGeometry(2, 2);
 
-// --- 3D Sphere with billboard label ---
+// --- 3D Sphere with baked text ---
 type CertSphereProps = {
   vec?: THREE.Vector3;
   scale: number;
   r?: typeof THREE.MathUtils.randFloatSpread;
-  labelTexture: THREE.CanvasTexture;
+  texture: THREE.CanvasTexture;
   isActive: boolean;
   isHovered: boolean;
   gridTarget: [number, number, number];
+  index: number;
 };
 
 function CertSphere({
   vec = new THREE.Vector3(),
   scale,
   r = THREE.MathUtils.randFloatSpread,
-  labelTexture,
+  texture,
   isActive,
   isHovered,
   gridTarget,
+  index,
 }: CertSphereProps) {
   const api = useRef<RapierRigidBody | null>(null);
-  const labelRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
   const targetVec = useMemo(() => new THREE.Vector3(...gridTarget), [gridTarget]);
   const frontQuat = useMemo(() => new THREE.Quaternion(), []);
 
-  const labelMaterial = useMemo(() => new THREE.MeshBasicMaterial({
-    map: labelTexture,
-    transparent: true,
-    depthWrite: false,
-    side: THREE.DoubleSide,
-  }), [labelTexture]);
+  const material = useMemo(() => new THREE.MeshPhysicalMaterial({
+    map: texture,
+    emissive: new THREE.Color("#00e5ff"),
+    emissiveMap: texture,
+    emissiveIntensity: 0.15,
+    color: new THREE.Color("hsl(230, 50%, 15%)"),
+    metalness: 0.7,
+    roughness: 0.3,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.1,
+  }), [texture]);
 
-  useFrame(({ camera }, delta) => {
+  useFrame(({ clock }, delta) => {
     if (!isActive || !api.current) return;
     delta = Math.min(0.1, delta);
+    const t = clock.elapsedTime;
 
-    // Billboard: label always faces camera
-    if (labelRef.current) {
-      labelRef.current.quaternion.copy(camera.quaternion);
-    }
+    // Emissive pulse on hover
+    const targetEmissive = isHovered ? 0.5 : 0.15;
+    material.emissiveIntensity = THREE.MathUtils.lerp(
+      material.emissiveIntensity,
+      targetEmissive,
+      delta * 3
+    );
 
     if (isHovered) {
+      // Staggered spring force — higher index = slightly weaker initially
+      const staggerFactor = Math.min(1, (t * 3 - index * 0.08));
+      if (staggerFactor <= 0) return;
+
       const current = api.current.translation();
       const diff = new THREE.Vector3(
         targetVec.x - current.x,
@@ -131,26 +146,37 @@ function CertSphere({
         targetVec.z - current.z
       );
 
-      const springForce = diff.multiplyScalar(80 * delta * scale);
+      const springForce = diff.multiplyScalar(80 * delta * scale * Math.max(0.3, staggerFactor));
       api.current.applyImpulse(springForce, true);
 
+      // Damping
       const vel = api.current.linvel();
       api.current.applyImpulse(
         new THREE.Vector3(-vel.x * 8 * delta, -vel.y * 8 * delta, -vel.z * 8 * delta),
         true
       );
 
+      // Angular damping
       const angVel = api.current.angvel();
       api.current.applyTorqueImpulse(
         new THREE.Vector3(-angVel.x * 4 * delta, -angVel.y * 4 * delta, -angVel.z * 4 * delta),
         true
       );
 
+      // Slerp rotation to face front
       const currentRot = api.current.rotation();
       const currentQuat = new THREE.Quaternion(currentRot.x, currentRot.y, currentRot.z, currentRot.w);
       currentQuat.slerp(frontQuat, Math.min(1, 8 * delta));
       api.current.setRotation({ x: currentQuat.x, y: currentQuat.y, z: currentQuat.z, w: currentQuat.w }, true);
+
+      // Scale bounce effect when near target
+      if (meshRef.current) {
+        const dist = new THREE.Vector3(targetVec.x - current.x, targetVec.y - current.y, targetVec.z - current.z).length();
+        const bounceScale = dist < 0.5 ? scale * (1 + 0.08 * Math.sin(t * 6 + index)) : scale;
+        meshRef.current.scale.setScalar(bounceScale);
+      }
     } else {
+      // Idle: attract to center + subtle bob + slow rotation
       const impulse = vec
         .copy(api.current.translation())
         .normalize()
@@ -162,6 +188,21 @@ function CertSphere({
           )
         );
       api.current.applyImpulse(impulse, true);
+
+      // Subtle vertical bob
+      const bobForce = Math.sin(t * 1.5 + index * 0.7) * 0.3 * delta * scale;
+      api.current.applyImpulse(new THREE.Vector3(0, bobForce, 0), true);
+
+      // Slow Y-axis rotation
+      api.current.applyTorqueImpulse(
+        new THREE.Vector3(0, 0.002 * delta * scale, 0),
+        true
+      );
+
+      // Reset scale
+      if (meshRef.current) {
+        meshRef.current.scale.setScalar(scale);
+      }
     }
   });
 
@@ -180,21 +221,13 @@ function CertSphere({
         position={[0, 0, 1.2 * scale]}
         args={[0.15 * scale, 0.275 * scale]}
       />
-      {/* Glass sphere */}
       <mesh
+        ref={meshRef}
         castShadow
         receiveShadow
         scale={scale}
         geometry={sphereGeometry}
-        material={glassMaterial}
-      />
-      {/* Billboard text label floating in front */}
-      <mesh
-        ref={labelRef}
-        geometry={labelGeometry}
-        material={labelMaterial}
-        position={[0, 0, scale * 1.05]}
-        scale={scale}
+        material={material}
       />
     </RigidBody>
   );
@@ -249,16 +282,17 @@ function CertificationsCanvas() {
     return () => observer.disconnect();
   }, []);
 
-  const labelTextures = useMemo(() => certifications.map(createLabelTexture), []);
+  const sphereTextures = useMemo(() => certifications.map(createSphereTexture), []);
 
   const spheres = useMemo(
     () =>
       certifications.map((_cert, i) => ({
         scale: [0.75, 0.85, 0.9, 0.8, 0.95][i % 5],
-        labelTexture: labelTextures[i],
+        texture: sphereTextures[i],
         gridTarget: getGridPosition(i) as [number, number, number],
+        index: i,
       })),
-    [labelTextures]
+    [sphereTextures]
   );
 
   return (
