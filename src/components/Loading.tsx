@@ -75,7 +75,6 @@ const Loading = ({ percent }: { percent: number }) => {
       ctx.clearRect(0, 0, w, h);
       const nodes = nodesRef.current;
 
-      // Update positions
       for (const node of nodes) {
         node.x += node.vx;
         node.y += node.vy;
@@ -85,7 +84,6 @@ const Loading = ({ percent }: { percent: number }) => {
         if (node.y > h) node.y = 0;
       }
 
-      // Draw lines
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
@@ -103,7 +101,6 @@ const Loading = ({ percent }: { percent: number }) => {
         }
       }
 
-      // Draw nodes
       for (const node of nodes) {
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
@@ -125,14 +122,12 @@ const Loading = ({ percent }: { percent: number }) => {
     };
   }, [initNodes]);
 
-  // Rotating status text
   useEffect(() => {
     if (phase !== "loading") return;
     const interval = setInterval(() => setStatusIndex((i) => (i + 1) % STATUS_LINES.length), 1500);
     return () => clearInterval(interval);
   }, [phase]);
 
-  // Hex data stream
   useEffect(() => {
     if (phase === "exit") return;
     const interval = setInterval(() => setHexStream(randomHex()), 120);
@@ -164,7 +159,6 @@ const Loading = ({ percent }: { percent: number }) => {
     }
   }, [phase, setIsLoading]);
 
-  // Memoize radar circles
   const radarCircles = useMemo(
     () =>
       Array.from({ length: 3 }, (_, i) => (
@@ -177,19 +171,10 @@ const Loading = ({ percent }: { percent: number }) => {
 
   return (
     <div className={`loader ${phase === "exit" ? "loader-exit" : ""}`}>
-      {/* Network topology canvas */}
       <canvas ref={canvasRef} className="loader-canvas" />
-
-      {/* Perspective grid overlay */}
       <div className="loader-grid" />
-
-      {/* Radial pulse glow */}
       <div className="loader-radial-pulse" />
-
-      {/* Scan line */}
       <div className="loader-scanline" />
-
-      {/* Flash overlay */}
       {phase === "flash" && <div className="loader-flash" />}
 
       {/* Corner brackets */}
@@ -198,18 +183,79 @@ const Loading = ({ percent }: { percent: number }) => {
       <div className="loader-corner loader-corner-bl" />
       <div className="loader-corner loader-corner-br" />
 
+      {/* Floating data fragments */}
+      <div className="loader-data-fragment frag-1">ENCRYPTED</div>
+      <div className="loader-data-fragment frag-2">AES-256</div>
+      <div className="loader-data-fragment frag-3">SHA-512</div>
+      <div className="loader-data-fragment frag-4">TLS 1.3</div>
+      <div className="loader-data-fragment frag-5">RSA-4096</div>
+
       {/* Center content */}
       <div className="loader-center">
-        {/* Logo with dual rotating rings + radar */}
-        <div className="loader-logo-wrap">
-          {radarCircles}
-          <div className="loader-ring" />
-          <div className="loader-ring-outer" />
-          <div className="loader-logo">SK</div>
+        {/* Shield with rings & radar */}
+        <div className="loader-shield-area">
+          <div className="loader-logo-wrap">
+            {radarCircles}
+            <div className="loader-ring" />
+            <div className="loader-ring-outer" />
+
+            {/* Cyber shield SVG */}
+            <div className="loader-shield">
+              <svg viewBox="0 0 100 120" className="shield-svg">
+                {/* Shield body */}
+                <defs>
+                  <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="hsl(190, 100%, 50%)" stopOpacity="0.15" />
+                    <stop offset="50%" stopColor="hsl(190, 100%, 50%)" stopOpacity="0.08" />
+                    <stop offset="100%" stopColor="hsl(220, 80%, 40%)" stopOpacity="0.12" />
+                  </linearGradient>
+                  <filter id="shieldGlow">
+                    <feGaussianBlur stdDeviation="2" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                <path
+                  d="M50 5 L90 25 L90 60 Q90 95 50 115 Q10 95 10 60 L10 25 Z"
+                  fill="url(#shieldGrad)"
+                  stroke="hsl(190, 100%, 50%)"
+                  strokeWidth="1.5"
+                  strokeOpacity="0.5"
+                  filter="url(#shieldGlow)"
+                  className="shield-path"
+                />
+                {/* Inner shield border */}
+                <path
+                  d="M50 15 L82 32 L82 58 Q82 88 50 105 Q18 88 18 58 L18 32 Z"
+                  fill="none"
+                  stroke="hsl(190, 100%, 50%)"
+                  strokeWidth="0.5"
+                  strokeOpacity="0.25"
+                  strokeDasharray="4 3"
+                  className="shield-inner"
+                />
+                {/* Lock icon in center */}
+                <rect x="41" y="48" width="18" height="16" rx="3" fill="none" stroke="hsl(190, 100%, 50%)" strokeWidth="1.5" strokeOpacity="0.6" className="lock-body" />
+                <path d="M44 48 L44 42 Q44 35 50 35 Q56 35 56 42 L56 48" fill="none" stroke="hsl(190, 100%, 50%)" strokeWidth="1.5" strokeOpacity="0.6" className="lock-shackle" />
+                <circle cx="50" cy="56" r="2" fill="hsl(190, 100%, 50%)" fillOpacity="0.8" className="lock-keyhole" />
+                {/* Checkmark that appears */}
+                <path d="M40 58 L48 66 L62 48" fill="none" stroke="hsl(120, 80%, 50%)" strokeWidth="2.5" strokeOpacity="0" strokeLinecap="round" strokeLinejoin="round" className="shield-check" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Orbiting dots */}
+          <div className="orbit-ring">
+            <div className="orbit-dot orbit-dot-1" />
+            <div className="orbit-dot orbit-dot-2" />
+            <div className="orbit-dot orbit-dot-3" />
+          </div>
         </div>
+
         <div className="loader-subtitle">GRC & CYBERSECURITY OPERATIONS</div>
 
-        {/* Hex data stream */}
         <div className="loader-hex">
           <span className="loader-hex-prefix">0x</span>
           {hexStream}
@@ -217,6 +263,7 @@ const Loading = ({ percent }: { percent: number }) => {
 
         <div className="loader-bar-wrap">
           <div className="loader-bar" style={{ width: `${Math.min(percent, 100)}%` }} />
+          <div className="loader-bar-glow" style={{ left: `${Math.min(percent, 100)}%` }} />
         </div>
         <div className="loader-percent">
           <span className="loader-percent-num">{Math.min(percent, 100)}</span>
@@ -229,14 +276,12 @@ const Loading = ({ percent }: { percent: number }) => {
         </div>
       </div>
 
-      {/* Certification ticker */}
       <div className="loader-ticker-wrap">
         <div className="loader-ticker">
           {tickerContent}
         </div>
       </div>
 
-      {/* Bottom info */}
       <div className="loader-bottom">
         <span>GOVERNANCE · RISK · COMPLIANCE</span>
         <span>SANTHOSH KAPALAVAI</span>
