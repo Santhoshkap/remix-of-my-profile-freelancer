@@ -87,7 +87,7 @@ const About = () => {
             <StaggerItem>
               <p className="about-body font-body">
                 <GlowText text="What sets me apart is a rare blend of" />{" "}
-                <span className="accent-text">deep technical expertise, executive communication,
+                <span className="accent-text hover-invert-accent">deep technical expertise, executive communication,
                 and commercial understanding</span>. <GlowText text="I don't just implement controls — I help organisations win deals, build customer confidence, and scale with confidence in regulated environments." />
               </p>
             </StaggerItem>

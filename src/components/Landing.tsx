@@ -117,7 +117,7 @@ const Landing = ({ children }: PropsWithChildren) => {
               <AnimatePresence mode="wait">
                 <motion.span
                   key={roles[roleIndex]}
-                  className="landing-role"
+                  className="landing-role hover-invert-accent"
                   initial={{ y: 30, opacity: 0, filter: "blur(4px)" }}
                   animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
                   exit={{ y: -30, opacity: 0, filter: "blur(4px)" }}
