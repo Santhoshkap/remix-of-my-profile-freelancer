@@ -87,20 +87,21 @@ const WhatIDo = () => {
             <div className="what-corner"></div>
 
             <div className="what-content-in">
-              <h3>AI & AUTOMATION</h3>
-              <h4>Workflow Intelligence for Organizations</h4>
+              <h3>GRC & CYBERSECURITY</h3>
+              <h4>Enterprise Governance & Risk Strategy</h4>
               <p>
-                AI specialist helping organizations automate workflows—internal ops
-                and customer-facing—so teams ship faster with less manual work.
+                Designing and implementing enterprise-scale GRC programmes,
+                cybersecurity strategies, and audit-ready frameworks that align
+                risk management with board-level business outcomes.
               </p>
-              <h5>Skillset & tools</h5>
+              <h5>Frameworks & expertise</h5>
               <div className="what-content-flex">
-                <div className="what-tags">LLMs &amp; agents</div>
-                <div className="what-tags">Workflow design</div>
-                <div className="what-tags">RAG &amp; retrieval</div>
-                <div className="what-tags">Evals &amp; guardrails</div>
-                <div className="what-tags">Integrations</div>
-                <div className="what-tags">Product strategy</div>
+                <div className="what-tags">ISO 27001</div>
+                <div className="what-tags">SOC 2 Type II</div>
+                <div className="what-tags">HITRUST CSF</div>
+                <div className="what-tags">NIST</div>
+                <div className="what-tags">SOX &amp; ITGC</div>
+                <div className="what-tags">vCISO</div>
               </div>
               <div className="what-arrow"></div>
             </div>
@@ -124,21 +125,22 @@ const WhatIDo = () => {
             </div>
             <div className="what-corner"></div>
             <div className="what-content-in">
-              <h3>BUILD &amp; SCALE</h3>
-              <h4>Shipping AI in Production</h4>
+              <h3>PRIVACY & COMPLIANCE</h3>
+              <h4>Data Protection & Regulatory Assurance</h4>
               <p>
-                I build the systems behind it: APIs, data, voice/real-time, and
-                full-stack products—production-ready, not slide decks.
+                End-to-end privacy programmes including GDPR, India DPDP Act, HIPAA —
+                from data discovery and DPIAs to consent governance and
+                cross-border data transfer assessments.
               </p>
-              <h5>Skillset & tools</h5>
+              <h5>Expertise & tools</h5>
               <div className="what-content-flex">
-                <div className="what-tags">Node.js</div>
-                <div className="what-tags">Python</div>
-                <div className="what-tags">REST &amp; real-time APIs</div>
-                <div className="what-tags">PostgreSQL</div>
-                <div className="what-tags">MongoDB</div>
-                <div className="what-tags">React</div>
-                <div className="what-tags">Cloud &amp; infra</div>
+                <div className="what-tags">GDPR</div>
+                <div className="what-tags">DPDP Act</div>
+                <div className="what-tags">HIPAA</div>
+                <div className="what-tags">Drata</div>
+                <div className="what-tags">Sprinto</div>
+                <div className="what-tags">Thoropass</div>
+                <div className="what-tags">Archer GRC</div>
               </div>
               <div className="what-arrow"></div>
             </div>
