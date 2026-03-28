@@ -171,13 +171,13 @@
 
 .carousel-dot:hover {
   border-color: var(--accentColor);
-  background: rgba(94, 234, 212, 0.2);
+  background: hsl(190 100% 50% / 0.2);
 }
 
 .carousel-dot-active {
   background: var(--accentColor);
   border-color: var(--accentColor);
-  box-shadow: 0 0 8px rgba(94, 234, 212, 0.4);
+  box-shadow: 0 0 12px hsl(190 100% 50% / 0.4);
 }
 
 /* ── Work Image (reused) ── */
