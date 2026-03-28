@@ -39,42 +39,16 @@ const Landing = ({ children }: PropsWithChildren) => {
             >
               GRC & Cybersecurity
             </motion.h3>
-            <h2 className="landing-info-h2">
-              <motion.div
-                className="landing-h2-1"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 2.3 }}
-              >
-                Strategy
-              </motion.div>
-              <motion.div
-                className="landing-h2-2"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 2.5 }}
-              >
-                Advisory
-              </motion.div>
-            </h2>
-            <h2>
-              <motion.div
-                className="landing-h2-info"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 2.5 }}
-              >
-                Advisory
-              </motion.div>
-              <motion.div
-                className="landing-h2-info-1"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 2.3 }}
-              >
-                Strategy
-              </motion.div>
-            </h2>
+            <motion.div
+              className="landing-role-words"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 2.3 }}
+            >
+              <span className="landing-role-main">STRATEGY</span>
+              <span className="landing-role-divider">&</span>
+              <span className="landing-role-main">ADVISORY</span>
+            </motion.div>
           </div>
         </div>
         {children}
