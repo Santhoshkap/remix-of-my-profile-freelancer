@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Briefcase, Trophy, Award } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover } from "./AnimationUtils";
+import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover, Tilt3D } from "./AnimationUtils";
 import "./styles/Career.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
