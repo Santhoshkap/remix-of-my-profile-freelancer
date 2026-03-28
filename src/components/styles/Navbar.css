@@ -37,6 +37,21 @@
   letter-spacing: 0.2px;
   font-family: "Orbitron", sans-serif;
   color: hsl(190, 100%, 50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.navbar-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid hsl(190, 100%, 50%);
+  box-shadow: 0 0 8px hsla(190, 100%, 50%, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+.navbar-avatar:hover {
+  box-shadow: 0 0 14px hsla(190, 100%, 50%, 0.5);
 }
 @media only screen and (min-width: 500px) {
   .header {
