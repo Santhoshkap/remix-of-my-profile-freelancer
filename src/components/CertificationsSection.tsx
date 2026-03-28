@@ -154,9 +154,9 @@ function CertSphere({
       .normalize()
       .multiply(
         new THREE.Vector3(
-          -50 * delta * scale,
-          -150 * delta * scale,
-          -50 * delta * scale
+          -30 * delta * scale,
+          -30 * delta * scale,
+          -30 * delta * scale
         )
       );
     api.current?.applyImpulse(impulse, true);
@@ -164,10 +164,10 @@ function CertSphere({
 
   return (
     <RigidBody
-      linearDamping={0.75}
+      linearDamping={4.0}
       angularDamping={0.9}
       friction={0.2}
-      position={[r(20), r(20) - 25, r(20) - 10]}
+      position={[r(40), r(40) - 10, r(40) - 10]}
       ref={api}
       colliders={false}
     >
@@ -212,7 +212,7 @@ function Pointer({ vec = new THREE.Vector3(), isActive }: PointerProps) {
 
   return (
     <RigidBody position={[100, 100, 100]} type="kinematicPosition" colliders={false} ref={ref}>
-      <BallCollider args={[2]} />
+      <BallCollider args={[1.5]} />
     </RigidBody>
   );
 }
@@ -251,7 +251,7 @@ function CertificationsCanvas() {
   const spheres = useMemo(
     () =>
       certifications.map((_cert, i) => ({
-        scale: [0.7, 0.85, 0.95, 0.8, 1.0][i % 5],
+        scale: [0.55, 0.65, 0.7, 0.6, 0.75][i % 5],
         material: materials[i],
       })),
     [materials]
@@ -262,7 +262,7 @@ function CertificationsCanvas() {
       <Canvas
         shadows
         gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
-        camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
+        camera={{ position: [0, 0, 20], fov: 45, near: 1, far: 100 }}
         onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
       >
         <ambientLight intensity={1} />
