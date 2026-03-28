@@ -92,10 +92,10 @@ const SocialIcons = () => {
       </div>
       <a
         className="resume-button"
-        href="/Santhosh_Kapalavai_CV-4.pdf"
+        href="https://raw.githubusercontent.com/Santhoshkap/portfolio/main/resume.pdf"
         target="_blank"
         rel="noopener noreferrer"
-        onClick={(e) => handleExternalNavigation(e, `${window.location.origin}/Santhosh_Kapalavai_CV-4.pdf`)}
+        onClick={(e) => handleExternalNavigation(e, "https://raw.githubusercontent.com/Santhoshkap/portfolio/main/resume.pdf")}
       >
         <HoverLinks text="RESUME" />
         <span>
