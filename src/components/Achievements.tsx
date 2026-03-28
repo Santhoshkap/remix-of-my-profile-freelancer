@@ -90,8 +90,8 @@ const Achievements = () => {
     >
       <div className="max-w-5xl mx-auto px-6 md:px-10">
         <SectionReveal>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow tracking-wide">
-            Achievements & <span style={{ color: "var(--accentColor)" }}>Recognition</span>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow tracking-wide hover-invert">
+            Achievements & <span className="hover-invert-accent" style={{ color: "var(--accentColor)" }}>Recognition</span>
           </h2>
           <motion.div
             initial={{ width: 0 }}
