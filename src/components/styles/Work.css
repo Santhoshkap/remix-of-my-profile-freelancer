@@ -152,11 +152,11 @@
 }
 
 .carousel-arrow-left {
-  left: -70px;
+  left: 15px;
 }
 
 .carousel-arrow-right {
-  right: -70px;
+  right: 15px;
 }
 
 /* ── Dot Indicators ── */
