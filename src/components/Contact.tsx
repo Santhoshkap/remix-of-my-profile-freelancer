@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Contact.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { openExternalLink } from "../lib/openExternalLink";
 
 gsap.registerPlugin(ScrollTrigger);
 
