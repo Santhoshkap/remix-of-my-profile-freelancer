@@ -71,8 +71,8 @@ const Work = () => {
     <div className="work-section" id="work">
       <div className="work-container" style={{ width: "90%", maxWidth: "1280px", margin: "0 auto" }}>
         <SectionReveal>
-          <h2>
-            My <span>Work</span>
+          <h2 className="hover-invert">
+            My <span className="hover-invert-accent">Work</span>
           </h2>
         </SectionReveal>
 
