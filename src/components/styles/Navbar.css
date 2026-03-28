@@ -31,17 +31,6 @@
   font-weight: 600;
   cursor: pointer;
 }
-.navbar-connect {
-  position: absolute;
-  display: none;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 15px;
-  letter-spacing: 1px;
-  font-weight: 500;
-  font-family: "Inter", sans-serif;
-}
 .navbar-title {
   font-weight: 700;
   font-size: 14px;
