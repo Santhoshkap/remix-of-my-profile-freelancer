@@ -10,9 +10,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const contactLinks = [
   { icon: Mail, label: "santhoshkapalavai@gmail.com", href: "mailto:santhoshkapalavai@gmail.com" },
-  { icon: Phone, label: "+1 (XXX) XXX-XXXX", href: "#" },
-  { icon: Linkedin, label: "LinkedIn Profile", href: "https://www.linkedin.com/in/santhoshkapalavai" },
-  { icon: MapPin, label: "United States", href: "#" },
+  { icon: Phone, label: "+91-8125414012", href: "tel:+918125414012" },
+  { icon: Linkedin, label: "LinkedIn Profile", href: "https://www.linkedin.com/in/santhosh-kapalavai" },
+  { icon: MapPin, label: "India / Global", href: "#" },
 ];
 
 const Contact = () => {
@@ -52,7 +52,6 @@ const Contact = () => {
         </SectionReveal>
 
         <div className="grid md:grid-cols-2 gap-10 md:gap-14 max-w-4xl mx-auto">
-          {/* Left: Contact info */}
           <SectionReveal>
             <p className="text-sm md:text-base text-muted-foreground font-body leading-relaxed mb-8">
               Interested in discussing cybersecurity strategy, GRC transformation,
@@ -79,7 +78,6 @@ const Contact = () => {
             </StaggerContainer>
           </SectionReveal>
 
-          {/* Right: Contact form */}
           <SectionReveal>
             <motion.form
               onSubmit={handleSubmit}
@@ -139,7 +137,6 @@ const Contact = () => {
           </SectionReveal>
         </div>
 
-        {/* Footer */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

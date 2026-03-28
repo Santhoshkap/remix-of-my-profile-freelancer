@@ -1,7 +1,6 @@
-import {
-  FaLinkedinIn,
-} from "react-icons/fa6";
+import { FaLinkedinIn } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
+import { FiPhone } from "react-icons/fi";
 import "./styles/SocialIcons.css";
 import { TbNotes } from "react-icons/tb";
 import { useEffect } from "react";
@@ -59,7 +58,7 @@ const SocialIcons = () => {
       <div className="social-icons" data-cursor="icons" id="social">
         <span>
           <a
-            href="https://www.linkedin.com/in/santhoshkapalavai/"
+            href="https://www.linkedin.com/in/santhosh-kapalavai"
             target="_blank"
             rel="noreferrer"
           >
@@ -73,6 +72,14 @@ const SocialIcons = () => {
             rel="noreferrer"
           >
             <MdEmail />
+          </a>
+        </span>
+        <span>
+          <a
+            href="tel:+918125414012"
+            rel="noreferrer"
+          >
+            <FiPhone />
           </a>
         </span>
       </div>
