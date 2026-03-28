@@ -54,7 +54,7 @@ const SocialIcons = () => {
     });
   }, []);
 
-  const handleExternalNavigation = (e: MouseEvent<HTMLAnchorElement>, url: string) => {
+  const handleExternalNavigation = (e: ReactMouseEvent<HTMLAnchorElement>, url: string) => {
     e.preventDefault();
     openExternalLink(url);
   };
