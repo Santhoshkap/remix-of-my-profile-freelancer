@@ -21,7 +21,7 @@ const experiences = [
   },
   {
     title: "Risk & Compliance Lead",
-    company: "Accenture · Chennai/Canada",
+    company: "Accenture · Chennai / Canada",
     period: "2018 – 2023",
     highlights: [
       "Directed cross-functional audit teams for 1st and 2nd party audits",
