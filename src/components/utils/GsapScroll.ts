@@ -31,7 +31,7 @@ export function setCharTimeline(
     scrollTrigger: {
       trigger: ".whatIDO",
       start: "top top",
-      end: "bottom bottom",
+      end: "200% bottom",
       scrub: true,
       invalidateOnRefresh: true,
     },
@@ -84,7 +84,7 @@ export function setCharTimeline(
         .fromTo(
           ".character-model",
           { pointerEvents: "inherit" },
-          { pointerEvents: "none", x: "-35%", delay: 2, duration: 5 },
+          { pointerEvents: "none", x: "-48%", delay: 2, duration: 5 },
           0
         )
         .to(character.rotation, { y: 0.92, x: 0.12, delay: 3, duration: 3 }, 0)
@@ -114,11 +114,11 @@ export function setCharTimeline(
         .fromTo(
           ".character-model",
           { y: "0%" },
-          { y: "-120%", duration: 4, ease: "none", delay: 1 },
+          { y: "-140%", duration: 8, ease: "none", delay: 3 },
           0
         )
-        .fromTo(".whatIDO", { y: 0 }, { y: "15%", duration: 2 }, 0)
-        .to(character.rotation, { x: -0.04, duration: 2, delay: 1 }, 0);
+        .fromTo(".whatIDO", { y: 0 }, { y: "8%", duration: 4 }, 0)
+        .to(character.rotation, { x: -0.04, duration: 3, delay: 2 }, 0);
     }
   } else {
     if (character) {
