@@ -152,10 +152,13 @@ body {
   width: 100%;
   position: relative;
   overflow: clip;
-  height: var(--vh);
+  min-height: var(--vh);
+  height: auto;
   margin: auto;
   margin-top: 50px;
-  margin-bottom: -100px;
+  margin-bottom: 0;
+  z-index: 12;
+  background-color: var(--backgroundColor);
 }
 
 .techstack h2 {

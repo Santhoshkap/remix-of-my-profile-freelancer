@@ -15,7 +15,7 @@ const Navbar = () => {
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
       smooth: 1.7,
-      speed: 1.7,
+      speed: 1.0,
       effects: true,
       autoResize: true,
       ignoreMobileResize: true,
