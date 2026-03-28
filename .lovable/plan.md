@@ -1,43 +1,41 @@
 
 
-# 3D Physics Certifications Section
+# Fix Certification Sphere Readability & Colors
 
-## Overview
-Replace the current flat certification badges with the same 3D physics-based bouncing sphere animation used in TechStack. Each certification will be rendered as text on a sphere that floats, collides, and reacts to the mouse cursor — creating an interactive, visually stunning certifications display.
+## Problems
+1. **Text not readable**: The texture is 512×512 but text is small, spheres rotate freely so text faces away, and emissive intensity is too low — certifications are barely visible
+2. **Colors are dull**: Dark translucent spheres with low-contrast cyan text blend into the dark background
 
-## Certifications List (24 items)
-CISA, CISM, CCISO, CC, HITRUST CCSFP, GRCP, GRCA, CRCMP, CSOE, ISO 27001 Lead Auditor, ISO 42001 Lead Auditor, ISO 9001 Lead Auditor, IRCA Registered Lead Auditor, GDPR Expert, DPDP Implementation Specialist, PMP, Scrum Master, ITIL v4, Six Sigma Green Belt, CSCP, IPMP, IBM AI Engineering, CQI
+## Solution
 
-## Approach
+### 1. Improve `createTextTexture` for maximum readability
+- **Larger, bolder text**: Increase base font sizes (short names like "CISA" → 80px, medium → 60px, long → 44px)
+- **High-contrast colors**: Use bright white text with a colored glow/shadow behind it instead of just cyan
+- **Colorful sphere backgrounds**: Assign each certification a category-based color (e.g., security certs = electric blue, audit = purple, management = teal, AI/tech = green) — fill the sphere with a rich semi-transparent gradient instead of near-black
+- **Add a glowing text stroke**: `ctx.strokeText` with a bright outline so text pops even at angles
+- **Border ring**: Thicker, brighter ring matching the category color
 
-### 1. Rewrite `CertificationsSection.tsx`
-- Remove the old flat badge grid for certifications
-- Keep the skill categories cards below (GRC, Cybersecurity, Privacy, Audit)
-- Add a 3D Canvas section similar to TechStack but with certification text on spheres
+### 2. Better material settings
+- Increase `emissiveIntensity` from 0.35 → 0.8 so text glows visibly
+- Reduce `metalness` from 0.5 → 0.2 and `roughness` from 1 → 0.3 for a shinier, more vibrant look
+- Add higher `clearcoat` (0.5) for glossy reflection
 
-### 2. 3D Certification Spheres
-- Generate textures dynamically using **CanvasTexture**: for each certification string, draw text onto a canvas (white/cyan text on a dark translucent background), then use it as both `map` and `emissiveMap` on a `MeshPhysicalMaterial`
-- Create ~24 spheres (one per certification) with varied scales (0.6-1.0)
-- Same physics setup: zero-gravity, impulse toward center, ball colliders, pointer interaction
-- Spheres bounce off each other and react to mouse cursor — identical behavior to TechStack
+### 3. Slow down sphere rotation
+- Increase `angularDamping` from 0.15 → 0.9 so spheres don't spin wildly — text stays readable longer
+- This keeps the bouncing/collision physics but prevents rapid spinning
 
-### 3. Scroll-based Activation
-- Use IntersectionObserver or scroll listener on the `#certifications` section to activate/deactivate physics (same pattern as TechStack uses with `isActive`)
+### 4. Color palette for sphere categories
+```text
+Security (CISA, CISM, CCISO, CC, HITRUST): #0066ff (electric blue)
+GRC (GRCP, GRCA, CRCMP, CSOE):            #8b5cf6 (purple)
+ISO/Audit (ISO *, IRCA):                   #06b6d4 (cyan)
+Privacy (GDPR, DPDP):                      #10b981 (emerald)
+Management (PMP, Scrum, ITIL, Six Sigma):  #f59e0b (amber)
+Tech (IBM AI, CSCP, IPMP, CQI):            #ec4899 (pink)
+```
 
-### 4. Layout
-- Section heading "Certifications & Skills" stays
-- 3D Canvas takes up ~500px height below heading, above the skill category cards
-- Canvas has transparent background so the section's radial gradient shows through
-- On mobile (< 1024px), fall back to simple animated badges (no 3D) since the physics canvas is heavy
-
-### 5. Texture Generation Utility
-- A helper function `createTextTexture(text: string): THREE.CanvasTexture` that:
-  - Creates a 256x256 canvas
-  - Fills with semi-transparent dark background
-  - Draws certification text centered in white/cyan
-  - Returns as THREE.CanvasTexture
+Each sphere gets a gradient fill of its category color, making the collection visually diverse and impressive.
 
 ## Files Modified
-- `src/components/CertificationsSection.tsx` — full rewrite with 3D canvas + fallback badges
-- No new files needed; reuses same Three.js + Rapier physics stack already in the project
+- `src/components/CertificationsSection.tsx` — updated `createTextTexture`, material settings, angular damping, and color mapping
 
