@@ -13,6 +13,7 @@ const experiences = [
     title: "Senior Manager – GRC",
     company: "Dexian India Technologies Pvt. Ltd – Global",
     period: "2023 – Present",
+    sideIcon: <Shield className="w-10 h-10 text-primary/30" />,
     highlights: [
       "Built and scaled global GRC & cybersecurity advisory services",
       "Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DPDP, and NIST frameworks",
@@ -23,6 +24,7 @@ const experiences = [
     title: "Risk & Compliance Lead",
     company: "Accenture · Chennai / Canada",
     period: "2018 – 2023",
+    sideIcon: <Globe className="w-10 h-10 text-primary/30" />,
     highlights: [
       "Directed cross-functional audit teams for 1st and 2nd party audits",
       "Enhanced audit frameworks with walkthroughs, evidence matrices, and continuous improvement metrics",
@@ -33,6 +35,7 @@ const experiences = [
     title: "Sr. Representative",
     company: "SRK Aviacom · Switzerland, Chennai & Dundigal",
     period: "2017 – 2018",
+    sideIcon: <Plane className="w-10 h-10 text-primary/30" />,
     highlights: [
       "Interfaced with Air Force stakeholders to align aircraft maintenance to safety norms",
       "Led internal audits, client walkthroughs, and incident investigations",
@@ -42,6 +45,7 @@ const experiences = [
     title: "Quality Engineer",
     company: "Vision Group of Aviation · Cambodia & Philippines",
     period: "2016 – 2017",
+    sideIcon: <Wrench className="w-10 h-10 text-primary/30" />,
     highlights: [
       "Quality maintenance engineering for aviation operations in Phnom Penh, Cambodia",
       "Ensuring regulatory compliance and airworthiness standards across fleet operations",
