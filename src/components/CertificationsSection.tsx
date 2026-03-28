@@ -240,10 +240,10 @@ function CertificationsCanvas() {
         map: texture,
         emissive: "#ffffff",
         emissiveMap: texture,
-        emissiveIntensity: 0.35,
-        metalness: 0.5,
-        roughness: 1,
-        clearcoat: 0.1,
+        emissiveIntensity: 0.8,
+        metalness: 0.2,
+        roughness: 0.3,
+        clearcoat: 0.5,
       });
     });
   }, []);
