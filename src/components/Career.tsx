@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 const experiences = [
   {
     title: "Senior Manager – GRC",
-    company: "Dexian (Global)",
+    company: "Dexian India Technologies Pvt. Ltd – Global",
     period: "2023 – Present",
     highlights: [
       "Built and scaled global GRC & cybersecurity advisory services",
@@ -21,7 +21,7 @@ const experiences = [
   },
   {
     title: "Risk & Compliance Lead",
-    company: "Accenture · Chennai/Canada",
+    company: "Accenture · Chennai / Canada",
     period: "2018 – 2023",
     highlights: [
       "Directed cross-functional audit teams for 1st and 2nd party audits",
@@ -31,7 +31,7 @@ const experiences = [
   },
   {
     title: "Sr. Representative",
-    company: "SRK Aviacom (Indian Air Force)",
+    company: "SRK Aviacom · Switzerland, Chennai & Dundigal",
     period: "2017 – 2018",
     highlights: [
       "Interfaced with Air Force stakeholders to align aircraft maintenance to safety norms",
@@ -40,7 +40,7 @@ const experiences = [
   },
   {
     title: "Quality Engineer",
-    company: "Vision Group of Aviation",
+    company: "Vision Group of Aviation · Cambodia & Philippines",
     period: "2016 – 2017",
     highlights: [
       "Quality maintenance engineering for aviation operations in Phnom Penh, Cambodia",

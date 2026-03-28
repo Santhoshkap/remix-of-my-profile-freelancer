@@ -15,7 +15,7 @@ const Achievements = () => {
   return (
     <section
       id="achievements"
-      className="py-20 md:py-32 relative overflow-hidden"
+      className="py-10 md:py-16 relative overflow-hidden"
       style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}
     >
       <div className="max-w-5xl mx-auto px-6 md:px-10">
@@ -28,7 +28,7 @@ const Achievements = () => {
             whileInView={{ width: 80 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-0.5 bg-primary/50 mx-auto mb-16 md:mb-20"
+            className="h-0.5 bg-primary/50 mx-auto mb-10 md:mb-12"
           />
         </SectionReveal>
 
