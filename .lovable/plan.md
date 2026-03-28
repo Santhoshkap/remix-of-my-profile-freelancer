@@ -1,32 +1,44 @@
 
 
-# Plan: Update Metadata, Favicon & Open Graph
+# Fix Mobile Work Cards & Update Location
 
-## Changes
+## 1. Mobile Work Cards Fix (`src/components/Work.tsx` + `src/components/styles/Work.css`)
 
-### 1. Custom Favicon from Headshot
-- Copy uploaded headshot to `public/favicon.jpg`
-- Add `<link rel="icon">` in `index.html` pointing to `/favicon.jpg`
-- Delete `public/favicon.ico` if it exists (browsers auto-request it)
+**Problem**: On mobile (390px), the carousel cards overflow — images take too much space and content gets cramped.
 
-### 2. Update `index.html` Metadata
-- **Title**: `Santhosh Kapalavai | GRC & Cybersecurity Leader`
-- **Description**: Keep current description
-- **OG image**: Point `og:image` and `twitter:image` to `/favicon.jpg` (self-hosted headshot). Note: for best social sharing results, a higher-res version or dedicated OG image (1200x630) would be ideal — but the headshot will work.
-- **OG title**: `Santhosh Kapalavai | GRC & Cybersecurity Leader`
-- **OG description**: Keep current
-- **twitter:site**: Update from `@Lovable` to Santhosh's handle (or remove)
-- Add `og:url` meta tag
-- Remove the TODO comment
+**Solution**:
+- Hide the `carousel-image-wrapper` on mobile (≤768px) — keep only text content
+- Reduce font sizes and spacing for mobile
+- Reduce the carousel number size
+- Ensure the carousel info fills the full width
 
-### 3. Copy Headshot for OG Image
-- Also copy headshot to `public/images/og-profile.jpg` for the OG image tag (social platforms need an absolute URL, so we'll use a relative path that works with the deployed domain)
+**CSS changes** — add a new mobile breakpoint at `max-width: 768px`:
+```css
+@media only screen and (max-width: 768px) {
+  .carousel-image-wrapper { display: none; }
+  .carousel-content { padding: 0 10px; }
+  .carousel-slide { padding: 20px 0; }
+  .carousel-number h3 { font-size: 28px; }
+  .carousel-details h4 { font-size: 17px; }
+  .carousel-category { font-size: 13px; }
+  .carousel-tools p, .carousel-delivery p { font-size: 12px; }
+  .carousel-highlight p { font-size: 11px; }
+  .carousel-info { gap: 15px; }
+  .work-section h2 { font-size: 32px; margin-bottom: 20px; }
+  .carousel-arrow { width: 34px; height: 34px; font-size: 16px; }
+  .carousel-arrow-left { left: 5px; }
+  .carousel-arrow-right { right: 5px; }
+  .carousel-dots { margin-top: 20px; gap: 8px; }
+}
+```
+
+## 2. Location Update (`src/components/Contact.tsx`)
+
+**Line 16**: Change `"India / Global"` → `"Bangalore, India"`
 
 ## Files Modified
-
 | File | Change |
 |------|--------|
-| `public/favicon.jpg` | Copied from uploaded headshot |
-| `public/images/og-profile.jpg` | Same headshot for OG meta |
-| `index.html` | Updated title, favicon link, OG/Twitter meta tags |
+| `src/components/styles/Work.css` | Add 768px mobile breakpoint hiding images, adjusting sizes |
+| `src/components/Contact.tsx` | Update location label |
 
