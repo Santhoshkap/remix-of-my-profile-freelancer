@@ -137,7 +137,7 @@ const Loading = ({ percent }: { percent: number }) => {
   useEffect(() => {
     if (percent >= 100 && !hasTriggered.current) {
       hasTriggered.current = true;
-      setTimeout(() => setPhase("ready"), 300);
+      setTimeout(() => setPhase("ready"), 150);
     }
   }, [percent]);
 
