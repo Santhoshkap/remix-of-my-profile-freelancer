@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Briefcase } from "lucide-react";
+import { Briefcase, Globe, Shield, Plane, Wrench } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { SectionReveal, MagneticHover, Tilt3D } from "./AnimationUtils";
 import "./styles/Career.css";
