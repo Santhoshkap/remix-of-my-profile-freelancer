@@ -35,7 +35,7 @@ function getGridPosition(index: number): [number, number, number] {
   return [x, y, 0];
 }
 
-// --- Texture generation as a flat circle sprite ---
+// --- Texture generation for billboard label ---
 function createTextTexture(text: string): THREE.CanvasTexture {
   const size = 512;
   const canvas = document.createElement("canvas");
@@ -43,27 +43,31 @@ function createTextTexture(text: string): THREE.CanvasTexture {
   canvas.height = size;
   const ctx = canvas.getContext("2d")!;
 
-  ctx.fillStyle = "rgba(10, 15, 30, 0.85)";
+  // Transparent background
+  ctx.clearRect(0, 0, size, size);
+
+  // Dark circle background
+  ctx.fillStyle = "rgba(10, 15, 30, 0.92)";
   ctx.beginPath();
   ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.strokeStyle = "rgba(0, 220, 255, 0.3)";
-  ctx.lineWidth = 4;
+  // Cyan border
+  ctx.strokeStyle = "rgba(0, 220, 255, 0.35)";
+  ctx.lineWidth = 5;
   ctx.beginPath();
-  ctx.arc(size / 2, size / 2, size / 2 - 8, 0, Math.PI * 2);
+  ctx.arc(size / 2, size / 2, size / 2 - 6, 0, Math.PI * 2);
   ctx.stroke();
 
+  // Text
   ctx.fillStyle = "#00e5ff";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  // Auto-size font to fit within circle
-  let fontSize = 64;
+  let fontSize = 72;
   ctx.font = `bold ${fontSize}px 'Orbitron', 'Inter', sans-serif`;
-  const maxWidth = size * 0.65;
-  
-  // Shrink until it fits
+  const maxWidth = size * 0.7;
+
   while (ctx.measureText(text).width > maxWidth && fontSize > 20) {
     fontSize -= 2;
     ctx.font = `bold ${fontSize}px 'Orbitron', 'Inter', sans-serif`;
