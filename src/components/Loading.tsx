@@ -42,7 +42,7 @@ const Loading = ({ percent }: { percent: number }) => {
 
   // Network topology canvas animation
   const initNodes = useCallback((w: number, h: number) => {
-    const count = 35;
+    const count = 20;
     nodesRef.current = Array.from({ length: count }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
