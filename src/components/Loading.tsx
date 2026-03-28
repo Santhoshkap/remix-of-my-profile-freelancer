@@ -42,7 +42,7 @@ const Loading = ({ percent }: { percent: number }) => {
 
   // Network topology canvas animation
   const initNodes = useCallback((w: number, h: number) => {
-    const count = 35;
+    const count = 20;
     nodesRef.current = Array.from({ length: count }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
@@ -130,14 +130,14 @@ const Loading = ({ percent }: { percent: number }) => {
 
   useEffect(() => {
     if (phase === "exit") return;
-    const interval = setInterval(() => setHexStream(randomHex()), 120);
+    const interval = setInterval(() => setHexStream(randomHex()), 200);
     return () => clearInterval(interval);
   }, [phase]);
 
   useEffect(() => {
     if (percent >= 100 && !hasTriggered.current) {
       hasTriggered.current = true;
-      setTimeout(() => setPhase("ready"), 300);
+      setTimeout(() => setPhase("ready"), 150);
     }
   }, [percent]);
 
@@ -151,10 +151,10 @@ const Loading = ({ percent }: { percent: number }) => {
             setTimeout(() => {
               module.initialFX?.();
               setIsLoading(false);
-            }, 600);
+            }, 300);
           });
-        }, 200);
-      }, 800);
+        }, 150);
+      }, 400);
       return () => clearTimeout(timer);
     }
   }, [phase, setIsLoading]);
@@ -368,17 +368,17 @@ export const setProgress = (setLoading: (value: number) => void) => {
 
   let interval = setInterval(() => {
     if (percent <= 60) {
-      percent += Math.round(Math.random() * 8) + 2;
+      percent += Math.round(Math.random() * 12) + 4;
       setLoading(Math.min(percent, 100));
     } else {
       clearInterval(interval);
       interval = setInterval(() => {
-        percent += Math.round(Math.random() * 3) + 1;
+        percent += Math.round(Math.random() * 5) + 2;
         setLoading(Math.min(percent, 100));
         if (percent > 91) clearInterval(interval);
-      }, 400);
+      }, 200);
     }
-  }, 80);
+  }, 50);
 
   function clear() {
     clearInterval(interval);
@@ -390,13 +390,13 @@ export const setProgress = (setLoading: (value: number) => void) => {
       clearInterval(interval);
       interval = setInterval(() => {
         if (percent < 100) {
-          percent += 3;
+          percent += 5;
           setLoading(Math.min(percent, 100));
         } else {
           resolve(100);
           clearInterval(interval);
         }
-      }, 10);
+      }, 8);
     });
   }
 
