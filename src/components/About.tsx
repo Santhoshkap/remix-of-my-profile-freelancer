@@ -54,7 +54,7 @@ const About = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              About Me
+              About <span style={{ color: "var(--accentColor)" }}>Me</span>
             </motion.h3>
           </SectionReveal>
 

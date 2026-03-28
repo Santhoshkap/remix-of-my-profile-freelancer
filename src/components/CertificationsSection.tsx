@@ -327,7 +327,7 @@ export default function CertificationsSection() {
   }, []);
 
   return (
-    <section id="certifications" className="py-10 md:py-16 relative overflow-hidden" style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
+    <section id="certifications" className="py-8 md:py-12 relative overflow-hidden" style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
       <div className="absolute inset-0 z-0 opacity-[0.03]" style={{
         backgroundImage: "radial-gradient(ellipse at 30% 50%, hsl(190 100% 50%), transparent 60%), radial-gradient(ellipse at 70% 50%, hsl(270 80% 60%), transparent 60%)",
       }} />
@@ -335,14 +335,14 @@ export default function CertificationsSection() {
       <div className="max-w-5xl mx-auto px-6 md:px-10 relative z-10">
         <SectionReveal>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow tracking-wide">
-            My Certifications
+            My <span style={{ color: "var(--accentColor)" }}>Certifications</span>
           </h2>
           <motion.div
             initial={{ width: 0 }}
             whileInView={{ width: 80 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-0.5 bg-primary/50 mx-auto mb-12 md:mb-16"
+            className="h-0.5 bg-primary/50 mx-auto mb-6 md:mb-8"
           />
         </SectionReveal>
 
