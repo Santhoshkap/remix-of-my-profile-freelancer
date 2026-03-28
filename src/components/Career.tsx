@@ -5,6 +5,7 @@ import { SectionReveal, MagneticHover, Tilt3D } from "./AnimationUtils";
 import "./styles/Career.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type { LucideIcon } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,7 +14,7 @@ const experiences = [
     title: "Senior Manager – GRC",
     company: "Dexian India Technologies Pvt. Ltd – Global",
     period: "2023 – Present",
-    sideIcon: <Shield className="w-10 h-10 text-primary/30" />,
+    Icon: Shield,
     highlights: [
       "Built and scaled global GRC & cybersecurity advisory services",
       "Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DPDP, and NIST frameworks",
@@ -24,7 +25,7 @@ const experiences = [
     title: "Risk & Compliance Lead",
     company: "Accenture · Chennai / Canada",
     period: "2018 – 2023",
-    sideIcon: <Globe className="w-10 h-10 text-primary/30" />,
+    Icon: Globe,
     highlights: [
       "Directed cross-functional audit teams for 1st and 2nd party audits",
       "Enhanced audit frameworks with walkthroughs, evidence matrices, and continuous improvement metrics",
@@ -35,7 +36,7 @@ const experiences = [
     title: "Sr. Representative",
     company: "SRK Aviacom · Switzerland, Chennai & Dundigal",
     period: "2017 – 2018",
-    sideIcon: <Plane className="w-10 h-10 text-primary/30" />,
+    Icon: Plane,
     highlights: [
       "Interfaced with Air Force stakeholders to align aircraft maintenance to safety norms",
       "Led internal audits, client walkthroughs, and incident investigations",
@@ -45,13 +46,131 @@ const experiences = [
     title: "Quality Engineer",
     company: "Vision Group of Aviation · Cambodia & Philippines",
     period: "2016 – 2017",
-    sideIcon: <Wrench className="w-10 h-10 text-primary/30" />,
+    Icon: Wrench,
     highlights: [
       "Quality maintenance engineering for aviation operations in Phnom Penh, Cambodia",
       "Ensuring regulatory compliance and airworthiness standards across fleet operations",
     ],
   },
 ];
+
+/* 3D Holographic icon animation */
+function HolographicIcon({ Icon, index }: { Icon: LucideIcon; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 100 }}
+      className="relative w-28 h-28 flex items-center justify-center"
+    >
+      {/* Outer orbiting ring */}
+      <motion.div
+        className="absolute inset-0 rounded-full border border-primary/20"
+        animate={{ rotateZ: 360 }}
+        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+        style={{ transformStyle: "preserve-3d", rotateX: "65deg" }}
+      />
+
+      {/* Second orbiting ring offset */}
+      <motion.div
+        className="absolute inset-2 rounded-full border border-primary/15"
+        animate={{ rotateZ: -360 }}
+        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+        style={{ transformStyle: "preserve-3d", rotateX: "65deg", rotateY: "30deg" }}
+      />
+
+      {/* Third ring - vertical orbit */}
+      <motion.div
+        className="absolute inset-4 rounded-full border border-primary/10"
+        animate={{ rotateZ: 360 }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        style={{ transformStyle: "preserve-3d", rotateX: "20deg", rotateY: "65deg" }}
+      />
+
+      {/* Pulsing glow backdrop */}
+      <motion.div
+        className="absolute w-16 h-16 rounded-full"
+        animate={{
+          boxShadow: [
+            "0 0 20px 4px hsl(var(--primary) / 0.1)",
+            "0 0 40px 8px hsl(var(--primary) / 0.25)",
+            "0 0 20px 4px hsl(var(--primary) / 0.1)",
+          ],
+        }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: index * 0.7 }}
+      />
+
+      {/* Hexagonal frame */}
+      <motion.svg
+        viewBox="0 0 100 100"
+        className="absolute w-24 h-24"
+        animate={{ rotate: [0, 60] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      >
+        <polygon
+          points="50,2 93,25 93,75 50,98 7,75 7,25"
+          fill="none"
+          stroke="hsl(var(--primary))"
+          strokeWidth="0.5"
+          opacity="0.2"
+        />
+      </motion.svg>
+
+      {/* Inner hexagonal frame counter-rotating */}
+      <motion.svg
+        viewBox="0 0 100 100"
+        className="absolute w-[4.5rem] h-[4.5rem]"
+        animate={{ rotate: [60, 0] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+      >
+        <polygon
+          points="50,5 90,27 90,73 50,95 10,73 10,27"
+          fill="none"
+          stroke="hsl(var(--primary))"
+          strokeWidth="0.8"
+          opacity="0.15"
+        />
+      </motion.svg>
+
+      {/* Floating icon with 3D hover */}
+      <motion.div
+        animate={{
+          y: [0, -6, 0],
+          rotateY: [0, 15, 0, -15, 0],
+        }}
+        transition={{
+          y: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: index * 0.4 },
+          rotateY: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: index * 0.3 },
+        }}
+        style={{ transformStyle: "preserve-3d" }}
+        className="relative z-10"
+      >
+        <Icon className="w-8 h-8 text-primary/60 drop-shadow-[0_0_8px_hsl(var(--primary)/0.4)]" />
+      </motion.div>
+
+      {/* Orbiting dot 1 */}
+      <motion.div
+        className="absolute w-1.5 h-1.5 rounded-full bg-primary/50"
+        animate={{
+          x: [0, 40, 0, -40, 0],
+          y: [-40, 0, 40, 0, -40],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear", delay: index * 0.5 }}
+      />
+
+      {/* Orbiting dot 2 */}
+      <motion.div
+        className="absolute w-1 h-1 rounded-full bg-primary/30"
+        animate={{
+          x: [30, 0, -30, 0, 30],
+          y: [0, -30, 0, 30, 0],
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: "linear", delay: index * 0.3 + 1 }}
+      />
+    </motion.div>
+  );
+}
 
 function TimelineLine() {
   const ref = useRef<HTMLDivElement>(null);
@@ -116,22 +235,9 @@ const Career = () => {
                 className="absolute left-[18px] md:left-1/2 w-3 h-3 rounded-full bg-primary box-glow -translate-x-1.5 mt-6 z-10"
               />
 
-              {/* Empty side with floating icon */}
-              <div className={`hidden md:flex md:w-1/2 items-center ${i % 2 === 0 ? "md:pr-10 justify-end" : "md:pl-10 justify-start"}`}>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.3, type: "spring" }}
-                  className="relative"
-                >
-                  <motion.div
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
-                  >
-                    {exp.sideIcon}
-                  </motion.div>
-                </motion.div>
+              {/* 3D Holographic icon in center of empty side */}
+              <div className={`hidden md:flex md:w-1/2 items-center justify-center`}>
+                <HolographicIcon Icon={exp.Icon} index={i} />
               </div>
 
               <div className={`ml-12 md:ml-0 md:w-1/2 ${i % 2 === 0 ? "md:pl-10" : "md:pr-10 md:text-right"}`}>
