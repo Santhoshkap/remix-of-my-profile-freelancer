@@ -82,10 +82,11 @@
 }
 
 .carousel-category {
-  font-weight: 200;
-  color: #adacac;
+  font-weight: 300;
+  color: hsl(200 15% 60%);
   margin: 0;
-  font-size: 16px;
+  font-size: 15px;
+  letter-spacing: 0.5px;
 }
 
 .carousel-tools {
@@ -101,10 +102,12 @@
 }
 
 .carousel-tools p {
-  font-weight: 200;
-  color: #adacac;
+  font-weight: 300;
+  color: hsl(200 15% 55%);
   margin: 6px 0 0;
-  font-size: 15px;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  line-height: 1.6;
 }
 
 .carousel-image-wrapper {
@@ -136,10 +139,10 @@
 }
 
 .carousel-arrow:hover {
-  background: rgba(94, 234, 212, 0.15);
+  background: hsl(190 100% 50% / 0.1);
   border-color: var(--accentColor);
   color: var(--accentColor);
-  box-shadow: 0 0 20px rgba(94, 234, 212, 0.15);
+  box-shadow: 0 0 25px hsl(190 100% 50% / 0.15);
 }
 
 .carousel-arrow-left {
@@ -171,13 +174,13 @@
 
 .carousel-dot:hover {
   border-color: var(--accentColor);
-  background: rgba(94, 234, 212, 0.2);
+  background: hsl(190 100% 50% / 0.2);
 }
 
 .carousel-dot-active {
   background: var(--accentColor);
   border-color: var(--accentColor);
-  box-shadow: 0 0 8px rgba(94, 234, 212, 0.4);
+  box-shadow: 0 0 12px hsl(190 100% 50% / 0.4);
 }
 
 /* ── Work Image (reused) ── */
