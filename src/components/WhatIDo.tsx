@@ -171,7 +171,7 @@ const WhatIDo = () => {
                   {card.tags.map((tag) => (
                     <motion.span
                       key={tag}
-                      className="wid-tag"
+                      className="wid-tag hover-invert-accent"
                       whileHover={{
                         scale: 1.08,
                         backgroundColor: "hsla(190,100%,50%,0.12)",
