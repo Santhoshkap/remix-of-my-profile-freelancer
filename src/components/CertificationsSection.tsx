@@ -93,7 +93,7 @@ type CertSphereProps = {
 
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
 const sphereMaterial = new THREE.MeshPhysicalMaterial({
-  color: new THREE.Color("hsl(230, 25%, 12%)"),
+  color: new THREE.Color("#ffffff"),
   metalness: 0.6,
   roughness: 0.4,
   clearcoat: 0.3,
