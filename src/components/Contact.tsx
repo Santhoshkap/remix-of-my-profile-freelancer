@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Mail, Phone, Linkedin, MapPin, Send, CheckCircle } from "lucide-react";
-import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover } from "./AnimationUtils";
+import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover, Tilt3D } from "./AnimationUtils";
 import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Contact.css";
 import { gsap } from "gsap";
@@ -18,11 +18,20 @@ const contactLinks = [
 const Contact = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [sent, setSent] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const subject = encodeURIComponent(`Contact from ${formData.name} (${formData.email})`);
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    );
+    window.open(`mailto:santhoshkapalavai@gmail.com?subject=${subject}&body=${body}`, "_self");
     setSent(true);
-    setTimeout(() => setSent(false), 3000);
+    setTimeout(() => {
+      setSent(false);
+      setFormData({ name: "", email: "", message: "" });
+    }, 3000);
   };
 
   useEffect(() => {
@@ -36,7 +45,7 @@ const Contact = () => {
   }, []);
 
   return (
-    <section id="contact" className="py-20 md:py-32 relative overflow-hidden" ref={containerRef}>
+    <section id="contact" className="py-20 md:py-32 relative overflow-hidden" ref={containerRef} style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
       <div className="max-w-5xl mx-auto px-6 md:px-10">
         <SectionReveal>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow contact-title tracking-wide">
@@ -79,61 +88,75 @@ const Contact = () => {
           </SectionReveal>
 
           <SectionReveal>
-            <motion.form
-              onSubmit={handleSubmit}
-              className="glass rounded-2xl p-6 md:p-8 border-glow space-y-5"
-              whileHover={{ boxShadow: "0 0 40px hsl(190 100% 50% / 0.08)" }}
-              transition={{ duration: 0.5 }}
-            >
-              {["Your Name", "Your Email"].map((placeholder, i) => (
-                <div key={placeholder}>
+            <Tilt3D intensity={8}>
+              <motion.form
+                onSubmit={handleSubmit}
+                className="glass rounded-2xl p-6 md:p-8 border-glow space-y-5"
+                whileHover={{ boxShadow: "0 0 40px hsl(190 100% 50% / 0.08)" }}
+                transition={{ duration: 0.5 }}
+              >
+                <div>
                   <input
-                    type={i === 1 ? "email" : "text"}
-                    placeholder={placeholder}
+                    type="text"
+                    placeholder="Your Name"
                     required
+                    value={formData.name}
+                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                     className="w-full bg-secondary/30 border border-border/50 rounded-lg px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_20px_hsl(190_100%_50%/0.08)] transition-all font-body tracking-wide"
                   />
                 </div>
-              ))}
-              <textarea
-                placeholder="Your Message"
-                rows={4}
-                required
-                className="w-full bg-secondary/30 border border-border/50 rounded-lg px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_20px_hsl(190_100%_50%/0.08)] transition-all resize-none font-body tracking-wide"
-              />
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02, boxShadow: "0 0 30px hsl(190 100% 50% / 0.25)" }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm transition-all box-glow flex items-center justify-center gap-2 font-display tracking-wider"
-              >
-                <AnimatePresence mode="wait">
-                  {sent ? (
-                    <motion.span
-                      key="sent"
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      className="flex items-center gap-2"
-                    >
-                      <CheckCircle className="w-4 h-4" />
-                      Message Sent!
-                    </motion.span>
-                  ) : (
-                    <motion.span
-                      key="send"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="flex items-center gap-2"
-                    >
-                      <Send className="w-4 h-4" />
-                      Send Message
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </motion.button>
-            </motion.form>
+                <div>
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                    className="w-full bg-secondary/30 border border-border/50 rounded-lg px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_20px_hsl(190_100%_50%/0.08)] transition-all font-body tracking-wide"
+                  />
+                </div>
+                <textarea
+                  placeholder="Your Message"
+                  rows={4}
+                  required
+                  value={formData.message}
+                  onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                  className="w-full bg-secondary/30 border border-border/50 rounded-lg px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_20px_hsl(190_100%_50%/0.08)] transition-all resize-none font-body tracking-wide"
+                />
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.02, boxShadow: "0 0 30px hsl(190 100% 50% / 0.25)" }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm transition-all box-glow flex items-center justify-center gap-2 font-display tracking-wider"
+                >
+                  <AnimatePresence mode="wait">
+                    {sent ? (
+                      <motion.span
+                        key="sent"
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0, opacity: 0 }}
+                        className="flex items-center gap-2"
+                      >
+                        <CheckCircle className="w-4 h-4" />
+                        Message Sent!
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        key="send"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="flex items-center gap-2"
+                      >
+                        <Send className="w-4 h-4" />
+                        Send Message
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
+              </motion.form>
+            </Tilt3D>
           </SectionReveal>
         </div>
 
