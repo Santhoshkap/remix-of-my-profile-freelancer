@@ -1,50 +1,46 @@
 
 
-# Fix: Character Animation Overlap, Size, and Landing Page Polish
+# About Me & What I Deliver — Refinements
 
-## Problems
+## Changes
 
-1. **3D character overlaps "What I Deliver" cards** — The GSAP scroll timeline in `GsapScroll.ts` targets `.whatIDO` class, but the redesigned section uses `.wid-section`. So `tl3` (which moves the character off-screen) never fires.
-2. **Character continues showing through Experience/Certifications** — Same root cause: `tl3` never triggers, so the fixed-position character stays visible.
-3. **Character is too large and overlaps card text** — Need to reduce the character model size in the "What I Deliver" view.
-4. **Landing page is a plain black screen** — User wants a cybersecurity-themed animation on the initial view (before loading completes or as background).
+### 1. About Me Section (`src/components/About.tsx`)
+- Remove the last paragraph ("Today, I work with organisations…") entirely (lines 101-107)
+- Make "About Me" heading more prominent: add a glow text-shadow and slightly larger size
+- Enhance accent-text highlights with stronger glow
 
-## Plan
+### 2. About Me Heading Styles (`src/components/styles/About.css`)
+- Increase `.about-content-col h3` font-size to 28px, add `text-shadow: 0 0 20px hsla(190,100%,50%,0.4)` for better visibility
+- Reduce section padding to `60px 0` globally to cut excess whitespace
 
-### 1. Fix Character Animation Class Mismatch
-**File: `src/components/utils/GsapScroll.ts`**
-- Change `tl3` trigger from `.whatIDO` to `.wid-section` (the new class name)
-- This restores the scroll-based character hide: as user scrolls past "What I Deliver", the character moves to `y: -100%` and disappears before Career section
+### 3. What I Deliver — Card Spacing & Fit (`src/components/styles/WhatIDo.css`)
+- Reduce section padding from `100px 0` to `60px 0`
+- Reduce card padding from `32px 36px` to `24px 28px` (desktop: `28px 32px`)
+- Reduce card gap from `20px` to `16px`
+- Reduce `.wid-card-header` margin-bottom from `14px` to `10px`
+- Reduce `.wid-card-desc` margin-bottom from `18px` to `12px`
+- These changes make all 3 cards fit within one viewport height
 
-### 2. Reduce Character Size in "What I Deliver" View
-**File: `src/components/utils/GsapScroll.ts`**
-- In `tl2`, adjust the camera zoom or position so the character appears smaller when transitioning into the "What I Deliver" section
-- Change `x: "-12%"` to `x: "-25%"` to push the character further left, reducing overlap with cards
-- Add camera zoom increase (e.g. `z: 85` instead of `75`) to make the character appear smaller
+### 4. 3D Character Position Fix (`src/components/utils/GsapScroll.ts`)
+- In `tl2`: push character further left (`x: "-35%"`) and increase camera z to `100` so the character is smaller and clearly left of cards
+- In `tl3`: extend the scroll trigger end to `"bottom bottom"` so the character stays visible through all 3 cards before scrolling away
+- Adjust `tl3` to use `y: "-120%"` so the character fully exits after the third card
 
-### 3. Add Cybersecurity Background Animation to Landing
-**File: `src/components/Landing.tsx`**
-- Add a subtle animated background with floating cyber elements: a grid pattern, scanning lines, and particle dots
-- Use CSS-only animations (keyframes) for performance — no heavy libraries
-- Elements: faint grid lines, slow-moving scan line, subtle floating dots with cyan glow
+### 5. Global Section Spacing Reduction
+- **Career.css**: reduce padding from `80px 0 0` to `60px 0 0`
+- **CertificationsSection.tsx**: reduce inline padding/margins if present
+- **WhatIDo.css**: padding already reduced to `60px 0`
 
-**File: `src/components/styles/Landing.css`**
-- Add `.landing-cyber-bg` with a CSS grid pattern overlay using `background-image: linear-gradient` for grid lines
-- Add a scanning line animation (`@keyframes scan`) that moves top-to-bottom continuously
-- Keep everything subtle (low opacity) so it doesn't compete with the 3D character or text
+### 6. Animation Refinement
+- Reduce `staggerChildren` from `0.15` to `0.12` in WhatIDo cards
+- Reduce card entrance `y` from `40` to `24` for subtler motion
+- Keep hover lift at `y: -4` (already premium)
 
-### 4. Ensure WhatIDo Section Has the Legacy Class
-**File: `src/components/WhatIDo.tsx`**
-- Add `whatIDO` as an additional class to the section element: `className="wid-section whatIDO"`
-- This is the simplest fix — keeps both the new styling and the GSAP trigger working
-
-## Technical Details
-
-**Root cause**: When the "What I Do" section was redesigned, the class changed from `whatIDO` to `wid-section`, breaking the GSAP ScrollTrigger that hides the 3D character. Adding `whatIDO` back as a secondary class restores the animation without affecting the new design.
-
-**Files modified:**
-- `src/components/WhatIDo.tsx` — add `whatIDO` class back
-- `src/components/utils/GsapScroll.ts` — adjust character position/size in tl2
-- `src/components/Landing.tsx` — add cyber background elements
-- `src/components/styles/Landing.css` — cyber background animations
+## Files Modified
+- `src/components/About.tsx` — remove last paragraph, enhance heading
+- `src/components/styles/About.css` — heading glow, reduced padding
+- `src/components/styles/WhatIDo.css` — tighter card spacing and padding
+- `src/components/WhatIDo.tsx` — refined animation values
+- `src/components/utils/GsapScroll.ts` — character position and sticky duration
+- `src/components/styles/Career.css` — reduced top padding
 
