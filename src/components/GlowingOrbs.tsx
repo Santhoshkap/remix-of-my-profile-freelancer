@@ -16,7 +16,7 @@ export default function GlowingOrbs() {
           transform: "translate(-40%, -40%)",
         }}
       />
-      {/* Right-side purple orb */}
+      {/* Right-side cyan orb (matching left) */}
       <motion.div
         className="fixed top-1/2 right-0 z-[1] pointer-events-none"
         animate={{ y: ["-50%", "-45%", "-55%", "-50%"] }}
@@ -24,12 +24,12 @@ export default function GlowingOrbs() {
         style={{
           width: 300,
           height: 300,
-          background: "radial-gradient(circle, hsl(270 80% 60% / 0.07), transparent 70%)",
+          background: "radial-gradient(circle, hsl(190 100% 50% / 0.10), transparent 70%)",
           filter: "blur(60px)",
           transform: "translate(50%, -50%)",
         }}
       />
-      {/* Bottom-left blue orb */}
+      {/* Bottom-left cyan orb */}
       <motion.div
         className="fixed bottom-0 left-1/3 z-[1] pointer-events-none"
         animate={{ x: ["-10%", "10%", "-10%"], scale: [1, 1.15, 1] }}
@@ -37,7 +37,7 @@ export default function GlowingOrbs() {
         style={{
           width: 250,
           height: 250,
-          background: "radial-gradient(circle, hsl(210 100% 60% / 0.06), transparent 70%)",
+          background: "radial-gradient(circle, hsl(190 100% 50% / 0.06), transparent 70%)",
           filter: "blur(50px)",
           transform: "translate(-50%, 40%)",
         }}
