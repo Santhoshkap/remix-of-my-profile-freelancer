@@ -54,6 +54,11 @@ const SocialIcons = () => {
     });
   }, []);
 
+  const handleExternalNavigation = (e: MouseEvent<HTMLAnchorElement>, url: string) => {
+    e.preventDefault();
+    openExternalLink(url);
+  };
+
   return (
     <div className="icons-section">
       <div className="social-icons" data-cursor="icons" id="social">
@@ -61,7 +66,8 @@ const SocialIcons = () => {
           <a
             href="https://www.linkedin.com/in/santhosh-kapalavai/"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            onClick={(e) => handleExternalNavigation(e, "https://www.linkedin.com/in/santhosh-kapalavai/")}
           >
             <FaLinkedinIn />
           </a>
@@ -88,7 +94,8 @@ const SocialIcons = () => {
         className="resume-button"
         href="/Santhosh_Kapalavai_CV-4.pdf"
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
+        onClick={(e) => handleExternalNavigation(e, `${window.location.origin}/Santhosh_Kapalavai_CV-4.pdf`)}
       >
         <HoverLinks text="RESUME" />
         <span>

@@ -1,7 +1,9 @@
 export const openExternalLink = (url: string) => {
   if (typeof window === "undefined") return;
 
-  const openedTab = window.open(url, "_blank", "noopener,noreferrer");
+  const resolvedUrl = new URL(url, window.location.origin).toString();
+  const openedTab = window.open(resolvedUrl, "_blank", "noopener,noreferrer");
+
   if (openedTab) {
     openedTab.opener = null;
     return;
@@ -9,12 +11,12 @@ export const openExternalLink = (url: string) => {
 
   try {
     if (window.top && window.top !== window.self) {
-      window.top.location.href = url;
+      window.top.location.href = resolvedUrl;
       return;
     }
   } catch {
     // Ignore cross-origin access errors and use current window fallback.
   }
 
-  window.location.href = url;
+  window.location.href = resolvedUrl;
 };

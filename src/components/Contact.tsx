@@ -100,7 +100,8 @@ const Contact = () => {
                     <span className="text-sm font-body tracking-wide hover-invert">{item.label}</span>
                   </a>
                 </StaggerItem>
-              ))}
+                );
+              })}
             </StaggerContainer>
           </SectionReveal>
 
