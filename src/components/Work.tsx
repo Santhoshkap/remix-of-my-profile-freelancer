@@ -120,7 +120,7 @@ const Work = () => {
                           {project.category}
                         </p>
                         <div className="carousel-tools">
-                          <span className="tools-label">{project.toolsLabel}</span>
+                          <span className="tools-label hover-invert-accent">{project.toolsLabel}</span>
                           <p>{project.tools}</p>
                         </div>
                         <div className="carousel-delivery">
