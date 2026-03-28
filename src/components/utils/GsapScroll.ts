@@ -73,6 +73,7 @@ export function setCharTimeline(
         .fromTo(".about-me", { y: "-50%" }, { y: "0%" }, 0);
 
       tl2
+        .to(".character-model", { opacity: 1, duration: 1, delay: 2 }, 0)
         .to(
           camera.position,
           { z: 75, y: 8.4, duration: 6, delay: 2, ease: "power3.inOut" },
