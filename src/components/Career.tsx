@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Briefcase } from "lucide-react";
+import { Briefcase, Globe, Shield, Plane, Wrench } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { SectionReveal, MagneticHover, Tilt3D } from "./AnimationUtils";
 import "./styles/Career.css";
@@ -13,6 +13,7 @@ const experiences = [
     title: "Senior Manager – GRC",
     company: "Dexian India Technologies Pvt. Ltd – Global",
     period: "2023 – Present",
+    sideIcon: <Shield className="w-10 h-10 text-primary/30" />,
     highlights: [
       "Built and scaled global GRC & cybersecurity advisory services",
       "Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DPDP, and NIST frameworks",
@@ -23,6 +24,7 @@ const experiences = [
     title: "Risk & Compliance Lead",
     company: "Accenture · Chennai / Canada",
     period: "2018 – 2023",
+    sideIcon: <Globe className="w-10 h-10 text-primary/30" />,
     highlights: [
       "Directed cross-functional audit teams for 1st and 2nd party audits",
       "Enhanced audit frameworks with walkthroughs, evidence matrices, and continuous improvement metrics",
@@ -33,6 +35,7 @@ const experiences = [
     title: "Sr. Representative",
     company: "SRK Aviacom · Switzerland, Chennai & Dundigal",
     period: "2017 – 2018",
+    sideIcon: <Plane className="w-10 h-10 text-primary/30" />,
     highlights: [
       "Interfaced with Air Force stakeholders to align aircraft maintenance to safety norms",
       "Led internal audits, client walkthroughs, and incident investigations",
@@ -42,6 +45,7 @@ const experiences = [
     title: "Quality Engineer",
     company: "Vision Group of Aviation · Cambodia & Philippines",
     period: "2016 – 2017",
+    sideIcon: <Wrench className="w-10 h-10 text-primary/30" />,
     highlights: [
       "Quality maintenance engineering for aviation operations in Phnom Penh, Cambodia",
       "Ensuring regulatory compliance and airworthiness standards across fleet operations",
@@ -111,6 +115,24 @@ const Career = () => {
                 transition={{ duration: 0.4, delay: 0.2, type: "spring" }}
                 className="absolute left-[18px] md:left-1/2 w-3 h-3 rounded-full bg-primary box-glow -translate-x-1.5 mt-6 z-10"
               />
+
+              {/* Empty side with floating icon */}
+              <div className={`hidden md:flex md:w-1/2 items-center ${i % 2 === 0 ? "md:pr-10 justify-end" : "md:pl-10 justify-start"}`}>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3, type: "spring" }}
+                  className="relative"
+                >
+                  <motion.div
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
+                  >
+                    {exp.sideIcon}
+                  </motion.div>
+                </motion.div>
+              </div>
 
               <div className={`ml-12 md:ml-0 md:w-1/2 ${i % 2 === 0 ? "md:pl-10" : "md:pr-10 md:text-right"}`}>
                 <Tilt3D intensity={10}>

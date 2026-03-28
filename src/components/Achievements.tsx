@@ -15,7 +15,7 @@ const Achievements = () => {
   return (
     <section
       id="achievements"
-      className="py-10 md:py-16 relative overflow-hidden"
+      className="py-6 md:py-10 relative overflow-hidden"
       style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}
     >
       <div className="max-w-5xl mx-auto px-6 md:px-10">
@@ -28,11 +28,11 @@ const Achievements = () => {
             whileInView={{ width: 80 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-0.5 bg-primary/50 mx-auto mb-10 md:mb-12"
+            className="h-0.5 bg-primary/50 mx-auto mb-6 md:mb-8"
           />
         </SectionReveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 max-w-4xl mx-auto">
           {achievements.map((a, i) => (
             <motion.div
               key={i}
