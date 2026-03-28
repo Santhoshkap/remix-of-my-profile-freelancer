@@ -1,8 +1,19 @@
-import { PropsWithChildren } from "react";
-import { motion } from "framer-motion";
+import { PropsWithChildren, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Landing.css";
 
+const roles = ["Implementer", "Auditor", "Advisor", "Strategist", "Leader"];
+
 const Landing = ({ children }: PropsWithChildren) => {
+  const [roleIndex, setRoleIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <div className="landing-section" id="landingDiv">
@@ -39,42 +50,20 @@ const Landing = ({ children }: PropsWithChildren) => {
             >
               GRC & Cybersecurity
             </motion.h3>
-            <h2 className="landing-info-h2">
-              <motion.div
-                className="landing-h2-1"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 2.3 }}
-              >
-                Strategy
-              </motion.div>
-              <motion.div
-                className="landing-h2-2"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 2.5 }}
-              >
-                Advisory
-              </motion.div>
-            </h2>
-            <h2>
-              <motion.div
-                className="landing-h2-info"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 2.5 }}
-              >
-                Advisory
-              </motion.div>
-              <motion.div
-                className="landing-h2-info-1"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 2.3 }}
-              >
-                Strategy
-              </motion.div>
-            </h2>
+            <div className="landing-role-container">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={roles[roleIndex]}
+                  className="landing-role"
+                  initial={{ y: 30, opacity: 0, filter: "blur(4px)" }}
+                  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                  exit={{ y: -30, opacity: 0, filter: "blur(4px)" }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                >
+                  {roles[roleIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
         {children}
