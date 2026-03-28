@@ -453,7 +453,8 @@
     display: none;
   }
   .character-model {
-    height: 85vh;
-    bottom: 20px;
+    height: 60vh;
+    bottom: 40px;
+    left: 55%;
   }
 }
