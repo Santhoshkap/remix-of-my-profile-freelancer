@@ -60,13 +60,20 @@
   .header ul {
     flex-direction: row;
     align-items: center;
-    font-size: 12px;
+    font-size: 11px;
+    column-gap: 24px;
   }
   .header ul li {
     color: hsl(200, 20%, 90%);
   }
   .navbar-title {
     font-size: 16px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .header ul {
+    column-gap: 30px;
+    font-size: 12px;
   }
 }
 @media only screen and (min-width: 1200px) {
