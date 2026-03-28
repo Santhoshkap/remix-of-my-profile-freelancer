@@ -327,7 +327,7 @@ export default function CertificationsSection() {
   }, []);
 
   return (
-    <section id="certifications" className="py-10 md:py-16 relative overflow-hidden" style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
+    <section id="certifications" className="py-8 md:py-12 relative overflow-hidden" style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
       <div className="absolute inset-0 z-0 opacity-[0.03]" style={{
         backgroundImage: "radial-gradient(ellipse at 30% 50%, hsl(190 100% 50%), transparent 60%), radial-gradient(ellipse at 70% 50%, hsl(270 80% 60%), transparent 60%)",
       }} />
