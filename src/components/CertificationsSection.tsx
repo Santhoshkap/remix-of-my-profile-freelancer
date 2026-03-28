@@ -1,9 +1,9 @@
-import { ShieldCheck, Lock, Eye, Server } from "lucide-react";
-import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover, Tilt3D } from "./AnimationUtils";
+import { ShieldCheck } from "lucide-react";
+import { SectionReveal, StaggerContainer, StaggerItem } from "./AnimationUtils";
 import { motion } from "framer-motion";
-import { Suspense, useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { Suspense, useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { EffectComposer, N8AO } from "@react-three/postprocessing";
 import {
@@ -23,7 +23,6 @@ const certifications = [
   "CSCP", "IPMP", "IBM AI Eng.", "CQI",
 ];
 
-// Pad to 24 for a clean 6x4 grid
 const paddedCerts = [...certifications];
 while (paddedCerts.length < 24) paddedCerts.push("");
 
@@ -40,30 +39,7 @@ function getGridPosition(index: number): [number, number, number] {
   return [x, y, 0];
 }
 
-const skillCategories = [
-  {
-    title: "GRC & Risk Management",
-    icon: ShieldCheck,
-    skills: ["Enterprise Risk Management", "SOX Compliance", "Third-Party Risk", "Regulatory Compliance", "Internal Audit", "Control Frameworks"],
-  },
-  {
-    title: "Cybersecurity Strategy",
-    icon: Lock,
-    skills: ["NIST CSF", "ISO 27001/27002", "SOC 2 Type II", "Security Architecture", "Incident Response", "Threat Assessment"],
-  },
-  {
-    title: "Privacy & Data Protection",
-    icon: Eye,
-    skills: ["GDPR", "CCPA", "ISO 27701", "Data Privacy Impact Assessment", "Privacy by Design", "Cross-border Data Transfers"],
-  },
-  {
-    title: "Audit & Assurance",
-    icon: Server,
-    skills: ["IT General Controls", "Application Controls", "SSAE 18/ISAE 3402", "Process Optimization", "GRC Platforms", "Automated Monitoring"],
-  },
-];
-
-// --- Texture generation ---
+// --- Texture generation as a flat circle sprite ---
 function createTextTexture(text: string): THREE.CanvasTexture {
   const size = 512;
   const canvas = document.createElement("canvas");
@@ -107,7 +83,7 @@ function createTextTexture(text: string): THREE.CanvasTexture {
   return texture;
 }
 
-// --- 3D Sphere ---
+// --- 3D Sphere that faces camera when in grid mode ---
 type CertSphereProps = {
   vec?: THREE.Vector3;
   scale: number;
@@ -116,6 +92,7 @@ type CertSphereProps = {
   isActive: boolean;
   isHovered: boolean;
   gridTarget: [number, number, number];
+  textureRotationOffset: THREE.Euler;
 };
 
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
@@ -128,9 +105,13 @@ function CertSphere({
   isActive,
   isHovered,
   gridTarget,
+  textureRotationOffset,
 }: CertSphereProps) {
   const api = useRef<RapierRigidBody | null>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
   const targetVec = useMemo(() => new THREE.Vector3(...gridTarget), [gridTarget]);
+  // The rotation that makes the texture face the camera (text centered)
+  const frontRotation = useMemo(() => new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0)), []);
 
   useFrame((_state, delta) => {
     if (!isActive || !api.current) return;
@@ -144,27 +125,29 @@ function CertSphere({
         targetVec.y - current.y,
         targetVec.z - current.z
       );
-      const dist = diff.length();
-      
-      // Strong spring force toward target
+
       const springForce = diff.multiplyScalar(80 * delta * scale);
       api.current.applyImpulse(springForce, true);
-      
-      // Damping to settle
+
       const vel = api.current.linvel();
       api.current.applyImpulse(
         new THREE.Vector3(-vel.x * 8 * delta, -vel.y * 8 * delta, -vel.z * 8 * delta),
         true
       );
-      
-      // Angular damping to stop spinning
+
+      // Stop angular velocity
       const angVel = api.current.angvel();
       api.current.applyTorqueImpulse(
-        new THREE.Vector3(-angVel.x * 2 * delta, -angVel.y * 2 * delta, -angVel.z * 2 * delta),
+        new THREE.Vector3(-angVel.x * 4 * delta, -angVel.y * 4 * delta, -angVel.z * 4 * delta),
         true
       );
+
+      // Rotate the rigid body to face front
+      const currentRot = api.current.rotation();
+      const currentQuat = new THREE.Quaternion(currentRot.x, currentRot.y, currentRot.z, currentRot.w);
+      currentQuat.slerp(frontRotation, Math.min(1, 8 * delta));
+      api.current.setRotation({ x: currentQuat.x, y: currentQuat.y, z: currentQuat.z, w: currentQuat.w }, true);
     } else {
-      // Default: float toward center (original behavior)
       const impulse = vec
         .copy(api.current.translation())
         .normalize()
@@ -195,12 +178,12 @@ function CertSphere({
         args={[0.15 * scale, 0.275 * scale]}
       />
       <mesh
+        ref={meshRef}
         castShadow
         receiveShadow
         scale={scale}
         geometry={sphereGeometry}
         material={material}
-        rotation={[0.3, 1, 1]}
       />
     </RigidBody>
   );
@@ -218,7 +201,6 @@ function Pointer({ vec = new THREE.Vector3(), isActive, isHovered }: PointerProp
   useFrame(({ pointer, viewport }) => {
     if (!isActive) return;
     if (isHovered) {
-      // Move pointer out of the way when in grid mode
       ref.current?.setNextKinematicTranslation(new THREE.Vector3(100, 100, 100));
       return;
     }
@@ -248,7 +230,6 @@ function CertificationsCanvas() {
   useEffect(() => {
     const section = document.getElementById("certifications");
     if (!section) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => setIsActive(entry.isIntersecting),
       { threshold: 0.15 }
@@ -278,6 +259,7 @@ function CertificationsCanvas() {
         scale: [0.7, 0.85, 0.95, 0.8, 1.0][i % 5],
         material: materials[i],
         gridTarget: getGridPosition(i) as [number, number, number],
+        textureRotationOffset: new THREE.Euler(0, 0, 0),
       })),
     [materials]
   );
@@ -319,7 +301,6 @@ function CertificationsCanvas() {
           <N8AO color="#0f002c" aoRadius={2} intensity={1.15} />
         </EffectComposer>
       </Canvas>
-      {/* Hover hint */}
       <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-muted-foreground/50 font-body tracking-wider transition-opacity duration-500 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
         Hover to reveal certifications
       </div>
@@ -366,7 +347,7 @@ export default function CertificationsSection() {
       <div className="max-w-5xl mx-auto px-6 md:px-10 relative z-10">
         <SectionReveal>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow tracking-wide">
-            Certifications & Skills
+            My Certifications
           </h2>
           <motion.div
             initial={{ width: 0 }}
@@ -384,36 +365,6 @@ export default function CertificationsSection() {
         ) : (
           <MobileCertBadges />
         )}
-
-        <StaggerContainer className="grid sm:grid-cols-2 gap-5 md:gap-6 max-w-4xl mx-auto mt-16 md:mt-20" stagger={0.12}>
-          {skillCategories.map((cat) => (
-            <StaggerItem key={cat.title}>
-              <Tilt3D intensity={12}>
-                <MagneticHover>
-                  <div className="glass rounded-2xl p-6 md:p-7 border-glow hover:box-glow transition-all duration-500 group h-full">
-                    <div className="flex items-center gap-3 mb-5">
-                      <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                        <cat.icon className="w-4 h-4 text-primary" />
-                      </div>
-                      <h3 className="text-sm font-display font-semibold text-primary tracking-wider uppercase">{cat.title}</h3>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {cat.skills.map((skill) => (
-                        <motion.span
-                          key={skill}
-                          whileHover={{ scale: 1.05, borderColor: "hsl(190 100% 50% / 0.4)" }}
-                          className="text-xs px-3 py-1.5 rounded-full border border-border/40 text-muted-foreground hover:text-foreground/80 transition-all duration-300 font-body cursor-default tracking-wide"
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </div>
-                </MagneticHover>
-              </Tilt3D>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
       </div>
     </section>
   );
