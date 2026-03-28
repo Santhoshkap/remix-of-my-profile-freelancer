@@ -444,7 +444,16 @@
 
 @media screen and (max-width: 768px) {
   .cyber-geo, .cyber-holo-ring {
-    opacity: 0.5;
-    transform: scale(0.7);
+    display: none;
+  }
+  .cyber-hex-stream {
+    display: none;
+  }
+  .cyber-lines-svg {
+    display: none;
+  }
+  .character-model {
+    height: 85vh;
+    bottom: 20px;
   }
 }
