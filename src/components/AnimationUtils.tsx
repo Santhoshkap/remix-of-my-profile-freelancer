@@ -43,8 +43,8 @@ export function ScrollRevealText({ text, className = "" }: { text: string; class
 }
 
 function Word({ word, range, progress }: { word: string; range: [number, number]; progress: any }) {
-  const opacity = useTransform(progress, range, [0.15, 1]);
-  const y = useTransform(progress, range, [8, 0]);
+  const opacity = useTransform(progress, range, [0.12, 1]);
+  const y = useTransform(progress, range, [6, 0]);
   return (
     <motion.span style={{ opacity, y, display: "inline-block", marginRight: "0.3em" }} className="will-change-transform">
       {word}
@@ -55,10 +55,10 @@ function Word({ word, range, progress }: { word: string; range: [number, number]
 export function SectionReveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 60 }}
+      initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={className}
     >
       {children}
@@ -87,8 +87,8 @@ export function StaggerItem({ children, className = "" }: { children: React.Reac
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
-        visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: "easeOut" } },
+        hidden: { opacity: 0, y: 25, filter: "blur(4px)" },
+        visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.5, ease: "easeOut" } },
       }}
       className={className}
     >
@@ -101,9 +101,9 @@ export function MagneticHover({ children, className = "" }: { children: React.Re
   return (
     <motion.div
       className={className}
-      whileHover={{ scale: 1.05, y: -5 }}
+      whileHover={{ scale: 1.03, y: -4 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
       {children}
     </motion.div>
@@ -121,5 +121,58 @@ export function ParallaxSection({ children, className = "", speed = 0.3 }: { chi
     <div ref={ref} className={className}>
       <motion.div style={{ y }}>{children}</motion.div>
     </div>
+  );
+}
+
+export function FloatingElement({ children, className = "", duration = 6, delay = 0 }: { children: React.ReactNode; className?: string; duration?: number; delay?: number }) {
+  return (
+    <motion.div
+      className={className}
+      animate={{
+        y: [0, -12, 0],
+        rotateZ: [0, 1, -1, 0],
+      }}
+      transition={{
+        duration,
+        delay,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export function GlowPulse({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <motion.div
+      className={className}
+      animate={{
+        boxShadow: [
+          "0 0 15px hsl(190 100% 50% / 0.1)",
+          "0 0 30px hsl(190 100% 50% / 0.2)",
+          "0 0 15px hsl(190 100% 50% / 0.1)",
+        ],
+      }}
+      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export function Reveal3D({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, rotateX: 15, y: 40, perspective: 800 }}
+      whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+      style={{ transformStyle: "preserve-3d" }}
+    >
+      {children}
+    </motion.div>
   );
 }
