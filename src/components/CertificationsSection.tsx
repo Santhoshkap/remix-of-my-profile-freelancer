@@ -15,16 +15,21 @@ import {
 } from "@react-three/rapier";
 
 const certifications = [
-  "CISA", "CISM", "CCISO", "CC", "GRCP",
-  "GRCA", "CRCMP", "CSOE", "ISO 27001", "ISO 42001",
-  "ISO 9001", "GDPR", "DPDP", "PMP", "Scrum",
-  "ITIL", "CSCP", "IBM AI", "HITRUST", "HIPAA",
+  "CISA", "CISM", "CCISO", "CC", "HITRUST CCSFP",
+  "GRCP", "GRCA", "CRCMP", "CSOE",
+  "ISO 27001 LA", "ISO 42001 LA", "ISO 9001 LA",
+  "IRCA Lead Auditor", "GDPR Expert", "DPDP Specialist",
+  "PMP", "Scrum Master", "ITIL v4", "Six Sigma GB",
+  "CSCP", "IPMP", "IBM AI Eng.", "CQI",
 ];
 
-const COLS = 5;
-const ROWS = 4;
-const GRID_SPACING_X = 3.2;
-const GRID_SPACING_Y = 3.0;
+const paddedCerts = [...certifications];
+while (paddedCerts.length < 24) paddedCerts.push("");
+
+const COLS = 4;
+const ROWS = 6;
+const GRID_SPACING_X = 3.8;
+const GRID_SPACING_Y = 2.8;
 
 function getGridPosition(index: number): [number, number, number] {
   const col = index % COLS;
@@ -34,111 +39,86 @@ function getGridPosition(index: number): [number, number, number] {
   return [x, y, 0];
 }
 
-// Bake text onto a 512x512 canvas with dark vignette background
-function createSphereTexture(text: string): THREE.CanvasTexture {
+// --- Texture generation as a flat circle sprite ---
+function createTextTexture(text: string): THREE.CanvasTexture {
   const size = 512;
   const canvas = document.createElement("canvas");
   canvas.width = size;
   canvas.height = size;
   const ctx = canvas.getContext("2d")!;
 
-  // Dark vignette background
-  const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-  gradient.addColorStop(0, "rgba(20, 25, 60, 0.95)");
-  gradient.addColorStop(0.7, "rgba(15, 18, 45, 0.98)");
-  gradient.addColorStop(1, "rgba(8, 10, 30, 1)");
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, size, size);
-
-  // Subtle ring accent
-  ctx.strokeStyle = "rgba(0, 229, 255, 0.15)";
-  ctx.lineWidth = 2;
+  ctx.fillStyle = "rgba(10, 15, 30, 0.85)";
   ctx.beginPath();
-  ctx.arc(size / 2, size / 2, size * 0.38, 0, Math.PI * 2);
+  ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = "rgba(0, 220, 255, 0.3)";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(size / 2, size / 2, size / 2 - 8, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Text
   ctx.fillStyle = "#00e5ff";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  let fontSize: number;
-  if (text.length > 8) fontSize = 24;
-  else if (text.length > 5) fontSize = 30;
-  else fontSize = 38;
-
+  let fontSize = text.length > 12 ? 36 : text.length > 8 ? 44 : 56;
   ctx.font = `bold ${fontSize}px 'Orbitron', 'Inter', sans-serif`;
-  ctx.shadowColor = "rgba(0, 229, 255, 0.8)";
-  ctx.shadowBlur = 16;
-  ctx.fillText(text, size / 2, size / 2);
-  // Second pass for stronger glow
-  ctx.shadowBlur = 6;
-  ctx.fillText(text, size / 2, size / 2);
+
+  const words = text.split(" ");
+  if (words.length > 1 && ctx.measureText(text).width > size * 0.75) {
+    const mid = Math.ceil(words.length / 2);
+    const line1 = words.slice(0, mid).join(" ");
+    const line2 = words.slice(mid).join(" ");
+    fontSize = Math.min(fontSize, 38);
+    ctx.font = `bold ${fontSize}px 'Orbitron', 'Inter', sans-serif`;
+    ctx.fillText(line1, size / 2, size / 2 - fontSize * 0.55);
+    ctx.fillText(line2, size / 2, size / 2 + fontSize * 0.55);
+  } else {
+    ctx.fillText(text, size / 2, size / 2);
+  }
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.needsUpdate = true;
   return texture;
 }
 
-const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-
-// --- 3D Sphere with baked text ---
+// --- 3D Sphere that faces camera when in grid mode ---
 type CertSphereProps = {
   vec?: THREE.Vector3;
   scale: number;
   r?: typeof THREE.MathUtils.randFloatSpread;
-  texture: THREE.CanvasTexture;
+  material: THREE.MeshPhysicalMaterial;
   isActive: boolean;
   isHovered: boolean;
   gridTarget: [number, number, number];
-  index: number;
+  textureRotationOffset: THREE.Euler;
 };
+
+const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
 
 function CertSphere({
   vec = new THREE.Vector3(),
   scale,
   r = THREE.MathUtils.randFloatSpread,
-  texture,
+  material,
   isActive,
   isHovered,
   gridTarget,
-  index,
+  textureRotationOffset,
 }: CertSphereProps) {
   const api = useRef<RapierRigidBody | null>(null);
   const meshRef = useRef<THREE.Mesh>(null);
   const targetVec = useMemo(() => new THREE.Vector3(...gridTarget), [gridTarget]);
-  const frontQuat = useMemo(() => new THREE.Quaternion(), []);
+  // The rotation that makes the texture face the camera (text centered)
+  const frontRotation = useMemo(() => new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0)), []);
 
-  const material = useMemo(() => new THREE.MeshPhysicalMaterial({
-    map: texture,
-    emissive: new THREE.Color("#00e5ff"),
-    emissiveMap: texture,
-    emissiveIntensity: 0.15,
-    color: new THREE.Color("hsl(230, 50%, 15%)"),
-    metalness: 0.7,
-    roughness: 0.3,
-    clearcoat: 1.0,
-    clearcoatRoughness: 0.1,
-  }), [texture]);
-
-  useFrame(({ clock }, delta) => {
+  useFrame((_state, delta) => {
     if (!isActive || !api.current) return;
     delta = Math.min(0.1, delta);
-    const t = clock.elapsedTime;
-
-    // Emissive pulse on hover
-    const targetEmissive = isHovered ? 0.5 : 0.15;
-    material.emissiveIntensity = THREE.MathUtils.lerp(
-      material.emissiveIntensity,
-      targetEmissive,
-      delta * 3
-    );
 
     if (isHovered) {
-      // Staggered spring force — higher index = slightly weaker initially
-      const staggerFactor = Math.min(1, (t * 3 - index * 0.08));
-      if (staggerFactor <= 0) return;
-
+      // Move toward grid position
       const current = api.current.translation();
       const diff = new THREE.Vector3(
         targetVec.x - current.x,
@@ -146,37 +126,28 @@ function CertSphere({
         targetVec.z - current.z
       );
 
-      const springForce = diff.multiplyScalar(80 * delta * scale * Math.max(0.3, staggerFactor));
+      const springForce = diff.multiplyScalar(80 * delta * scale);
       api.current.applyImpulse(springForce, true);
 
-      // Damping
       const vel = api.current.linvel();
       api.current.applyImpulse(
         new THREE.Vector3(-vel.x * 8 * delta, -vel.y * 8 * delta, -vel.z * 8 * delta),
         true
       );
 
-      // Angular damping
+      // Stop angular velocity
       const angVel = api.current.angvel();
       api.current.applyTorqueImpulse(
         new THREE.Vector3(-angVel.x * 4 * delta, -angVel.y * 4 * delta, -angVel.z * 4 * delta),
         true
       );
 
-      // Slerp rotation to face front
+      // Rotate the rigid body to face front
       const currentRot = api.current.rotation();
       const currentQuat = new THREE.Quaternion(currentRot.x, currentRot.y, currentRot.z, currentRot.w);
-      currentQuat.slerp(frontQuat, Math.min(1, 8 * delta));
+      currentQuat.slerp(frontRotation, Math.min(1, 8 * delta));
       api.current.setRotation({ x: currentQuat.x, y: currentQuat.y, z: currentQuat.z, w: currentQuat.w }, true);
-
-      // Scale bounce effect when near target
-      if (meshRef.current) {
-        const dist = new THREE.Vector3(targetVec.x - current.x, targetVec.y - current.y, targetVec.z - current.z).length();
-        const bounceScale = dist < 0.5 ? scale * (1 + 0.08 * Math.sin(t * 6 + index)) : scale;
-        meshRef.current.scale.setScalar(bounceScale);
-      }
     } else {
-      // Idle: attract to center + subtle bob + slow rotation
       const impulse = vec
         .copy(api.current.translation())
         .normalize()
@@ -188,21 +159,6 @@ function CertSphere({
           )
         );
       api.current.applyImpulse(impulse, true);
-
-      // Subtle vertical bob
-      const bobForce = Math.sin(t * 1.5 + index * 0.7) * 0.3 * delta * scale;
-      api.current.applyImpulse(new THREE.Vector3(0, bobForce, 0), true);
-
-      // Slow Y-axis rotation
-      api.current.applyTorqueImpulse(
-        new THREE.Vector3(0, 0.002 * delta * scale, 0),
-        true
-      );
-
-      // Reset scale
-      if (meshRef.current) {
-        meshRef.current.scale.setScalar(scale);
-      }
     }
   });
 
@@ -282,17 +238,30 @@ function CertificationsCanvas() {
     return () => observer.disconnect();
   }, []);
 
-  const sphereTextures = useMemo(() => certifications.map(createSphereTexture), []);
+  const materials = useMemo(() => {
+    return paddedCerts.filter(Boolean).map((cert) => {
+      const texture = createTextTexture(cert);
+      return new THREE.MeshPhysicalMaterial({
+        map: texture,
+        emissive: "#ffffff",
+        emissiveMap: texture,
+        emissiveIntensity: 0.35,
+        metalness: 0.5,
+        roughness: 1,
+        clearcoat: 0.1,
+      });
+    });
+  }, []);
 
   const spheres = useMemo(
     () =>
-      certifications.map((_cert, i) => ({
-        scale: [0.75, 0.85, 0.9, 0.8, 0.95][i % 5],
-        texture: sphereTextures[i],
+      paddedCerts.filter(Boolean).map((_cert, i) => ({
+        scale: [0.7, 0.85, 0.95, 0.8, 1.0][i % 5],
+        material: materials[i],
         gridTarget: getGridPosition(i) as [number, number, number],
-        index: i,
+        textureRotationOffset: new THREE.Euler(0, 0, 0),
       })),
-    [sphereTextures]
+    [materials]
   );
 
   return (
