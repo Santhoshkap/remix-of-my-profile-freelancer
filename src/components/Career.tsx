@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { Briefcase, Trophy, Award } from "lucide-react";
+import { Briefcase } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover, Tilt3D } from "./AnimationUtils";
+import { SectionReveal, MagneticHover, Tilt3D } from "./AnimationUtils";
 import "./styles/Career.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 const experiences = [
   {
     title: "Senior Manager – GRC",
-    company: "Dexian Pvt. Ltd",
+    company: "Dexian (Global)",
     period: "2023 – Present",
     highlights: [
       "Built and scaled global GRC & cybersecurity advisory services",
@@ -49,12 +49,6 @@ const experiences = [
   },
 ];
 
-const achievements = [
-  { icon: Trophy, title: "Top 10 Tech Leader 2025", desc: "Recognized for innovative contributions in cybersecurity and GRC" },
-  { icon: Award, title: "ISACA Published Author", desc: "Authored whitepaper on emerging cybersecurity risk frameworks" },
-  { icon: Trophy, title: "Competition Winner", desc: "ISACA global cybersecurity thought leadership competition" },
-];
-
 function TimelineLine() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -88,7 +82,7 @@ const Career = () => {
       <div className="max-w-5xl mx-auto px-6 md:px-10">
         <SectionReveal>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow career-title tracking-wide">
-            Experience & Achievements
+            Experience
           </h2>
           <motion.div
             initial={{ width: 0 }}
@@ -99,8 +93,7 @@ const Career = () => {
           />
         </SectionReveal>
 
-        {/* Timeline */}
-        <div className="relative max-w-3xl mx-auto mb-20 md:mb-28">
+        <div className="relative max-w-3xl mx-auto">
           <TimelineLine />
           {experiences.map((exp, i) => (
             <motion.div
@@ -111,7 +104,6 @@ const Career = () => {
               transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
               className={`relative flex flex-col md:flex-row gap-4 md:gap-10 mb-12 md:mb-16 ${i % 2 === 0 ? "md:flex-row-reverse" : ""}`}
             >
-              {/* Timeline dot */}
               <motion.div
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
@@ -145,23 +137,6 @@ const Career = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* Achievements */}
-        <StaggerContainer className="grid sm:grid-cols-3 gap-5 md:gap-6 max-w-4xl mx-auto" stagger={0.15}>
-          {achievements.map((a, i) => (
-            <StaggerItem key={i}>
-              <MagneticHover>
-                <div className="glass rounded-xl p-5 md:p-6 text-center border-glow hover:box-glow transition-all duration-500 group h-full">
-                  <motion.div whileHover={{ rotate: [0, -10, 10, 0], scale: 1.2 }} transition={{ duration: 0.5 }}>
-                    <a.icon className="w-7 h-7 md:w-8 md:h-8 text-primary mx-auto mb-3" />
-                  </motion.div>
-                  <h3 className="text-sm font-display font-semibold text-foreground mb-2 leading-snug">{a.title}</h3>
-                  <p className="text-xs text-muted-foreground font-body leading-relaxed">{a.desc}</p>
-                </div>
-              </MagneticHover>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
       </div>
     </section>
   );
