@@ -61,7 +61,7 @@ const About = () => {
           <StaggerContainer className="about-paragraphs" stagger={0.15}>
             <StaggerItem>
               <p className="about-lead font-body">
-                A <span className="accent-text">GRC, Cybersecurity & Privacy leader</span> with
+                A <span className="accent-text hover-invert-accent">GRC, Cybersecurity & Privacy leader</span> with
                 over a decade of global experience helping organisations turn regulatory complexity
                 into strategic business advantage.
               </p>
