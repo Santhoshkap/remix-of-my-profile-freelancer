@@ -308,7 +308,7 @@ function MobileCertBadges() {
             className="group glass rounded-lg px-4 py-2.5 border-glow transition-all duration-300 flex items-center gap-2.5 cursor-default"
           >
             <ShieldCheck className="w-3.5 h-3.5 text-primary/70 group-hover:text-primary transition-colors" />
-            <span className="text-xs md:text-sm font-body font-medium text-foreground/90 tracking-wide">{cert}</span>
+            <span className="text-xs md:text-sm font-body font-medium text-foreground/90 tracking-wide hover-invert">{cert}</span>
           </motion.div>
         </StaggerItem>
       ))}

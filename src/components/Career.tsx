@@ -248,7 +248,7 @@ const Career = () => {
                         <Briefcase className="w-4 h-4 text-primary flex-shrink-0" />
                         <span className="text-xs text-primary font-body font-semibold tracking-widest uppercase">{exp.period}</span>
                       </div>
-                      <h3 className="text-base md:text-lg font-display font-semibold text-foreground mb-1 leading-snug">{exp.title}</h3>
+                      <h3 className="text-base md:text-lg font-display font-semibold text-foreground mb-1 leading-snug hover-invert">{exp.title}</h3>
                       <p className="text-sm text-primary/50 font-body mb-4">{exp.company}</p>
                       <ul className={`space-y-2.5 ${i % 2 === 0 ? "" : "md:text-left"}`}>
                         {exp.highlights.map((h, j) => (

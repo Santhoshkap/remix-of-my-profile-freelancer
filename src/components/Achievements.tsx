@@ -113,7 +113,7 @@ const Achievements = () => {
             >
               <div className="glass rounded-xl p-6 text-center border border-primary/[0.06] hover:border-primary/20 hover:shadow-[0_0_20px_-6px_hsl(var(--primary)/0.15)] transition-all duration-500 h-full flex flex-col items-center justify-center gap-2">
                 <HoloIcon Icon={a.icon} index={i} />
-                <h3 className="text-sm font-display font-semibold text-foreground leading-snug">{a.title}</h3>
+                <h3 className="text-sm font-display font-semibold text-foreground leading-snug hover-invert">{a.title}</h3>
                 <p className="text-xs text-muted-foreground font-body leading-relaxed">{a.desc}</p>
               </div>
             </motion.div>

@@ -144,7 +144,7 @@ const WhatIDo = () => {
                 <CardShield index={i} />
                 <div className="wid-card-header">
                   <div>
-                    <h3 className="wid-card-title">{card.title}</h3>
+                    <h3 className="wid-card-title hover-invert">{card.title}</h3>
                     <p className="wid-card-subtitle">{card.subtitle}</p>
                   </div>
                   <motion.span
