@@ -1,32 +1,42 @@
 
 
-# Update Work Carousel Content
+# Plan: Premium Shield Animation, GRC Hover Fix & Mobile Text Fix
 
-## What Changes
+## Issues Identified
 
-Update `src/components/Work.tsx` to:
+1. **Loading shield looks basic** — flat SVG with simple pulse, no depth or dynamism
+2. **GRC card hover not working** — the `hover-invert` class on `.wid-card-title` is being applied to individual `h3` elements but the hover needs to trigger per-element, not per-card. The issue is likely that framer-motion's `whileHover` on the parent card is intercepting pointer events or the CSS specificity is fine but the title text color isn't visually changing because the transition needs `!important` to override the hardcoded `color: #ffffff` in `.wid-card-title`
+3. **"GRC & Cybersecurity" wrapping on mobile** — the landing `h3` at small viewports wraps to 2 lines; needs `white-space: nowrap` and smaller font size
 
-1. **Add new fields** to the project data: `toolsLabel` (custom label per card), `delivery` (What I Deliver text), and optional `highlight` (the Automation & Innovation differentiator line).
+## Changes
 
-2. **Updated project content:**
+### 1. Premium Shield Animation (Loading.tsx + Loading.css)
 
-| # | Title | Category | Tools Label | Tools | Delivery | Highlight |
-|---|-------|----------|-------------|-------|----------|-----------|
-| 01 | GRC Programme Implementation | Enterprise Governance & Risk Management | Frameworks & Standards | ISO 27001 · ISO 27701 · ISO 22301 · NIST CSF · SOC 2 · SOX · ITGC · CMMI · Enterprise Risk Management | End-to-end GRC program design, control frameworks, risk registers, SoA, audit readiness, and scalable governance models | — |
-| 02 | SOC 2 & Compliance Automation | Continuous Compliance & Audit Readiness | Tools & Automation | Drata · Sprinto · Thoropass · Hyperproof · Archer GRC · Evidence Management · Control Mapping | Automated compliance programs, continuous monitoring, audit workflows, and scalable control automation for SaaS & cloud | **Automation & Innovation** — Built and enabled automated GRC and compliance platforms — helping organizations scale continuous compliance, reduce manual effort, and accelerate audit readiness |
-| 03 | Privacy & Data Protection | GDPR, DPDP Act & HIPAA Compliance | Privacy Frameworks & Practices | GDPR · DPDP Act · HIPAA · DPIA · RoPA · Data Mapping · Consent Governance · Cross-Border Transfers | End-to-end privacy programs, data lifecycle governance, regulatory alignment, and privacy risk reduction | — |
-| 04 | vCISO Advisory Services | Board-Level Cybersecurity Strategy | Strategy & Risk Leadership | Cyber Risk Roadmaps · ITGC · Board Reporting · Vendor Risk · Third-Party Risk · Enterprise Risk | Strategic advisory, security roadmaps, executive reporting, and translating cyber risk into business decisions | — |
+Redesign the shield SVG and its surrounding animation to look premium:
 
-3. **Render updates** in the carousel slide template:
-   - Change the static "Frameworks & Tools" label to use `project.toolsLabel`
-   - Add a new "What I Deliver" block below tools with the same styling pattern
-   - Add the highlight line (styled with a subtle cyan accent/border-left) below the delivery text on card 02
+- **Multi-layer shield SVG**: Add a subtle gradient fill with multiple nested shield paths creating depth, hexagonal circuit pattern inside, and animated energy lines flowing along the shield edges using `stroke-dashoffset` animation
+- **Animated draw-in effect**: Shield paths draw themselves in using `stroke-dasharray` + `stroke-dashoffset` CSS animation (like a pen drawing the shield)
+- **Inner holographic lock**: Replace the basic lock with a more detailed lock icon that has a glowing keyhole with radial pulse
+- **Shield energy field**: Add an animated radial gradient behind the shield that pulses with a breathing effect, plus subtle particle sparkles around the shield perimeter
+- **Layered glow rings**: Replace the basic dashed ring with multiple concentric rings at different speeds, with varying opacity and a subtle neon glow effect using `box-shadow` and `filter: blur`
+- **Data circuit lines**: Add thin animated lines extending from the shield outward (like a circuit board) using SVG paths with dash animation
 
-4. **CSS additions** in `Work.css`:
-   - `.carousel-delivery` — styled like `.carousel-tools` with label + description
-   - `.carousel-highlight` — small italic line with left cyan border, subtle glow
+### 2. GRC Card Hover Fix (WhatIDo.css)
+
+- Add `hover-invert` hover override specifically for `.wid-card-title:hover` with `!important` to ensure the color change from white → cyan works despite the hardcoded `color: #ffffff`
+- Also ensure `.wid-card-subtitle` hover works (it currently has `hover-invert` but base color is gray, not white — should use appropriate class)
+
+### 3. Mobile "GRC & Cybersecurity" Fix (Landing.css)
+
+- Add `white-space: nowrap` to `.landing-info h3` at mobile breakpoints
+- Reduce font size at small viewports (below 500px) to ~16px so it fits on one line
 
 ## Files Modified
-- `src/components/Work.tsx` — data + template
-- `src/components/styles/Work.css` — new styles for delivery & highlight blocks
+
+| File | Change |
+|------|--------|
+| `src/components/Loading.tsx` | Redesigned shield SVG with multi-layer paths, circuit patterns, animated draw-in |
+| `src/components/styles/Loading.css` | New keyframes for shield draw-in, energy pulse, circuit flow, enhanced glow rings |
+| `src/components/styles/WhatIDo.css` | Add `.wid-card-title:hover` color override |
+| `src/components/styles/Landing.css` | Add `white-space: nowrap` and smaller font for mobile h3 |
 
