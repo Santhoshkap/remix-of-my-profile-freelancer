@@ -1,43 +1,64 @@
 
 
-# 3D Physics Certifications Section
+# Fix Spacing, Headings, Work Carousel & Remove TechStack
 
-## Overview
-Replace the current flat certification badges with the same 3D physics-based bouncing sphere animation used in TechStack. Each certification will be rendered as text on a sphere that floats, collides, and reacts to the mouse cursor — creating an interactive, visually stunning certifications display.
+## 1. Reduce Section Spacing Globally
 
-## Certifications List (24 items)
-CISA, CISM, CCISO, CC, HITRUST CCSFP, GRCP, GRCA, CRCMP, CSOE, ISO 27001 Lead Auditor, ISO 42001 Lead Auditor, ISO 9001 Lead Auditor, IRCA Registered Lead Auditor, GDPR Expert, DPDP Implementation Specialist, PMP, Scrum Master, ITIL v4, Six Sigma Green Belt, CSCP, IPMP, IBM AI Engineering, CQI
+Standardize all section padding to a tighter, consistent value (~40px mobile, ~60px desktop):
 
-## Approach
+| Section | Current | New |
+|---|---|---|
+| About (.about-section) | `padding: 60px 0` | `padding: 40px 0` |
+| WhatIDo (.wid-section) | `padding: 60px 0` | `padding: 40px 0` |
+| Career | `py-20 md:py-32` | `py-10 md:py-16` |
+| Achievements | `py-6 md:py-10` | `py-8 md:py-12` (fine, keep similar) |
+| Certifications | `py-10 md:py-16` | `py-8 md:py-12` |
+| Work (.work-section) | `padding: 80px 0` | `padding: 40px 0` |
+| Contact | reduce bottom heading margin from `mb-16 md:mb-20` to `mb-8 md:mb-12` |
 
-### 1. Rewrite `CertificationsSection.tsx`
-- Remove the old flat badge grid for certifications
-- Keep the skill categories cards below (GRC, Cybersecurity, Privacy, Audit)
-- Add a 3D Canvas section similar to TechStack but with certification text on spheres
+Also reduce inner heading margins (e.g. Career `mb-16 md:mb-24` → `mb-8 md:mb-12`).
 
-### 2. 3D Certification Spheres
-- Generate textures dynamically using **CanvasTexture**: for each certification string, draw text onto a canvas (white/cyan text on a dark translucent background), then use it as both `map` and `emissiveMap` on a `MeshPhysicalMaterial`
-- Create ~24 spheres (one per certification) with varied scales (0.6-1.0)
-- Same physics setup: zero-gravity, impulse toward center, ball colliders, pointer interaction
-- Spheres bounce off each other and react to mouse cursor — identical behavior to TechStack
+## 2. Two-Color Headings for All Sections
 
-### 3. Scroll-based Activation
-- Use IntersectionObserver or scroll listener on the `#certifications` section to activate/deactivate physics (same pattern as TechStack uses with `isActive`)
+Make every section heading use a two-tone style (white + cyan accent) like "My Work":
 
-### 4. Layout
-- Section heading "Certifications & Skills" stays
-- 3D Canvas takes up ~500px height below heading, above the skill category cards
-- Canvas has transparent background so the section's radial gradient shows through
-- On mobile (< 1024px), fall back to simple animated badges (no 3D) since the physics canvas is heavy
+- **About Me** → "About **Me**" (accent on "Me")
+- **What I Deliver** → already has accent on "Deliver" ✓
+- **Experience** → "My **Experience**" (accent on "Experience")
+- **Achievements & Recognition** → "Achievements & **Recognition**" (accent on "Recognition")
+- **My Certifications** → "My **Certifications**" (accent on "Certifications")
+- **My Work** → already two-tone ✓
+- **Get In Touch** → "Get In **Touch**" (accent on "Touch")
 
-### 5. Texture Generation Utility
-- A helper function `createTextTexture(text: string): THREE.CanvasTexture` that:
-  - Creates a 256x256 canvas
-  - Fills with semi-transparent dark background
-  - Draws certification text centered in white/cyan
-  - Returns as THREE.CanvasTexture
+The accent `<span>` uses `color: var(--accentColor)` (cyan) — same pattern as Work section.
+
+## 3. Fix Work Carousel — 4 Projects, Fix Sizing
+
+The carousel has 4 projects (GRC, SOC 2, Privacy, vCISO) with `min-width: 100%` slides. The dots correctly show 4. The issue is likely the carousel container width or content overflowing. Will:
+
+- Remove the `section-container` width constraint on the work container so the carousel uses full available width
+- Ensure each slide's content fits properly within the viewport without cutting off
+- Verify all 4 dots correspond to 4 slides correctly
+
+**Files:** `Work.css` — adjust `.work-section` and `.carousel-content` sizing, and `Work.tsx` if needed.
+
+## 4. Remove TechStack Section Entirely
+
+- **`MainContainer.tsx`**: Remove the lazy import of `TechStack`, remove the `<Suspense><TechStack /></Suspense>` block
+- **`TechStack.tsx`**: Delete or leave unused (will remove import references)
+- This removes the "My Toolkit" 3D bouncing spheres section completely
 
 ## Files Modified
-- `src/components/CertificationsSection.tsx` — full rewrite with 3D canvas + fallback badges
-- No new files needed; reuses same Three.js + Rapier physics stack already in the project
+
+1. **`src/components/styles/About.css`** — reduce padding
+2. **`src/components/styles/WhatIDo.css`** — reduce padding
+3. **`src/components/styles/Career.css`** — reduce padding
+4. **`src/components/styles/Work.css`** — reduce padding, fix carousel sizing
+5. **`src/components/styles/Contact.css`** — reduce spacing
+6. **`src/components/About.tsx`** — two-color heading
+7. **`src/components/Career.tsx`** — two-color heading + reduce spacing classes
+8. **`src/components/Achievements.tsx`** — two-color heading + adjust spacing
+9. **`src/components/CertificationsSection.tsx`** — two-color heading + adjust spacing
+10. **`src/components/Contact.tsx`** — two-color heading + reduce margin
+11. **`src/components/MainContainer.tsx`** — remove TechStack import and rendering
 
