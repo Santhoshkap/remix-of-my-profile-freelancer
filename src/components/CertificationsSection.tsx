@@ -22,10 +22,10 @@ const certifications = [
   "CSCP", "IBM AI", "HITRUST", "HIPAA",
 ];
 
-const COLS = 4;
-const ROWS = 5;
-const GRID_SPACING_X = 3.8;
-const GRID_SPACING_Y = 2.8;
+const COLS = 5;
+const ROWS = 4;
+const GRID_SPACING_X = 3.2;
+const GRID_SPACING_Y = 3.0;
 
 function getGridPosition(index: number): [number, number, number] {
   const col = index % COLS;
@@ -327,7 +327,7 @@ export default function CertificationsSection() {
   }, []);
 
   return (
-    <section id="certifications" className="py-20 md:py-32 relative overflow-hidden" style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
+    <section id="certifications" className="py-10 md:py-16 relative overflow-hidden" style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
       <div className="absolute inset-0 z-0 opacity-[0.03]" style={{
         backgroundImage: "radial-gradient(ellipse at 30% 50%, hsl(190 100% 50%), transparent 60%), radial-gradient(ellipse at 70% 50%, hsl(270 80% 60%), transparent 60%)",
       }} />
