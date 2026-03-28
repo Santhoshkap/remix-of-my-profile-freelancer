@@ -154,9 +154,9 @@ function CertSphere({
       .normalize()
       .multiply(
         new THREE.Vector3(
-          -50 * delta * scale,
-          -150 * delta * scale,
-          -50 * delta * scale
+          -30 * delta * scale,
+          -30 * delta * scale,
+          -30 * delta * scale
         )
       );
     api.current?.applyImpulse(impulse, true);
