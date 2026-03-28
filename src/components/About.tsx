@@ -1,17 +1,37 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { useRef, useState } from "react";
 import { SectionReveal, ScrollRevealText, StaggerContainer, StaggerItem, GlowText } from "./AnimationUtils";
-import headshot from "../assets/headshot1.jpeg";
+import headshot from "../assets/headshot2.jpg";
 import "./styles/About.css";
 
 const About = () => {
   const imageRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: imageRef,
     offset: ["start end", "end start"],
   });
   const rotateY = useTransform(scrollYProgress, [0, 1], [-8, 8]);
   const y = useTransform(scrollYProgress, [0, 1], [30, -30]);
+
+  // 3D tilt on hover
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const tiltX = useSpring(useTransform(mouseY, [-0.5, 0.5], [15, -15]), { stiffness: 200, damping: 20 });
+  const tiltY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-15, 15]), { stiffness: 200, damping: 20 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+    setIsHovered(false);
+  };
 
   return (
     <div className="about-section" id="about" style={{ backgroundColor: "var(--backgroundColor)" }}>
@@ -26,12 +46,56 @@ const About = () => {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotateY, y }}
         >
-          <div className="headshot-container">
+          <motion.div
+            ref={cardRef}
+            className="headshot-container"
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              rotateX: tiltX,
+              rotateY: tiltY,
+              transformStyle: "preserve-3d",
+            }}
+          >
+            {/* Glowing edge effect */}
+            <motion.div
+              className="headshot-glow-edge"
+              animate={{ opacity: isHovered ? 1 : 0 }}
+              transition={{ duration: 0.3 }}
+            />
+            {/* Floating particles */}
+            <div className="headshot-particles">
+              {[...Array(6)].map((_, i) => (
+                <motion.span
+                  key={i}
+                  className="headshot-particle"
+                  animate={{
+                    y: [0, -40 - i * 10, 0],
+                    x: [0, (i % 2 === 0 ? 15 : -15), 0],
+                    opacity: [0, 0.8, 0],
+                  }}
+                  transition={{
+                    duration: 3 + i * 0.5,
+                    repeat: Infinity,
+                    delay: i * 0.4,
+                    ease: "easeInOut",
+                  }}
+                  style={{ left: `${15 + i * 13}%`, bottom: "10%" }}
+                />
+              ))}
+            </div>
             <motion.span className="hud-corner hud-tl" initial={{ opacity: 0, x: -10, y: -10 }} whileInView={{ opacity: 1, x: 0, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.6 }} />
             <motion.span className="hud-corner hud-tr" initial={{ opacity: 0, x: 10, y: -10 }} whileInView={{ opacity: 1, x: 0, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.7 }} />
             <motion.span className="hud-corner hud-bl" initial={{ opacity: 0, x: -10, y: 10 }} whileInView={{ opacity: 1, x: 0, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.8 }} />
             <motion.span className="hud-corner hud-br" initial={{ opacity: 0, x: 10, y: 10 }} whileInView={{ opacity: 1, x: 0, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.9 }} />
             <div className="scan-line" />
+            {/* Holographic overlay */}
+            <motion.div
+              className="headshot-holographic"
+              animate={{ opacity: isHovered ? 0.15 : 0 }}
+              transition={{ duration: 0.4 }}
+            />
             <motion.img
               src={headshot}
               alt="Santhosh Kapalavai"
@@ -40,8 +104,9 @@ const About = () => {
               whileInView={{ opacity: 1, filter: "brightness(1) saturate(1)" }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.3 }}
+              style={{ transform: "translateZ(20px)" }}
             />
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Right: Content */}
