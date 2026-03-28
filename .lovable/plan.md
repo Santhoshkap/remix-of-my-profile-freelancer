@@ -1,35 +1,52 @@
 
 
-# Enhanced Loading Screen — Cyber Security Boot Sequence
+# Loading Screen — Ultimate First Impression Overhaul
 
-## Overview
-Transform the current minimal loading screen into an immersive, cinematic cybersecurity "boot sequence" with animated background effects, glitch animations, and richer visual content.
+## What's Changing
 
-## Changes
+### 1. Background: Animated Network Topology
+Replace the basic floating particles with a **connected-node network animation** (canvas-based). Nodes drift slowly across the screen and draw faint lines between nearby nodes — creating a "digital network map" effect. Much more impressive than simple dots.
 
-### 1. Animated Background (`Loading.css`)
-- Add a **grid overlay** — subtle animated grid lines that pulse, giving a "digital matrix" feel
-- Add **floating particles** — 6-8 small glowing dots that drift slowly across the screen using CSS keyframes
-- Add a **radial gradient pulse** — a slow-breathing circular glow behind the center content
-- Add a **horizontal glitch flicker** on the logo text (brief offset + color split every few seconds)
+- 30-40 nodes with varying sizes (2-4px) and opacity
+- Lines drawn between nodes within proximity, opacity fading with distance
+- Nodes drift at random velocities, wrap around edges
+- Subtle cyan glow on nodes, faint lines in hsl(190, 100%, 50%, 0.1)
+- Canvas sits behind all content at z-index 1
 
-### 2. Richer Content (`Loading.tsx`)
-- Add a **rotating status line** beneath the progress bar that cycles through cybersecurity terms: `"SCANNING NETWORK..."`, `"VERIFYING CREDENTIALS..."`, `"LOADING THREAT INTEL..."`, `"ESTABLISHING SECURE CONNECTION..."` — changes every ~1.5s
-- Add **hex data stream** — a row of randomly changing hex characters above the progress bar (like `0xA4 F7 3B 9C ...`) that update every 100ms, giving a "live data" feel
-- Add a **circular ring animation** around the "SK" logo — a rotating dashed border that spins slowly
-- Add a **subtitle** under the logo: `"CYBERSECURITY OPERATIONS"` in small Orbitron text
+### 2. Add a Second Outer Ring
+- Add a second ring around the logo (slightly larger, solid thin border, rotating in the opposite direction) for a more layered, premium look
 
-### 3. New CSS Animations (`Loading.css`)
-- `@keyframes gridPulse` — subtle grid opacity breathing
-- `@keyframes particleFloat` — particles drifting diagonally
-- `@keyframes glitch` — brief horizontal offset + cyan/magenta color split on logo
-- `@keyframes ringRotate` — slow 360° rotation for the logo ring
-- `@keyframes hexFlicker` — opacity flicker for hex data
+### 3. Rewrite Status Lines for GRC + Cybersecurity
+Replace the current overly-hacker status lines with ones that reflect both GRC and cybersecurity expertise:
+- `"INITIALIZING COMPLIANCE ENGINE..."`
+- `"LOADING RISK FRAMEWORKS..."`
+- `"VERIFYING ISO 27001 CONTROLS..."`
+- `"SCANNING THREAT LANDSCAPE..."`
+- `"VALIDATING GOVERNANCE POLICIES..."`
+- `"ESTABLISHING SECURE CHANNEL..."`
+- `"MAPPING REGULATORY REQUIREMENTS..."`
+- `"ACTIVATING GRC DASHBOARD..."`
 
-### 4. Exit Enhancement
-- On "ACCESS GRANTED", briefly flash the entire screen with a cyan tint before fading out (a quick 150ms flash overlay)
+### 4. Update Subtitle & Bottom Text
+- Subtitle: `"GRC & CYBERSECURITY OPERATIONS"` (was just "CYBERSECURITY OPERATIONS")
+- Bottom left: `"GOVERNANCE · RISK · COMPLIANCE"` (was "GRC & CYBERSECURITY")
+- Bottom right stays: `"SANTHOSH KAPALAVAI"`
+
+### 5. Add Certification Ticker
+A slowly scrolling horizontal line of certification badges near the bottom — `CISA · CISM · CCISO · ISO 27001 LA · HITRUST · PMP · GDPR` — in very subtle text that scrolls continuously left. Creates a professional impression.
+
+### 6. Enhanced Grid — Perspective Transform
+Add a CSS `perspective` + `rotateX` to the grid overlay to make it look like a 3D floor grid receding into the distance, rather than a flat grid.
+
+### 7. Pulsing Concentric Circles
+Add 3 concentric circles behind the logo that pulse outward and fade — like a radar/sonar ping effect. Pure CSS animations.
 
 ## Files Modified
-- `src/components/Loading.tsx` — rotating status text, hex data stream, logo ring, subtitle, flash overlay
-- `src/components/styles/Loading.css` — grid background, particles, glitch, ring rotation, all new keyframes
+- `src/components/Loading.tsx` — canvas network animation, updated status lines, certification ticker, extra ring, radar circles
+- `src/components/styles/Loading.css` — perspective grid, radar pulse keyframes, ticker animation, dual ring styles
+
+## Technical Notes
+- Network animation uses a `<canvas>` element with `requestAnimationFrame` for smooth 60fps rendering, cleaned up on unmount
+- Certification ticker uses CSS `@keyframes tickerScroll` with `translateX` for infinite horizontal scroll
+- All new animations are pure CSS except the canvas network — no new dependencies
 
