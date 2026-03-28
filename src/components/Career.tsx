@@ -31,7 +31,7 @@ const experiences = [
   },
   {
     title: "Sr. Representative",
-    company: "SRK Aviacom (Indian Air Force)",
+    company: "SRK Aviacom · Switzerland, Chennai & Dundigal",
     period: "2017 – 2018",
     highlights: [
       "Interfaced with Air Force stakeholders to align aircraft maintenance to safety norms",
