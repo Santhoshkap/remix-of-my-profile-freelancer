@@ -98,13 +98,6 @@ const About = () => {
               </p>
             </StaggerItem>
 
-            <StaggerItem>
-              <p className="about-closing font-body">
-                <GlowText text="Today, I work with organisations that want more than compliance — they want" />{" "}
-                <span className="accent-text">clarity, credibility, and a competitive edge</span>{" "}
-                in security.
-              </p>
-            </StaggerItem>
           </StaggerContainer>
         </div>
       </div>

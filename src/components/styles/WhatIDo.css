@@ -5,7 +5,7 @@
   z-index: 12;
   background-color: var(--backgroundColor);
   width: 100%;
-  padding: 100px 0;
+  padding: 60px 0;
 }
 
 .wid-inner {
@@ -52,13 +52,13 @@
 .wid-cards {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 /* ── Single Card ── */
 .wid-card {
   position: relative;
-  padding: 32px 36px;
+  padding: 24px 28px;
   border-radius: 14px;
   background: linear-gradient(
     135deg,
@@ -79,7 +79,7 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 16px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .wid-card-icon {
@@ -110,7 +110,7 @@
   font-size: 14px;
   line-height: 1.65;
   color: hsla(200, 15%, 70%, 0.9);
-  margin: 0 0 18px;
+  margin: 0 0 12px;
   max-width: 640px;
 }
 
@@ -164,7 +164,7 @@
   }
 
   .wid-card {
-    padding: 36px 40px;
+    padding: 28px 32px;
   }
 }
 
@@ -186,7 +186,7 @@
 /* ── Mobile ── */
 @media (max-width: 600px) {
   .wid-section {
-    padding: 60px 0;
+    padding: 40px 0;
   }
 
   .wid-inner {
