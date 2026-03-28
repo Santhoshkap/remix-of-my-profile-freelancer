@@ -22,10 +22,10 @@ const certifications = [
   "CSCP", "IBM AI", "HITRUST", "HIPAA",
 ];
 
-const COLS = 4;
-const ROWS = 5;
-const GRID_SPACING_X = 3.8;
-const GRID_SPACING_Y = 2.8;
+const COLS = 5;
+const ROWS = 4;
+const GRID_SPACING_X = 3.2;
+const GRID_SPACING_Y = 3.0;
 
 function getGridPosition(index: number): [number, number, number] {
   const col = index % COLS;
