@@ -3,7 +3,7 @@ import { MdEmail } from "react-icons/md";
 import { FiPhone } from "react-icons/fi";
 import "./styles/SocialIcons.css";
 import { TbNotes } from "react-icons/tb";
-import { useEffect, type MouseEvent } from "react";
+import { useEffect, type MouseEvent as ReactMouseEvent } from "react";
 import HoverLinks from "./HoverLinks";
 import { openExternalLink } from "../lib/openExternalLink";
 
