@@ -12,7 +12,10 @@ import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
 
-const TechStack = lazy(() => import("./TechStack"));
+const TechStack = lazy(() => import("./TechStack").catch(() => {
+  window.location.reload();
+  return import("./TechStack");
+}));
 
 const MainContainer = ({ children }: PropsWithChildren) => {
   const [isDesktopView, setIsDesktopView] = useState<boolean>(
