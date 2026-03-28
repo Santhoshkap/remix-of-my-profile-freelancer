@@ -34,10 +34,13 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
+const defaultLoading: LoadingType = {
+  isLoading: true,
+  setIsLoading: () => {},
+  setLoading: () => {},
+};
+
 export const useLoading = () => {
   const context = useContext(LoadingContext);
-  if (!context) {
-    throw new Error("useLoading must be used within a LoadingProvider");
-  }
-  return context;
+  return context ?? defaultLoading;
 };
