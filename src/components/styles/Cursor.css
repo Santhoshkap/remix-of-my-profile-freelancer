@@ -1,3 +1,13 @@
+.cursor-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9997;
+}
+
 .cursor-dot,
 .cursor-ring {
   position: fixed;
@@ -9,35 +19,89 @@
 }
 
 .cursor-dot {
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
-  background: hsl(190, 100%, 50%);
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
   border-radius: 50%;
-  box-shadow: 0 0 12px hsl(190, 100%, 50%, 0.8);
-  transition: opacity 0.2s;
+  background: hsl(var(--primary));
+  box-shadow:
+    0 0 6px hsl(var(--primary)),
+    0 0 20px hsl(var(--primary) / 0.6),
+    0 0 40px hsl(var(--primary) / 0.3);
+  transition: transform 0.15s ease-out;
+}
+
+.cursor-dot-inner {
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: white;
+  animation: cursor-pulse 1.8s ease-in-out infinite;
 }
 
 .cursor-ring {
-  width: 36px;
-  height: 36px;
-  margin: -18px 0 0 -18px;
-  border: 1.5px solid hsl(190, 100%, 50%, 0.5);
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 1.5px dashed hsl(var(--primary) / 0.6);
   border-radius: 50%;
-  transition: border-color 0.3s, opacity 0.2s;
+  animation: cursor-spin 4s linear infinite;
+  transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+              height 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+              margin 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.3s,
+              background 0.3s,
+              opacity 0.2s;
 }
 
+/* Text hover — spotlight blend mode */
+.cursor-text-mode {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border: none;
+  background: hsl(var(--primary) / 0.15);
+  mix-blend-mode: difference;
+  animation: none;
+}
+
+/* Clickable hover — scale up ring */
 .cursor-hover {
-  border-color: hsl(190, 100%, 50%, 0.9);
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  border-color: hsl(var(--primary) / 0.9);
+  box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+}
+
+/* Click burst */
+.cursor-click .cursor-ring {
+  animation: cursor-click-burst 0.4s ease-out;
 }
 
 .cursor-hidden {
   opacity: 0;
 }
 
+@keyframes cursor-spin {
+  to { transform: var(--cursor-translate) rotate(360deg); }
+}
+
+@keyframes cursor-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cursor-click-burst {
+  0% { transform: var(--cursor-translate) scale(1); box-shadow: 0 0 0 0 hsl(var(--primary) / 0.5); }
+  50% { transform: var(--cursor-translate) scale(1.6); box-shadow: 0 0 30px 10px hsl(var(--primary) / 0.3); }
+  100% { transform: var(--cursor-translate) scale(1); box-shadow: 0 0 0 0 hsl(var(--primary) / 0); }
+}
+
 @media (max-width: 600px) {
   .cursor-dot,
-  .cursor-ring {
+  .cursor-ring,
+  .cursor-canvas {
     display: none;
   }
 }
