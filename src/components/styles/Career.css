@@ -10,6 +10,8 @@
   margin: auto;
   margin-bottom: 0;
   padding: 0;
+  background-color: var(--backgroundColor);
+  z-index: 12;
 }
 
 /* Legacy styles kept for compatibility but overridden by tailwind in component */

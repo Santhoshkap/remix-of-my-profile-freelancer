@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { useRef, useState, useCallback } from "react";
 
 export function AnimatedText({ text, className = "", delay = 0 }: { text: string; className?: string; delay?: number }) {
   const chars = text.split("");
@@ -121,5 +121,71 @@ export function ParallaxSection({ children, className = "", speed = 0.3 }: { chi
     <div ref={ref} className={className}>
       <motion.div style={{ y }}>{children}</motion.div>
     </div>
+  );
+}
+
+// Interactive word-level glow on hover
+export function GlowText({ text, className = "" }: { text: string; className?: string }) {
+  const words = text.split(" ");
+  return (
+    <span className={className}>
+      {words.map((word, i) => (
+        <GlowWord key={i} word={word} />
+      ))}
+    </span>
+  );
+}
+
+function GlowWord({ word }: { word: string }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <motion.span
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      animate={{
+        color: hovered ? "hsl(190, 100%, 50%)" : "inherit",
+        textShadow: hovered ? "0 0 12px hsl(190 100% 50% / 0.6), 0 0 30px hsl(190 100% 50% / 0.2)" : "0 0 0px transparent",
+      }}
+      transition={{ duration: 0.25 }}
+      style={{ display: "inline-block", marginRight: "0.3em", cursor: "default" }}
+    >
+      {word}
+    </motion.span>
+  );
+}
+
+// 3D tilt card on mouse move
+export function Tilt3D({ children, className = "", intensity = 15 }: { children: React.ReactNode; className?: string; intensity?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const springX = useSpring(rotateX, { stiffness: 200, damping: 20 });
+  const springY = useSpring(rotateY, { stiffness: 200, damping: 20 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    rotateX.set(-y * intensity);
+    rotateY.set(x * intensity);
+  }, [intensity, rotateX, rotateY]);
+
+  const handleMouseLeave = useCallback(() => {
+    rotateX.set(0);
+    rotateY.set(0);
+  }, [rotateX, rotateY]);
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX: springX, rotateY: springY, perspective: 800, transformStyle: "preserve-3d" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
   );
 }

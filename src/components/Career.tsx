@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Briefcase, Trophy, Award } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover } from "./AnimationUtils";
+import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover, Tilt3D } from "./AnimationUtils";
 import "./styles/Career.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -84,7 +84,7 @@ const Career = () => {
   }, []);
 
   return (
-    <section id="career" className="py-20 md:py-32 relative overflow-hidden" ref={containerRef}>
+    <section id="career" className="py-20 md:py-32 relative overflow-hidden" ref={containerRef} style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
       <div className="max-w-5xl mx-auto px-6 md:px-10">
         <SectionReveal>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow career-title tracking-wide">
@@ -121,24 +121,26 @@ const Career = () => {
               />
 
               <div className={`ml-12 md:ml-0 md:w-1/2 ${i % 2 === 0 ? "md:pl-10" : "md:pr-10 md:text-right"}`}>
-                <MagneticHover>
-                  <div className="glass rounded-xl p-5 md:p-6 border-glow hover:box-glow transition-all duration-500 group">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Briefcase className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span className="text-xs text-primary font-body font-semibold tracking-widest uppercase">{exp.period}</span>
+                <Tilt3D intensity={10}>
+                  <MagneticHover>
+                    <div className="glass rounded-xl p-5 md:p-6 border-glow hover:box-glow transition-all duration-500 group">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Briefcase className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span className="text-xs text-primary font-body font-semibold tracking-widest uppercase">{exp.period}</span>
+                      </div>
+                      <h3 className="text-base md:text-lg font-display font-semibold text-foreground mb-1 leading-snug">{exp.title}</h3>
+                      <p className="text-sm text-primary/50 font-body mb-4">{exp.company}</p>
+                      <ul className={`space-y-2.5 ${i % 2 === 0 ? "" : "md:text-left"}`}>
+                        {exp.highlights.map((h, j) => (
+                          <li key={j} className="text-xs md:text-sm text-muted-foreground font-body flex gap-2 leading-relaxed">
+                            <span className="text-primary/40 mt-0.5 flex-shrink-0">▹</span>
+                            <span>{h}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <h3 className="text-base md:text-lg font-display font-semibold text-foreground mb-1 leading-snug">{exp.title}</h3>
-                    <p className="text-sm text-primary/50 font-body mb-4">{exp.company}</p>
-                    <ul className={`space-y-2.5 ${i % 2 === 0 ? "" : "md:text-left"}`}>
-                      {exp.highlights.map((h, j) => (
-                        <li key={j} className="text-xs md:text-sm text-muted-foreground font-body flex gap-2 leading-relaxed">
-                          <span className="text-primary/40 mt-0.5 flex-shrink-0">▹</span>
-                          <span>{h}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </MagneticHover>
+                  </MagneticHover>
+                </Tilt3D>
               </div>
             </motion.div>
           ))}
