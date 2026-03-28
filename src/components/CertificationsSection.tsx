@@ -58,21 +58,18 @@ function createTextTexture(text: string): THREE.CanvasTexture {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  let fontSize = text.length > 12 ? 36 : text.length > 8 ? 44 : 56;
+  // Auto-size font to fit within circle
+  let fontSize = 64;
   ctx.font = `bold ${fontSize}px 'Orbitron', 'Inter', sans-serif`;
-
-  const words = text.split(" ");
-  if (words.length > 1 && ctx.measureText(text).width > size * 0.75) {
-    const mid = Math.ceil(words.length / 2);
-    const line1 = words.slice(0, mid).join(" ");
-    const line2 = words.slice(mid).join(" ");
-    fontSize = Math.min(fontSize, 38);
+  const maxWidth = size * 0.65;
+  
+  // Shrink until it fits
+  while (ctx.measureText(text).width > maxWidth && fontSize > 20) {
+    fontSize -= 2;
     ctx.font = `bold ${fontSize}px 'Orbitron', 'Inter', sans-serif`;
-    ctx.fillText(line1, size / 2, size / 2 - fontSize * 0.55);
-    ctx.fillText(line2, size / 2, size / 2 + fontSize * 0.55);
-  } else {
-    ctx.fillText(text, size / 2, size / 2);
   }
+
+  ctx.fillText(text, size / 2, size / 2);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.needsUpdate = true;
