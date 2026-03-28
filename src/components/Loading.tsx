@@ -196,52 +196,123 @@ const Loading = ({ percent }: { percent: number }) => {
         <div className="loader-shield-area">
           <div className="loader-logo-wrap">
             {radarCircles}
-            <div className="loader-ring" />
-            <div className="loader-ring-outer" />
+            {/* Premium layered rings */}
+            <div className="loader-ring loader-ring-1" />
+            <div className="loader-ring loader-ring-2" />
+            <div className="loader-ring loader-ring-3" />
 
-            {/* Cyber shield SVG */}
+            {/* Premium Cyber Shield SVG */}
             <div className="loader-shield">
               <svg viewBox="0 0 100 120" className="shield-svg">
-                {/* Shield body */}
                 <defs>
-                  <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="hsl(190, 100%, 50%)" stopOpacity="0.15" />
-                    <stop offset="50%" stopColor="hsl(190, 100%, 50%)" stopOpacity="0.08" />
-                    <stop offset="100%" stopColor="hsl(220, 80%, 40%)" stopOpacity="0.12" />
+                  {/* Multi-stop gradient for shield fill */}
+                  <linearGradient id="shieldGradPremium" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="hsl(190, 100%, 50%)" stopOpacity="0.2" />
+                    <stop offset="40%" stopColor="hsl(200, 90%, 45%)" stopOpacity="0.08" />
+                    <stop offset="100%" stopColor="hsl(230, 80%, 30%)" stopOpacity="0.15" />
                   </linearGradient>
-                  <filter id="shieldGlow">
-                    <feGaussianBlur stdDeviation="2" result="blur" />
+                  {/* Inner gradient */}
+                  <linearGradient id="shieldGradInner" x1="50%" y1="0%" x2="50%" y2="100%">
+                    <stop offset="0%" stopColor="hsl(190, 100%, 50%)" stopOpacity="0.12" />
+                    <stop offset="100%" stopColor="hsl(190, 100%, 50%)" stopOpacity="0.02" />
+                  </linearGradient>
+                  {/* Glow filter */}
+                  <filter id="shieldGlowPremium" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur1" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blur2" />
                     <feMerge>
-                      <feMergeNode in="blur" />
+                      <feMergeNode in="blur1" />
+                      <feMergeNode in="blur2" />
                       <feMergeNode in="SourceGraphic" />
                     </feMerge>
                   </filter>
+                  {/* Energy pulse filter */}
+                  <filter id="energyPulse" x="-100%" y="-100%" width="300%" height="300%">
+                    <feGaussianBlur stdDeviation="6" result="glow" />
+                    <feMerge>
+                      <feMergeNode in="glow" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  {/* Radial glow for keyhole */}
+                  <radialGradient id="keyholeGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="hsl(190, 100%, 50%)" stopOpacity="1" />
+                    <stop offset="60%" stopColor="hsl(190, 100%, 50%)" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="hsl(190, 100%, 50%)" stopOpacity="0" />
+                  </radialGradient>
                 </defs>
+
+                {/* Energy field behind shield */}
+                <ellipse cx="50" cy="60" rx="45" ry="55" fill="none" stroke="hsl(190, 100%, 50%)" strokeWidth="0.3" strokeOpacity="0.1" className="shield-energy-field" />
+                <ellipse cx="50" cy="60" rx="40" ry="50" fill="none" stroke="hsl(190, 100%, 50%)" strokeWidth="0.2" strokeOpacity="0.08" className="shield-energy-field-2" />
+
+                {/* Outer shield — draw-in animation */}
                 <path
                   d="M50 5 L90 25 L90 60 Q90 95 50 115 Q10 95 10 60 L10 25 Z"
-                  fill="url(#shieldGrad)"
+                  fill="url(#shieldGradPremium)"
                   stroke="hsl(190, 100%, 50%)"
-                  strokeWidth="1.5"
-                  strokeOpacity="0.5"
-                  filter="url(#shieldGlow)"
-                  className="shield-path"
+                  strokeWidth="1.8"
+                  strokeOpacity="0.7"
+                  filter="url(#shieldGlowPremium)"
+                  className="shield-path-outer"
                 />
-                {/* Inner shield border */}
+
+                {/* Mid shield layer */}
                 <path
-                  d="M50 15 L82 32 L82 58 Q82 88 50 105 Q18 88 18 58 L18 32 Z"
+                  d="M50 12 L84 29 L84 59 Q84 90 50 109 Q16 90 16 59 L16 29 Z"
+                  fill="url(#shieldGradInner)"
+                  stroke="hsl(190, 100%, 50%)"
+                  strokeWidth="0.8"
+                  strokeOpacity="0.3"
+                  className="shield-path-mid"
+                />
+
+                {/* Inner shield — dashed with rotation */}
+                <path
+                  d="M50 20 L78 34 L78 57 Q78 84 50 102 Q22 84 22 57 L22 34 Z"
                   fill="none"
                   stroke="hsl(190, 100%, 50%)"
                   strokeWidth="0.5"
-                  strokeOpacity="0.25"
-                  strokeDasharray="4 3"
-                  className="shield-inner"
+                  strokeOpacity="0.2"
+                  strokeDasharray="6 4"
+                  className="shield-path-inner"
                 />
-                {/* Lock icon in center */}
-                <rect x="41" y="48" width="18" height="16" rx="3" fill="none" stroke="hsl(190, 100%, 50%)" strokeWidth="1.5" strokeOpacity="0.6" className="lock-body" />
-                <path d="M44 48 L44 42 Q44 35 50 35 Q56 35 56 42 L56 48" fill="none" stroke="hsl(190, 100%, 50%)" strokeWidth="1.5" strokeOpacity="0.6" className="lock-shackle" />
-                <circle cx="50" cy="56" r="2" fill="hsl(190, 100%, 50%)" fillOpacity="0.8" className="lock-keyhole" />
-                {/* Checkmark that appears */}
-                <path d="M40 58 L48 66 L62 48" fill="none" stroke="hsl(120, 80%, 50%)" strokeWidth="2.5" strokeOpacity="0" strokeLinecap="round" strokeLinejoin="round" className="shield-check" />
+
+                {/* Circuit pattern lines inside shield */}
+                <g className="shield-circuits" strokeWidth="0.4" stroke="hsl(190, 100%, 50%)" fill="none">
+                  <path d="M50 25 L50 38" className="circuit-line c1" />
+                  <path d="M50 38 L38 45" className="circuit-line c2" />
+                  <path d="M50 38 L62 45" className="circuit-line c3" />
+                  <path d="M30 55 L38 55 L38 65" className="circuit-line c4" />
+                  <path d="M70 55 L62 55 L62 65" className="circuit-line c5" />
+                  <path d="M38 75 L50 82 L62 75" className="circuit-line c6" />
+                  {/* Circuit nodes */}
+                  <circle cx="50" cy="38" r="1.5" fill="hsl(190, 100%, 50%)" className="circuit-node cn1" />
+                  <circle cx="38" cy="45" r="1" fill="hsl(190, 100%, 50%)" className="circuit-node cn2" />
+                  <circle cx="62" cy="45" r="1" fill="hsl(190, 100%, 50%)" className="circuit-node cn3" />
+                  <circle cx="38" cy="65" r="1" fill="hsl(190, 100%, 50%)" className="circuit-node cn4" />
+                  <circle cx="62" cy="65" r="1" fill="hsl(190, 100%, 50%)" className="circuit-node cn5" />
+                </g>
+
+                {/* Lock body — refined */}
+                <rect x="40" y="48" width="20" height="18" rx="3.5" fill="none" stroke="hsl(190, 100%, 50%)" strokeWidth="1.2" strokeOpacity="0.7" className="lock-body" />
+                {/* Lock shackle */}
+                <path d="M43 48 L43 41 Q43 33 50 33 Q57 33 57 41 L57 48" fill="none" stroke="hsl(190, 100%, 50%)" strokeWidth="1.5" strokeOpacity="0.7" strokeLinecap="round" className="lock-shackle" />
+                {/* Keyhole with radial glow */}
+                <circle cx="50" cy="55" r="5" fill="url(#keyholeGlow)" className="lock-keyhole-glow" />
+                <circle cx="50" cy="55" r="2.5" fill="hsl(190, 100%, 50%)" fillOpacity="0.9" className="lock-keyhole" />
+                {/* Keyhole slot */}
+                <rect x="49" y="56" width="2" height="4" rx="1" fill="hsl(190, 100%, 50%)" fillOpacity="0.7" className="lock-keyhole-slot" />
+
+                {/* Checkmark that appears on ready */}
+                <path d="M38 57 L47 66 L64 46" fill="none" stroke="hsl(120, 80%, 50%)" strokeWidth="3" strokeOpacity="0" strokeLinecap="round" strokeLinejoin="round" className="shield-check" />
+
+                {/* Sparkle particles around shield */}
+                <circle cx="15" cy="40" r="1" fill="hsl(190, 100%, 50%)" className="shield-sparkle s1" />
+                <circle cx="85" cy="40" r="1" fill="hsl(190, 100%, 50%)" className="shield-sparkle s2" />
+                <circle cx="50" cy="8" r="0.8" fill="hsl(190, 100%, 50%)" className="shield-sparkle s3" />
+                <circle cx="20" cy="80" r="0.8" fill="hsl(190, 100%, 50%)" className="shield-sparkle s4" />
+                <circle cx="80" cy="80" r="0.8" fill="hsl(190, 100%, 50%)" className="shield-sparkle s5" />
               </svg>
             </div>
           </div>

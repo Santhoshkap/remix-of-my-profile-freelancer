@@ -146,6 +146,12 @@
   color: #ffffff;
   margin: 0 0 4px;
   letter-spacing: 0.5px;
+  transition: color 0.3s ease, -webkit-text-fill-color 0.3s ease;
+}
+
+.wid-card-title:hover {
+  color: hsl(190, 100%, 50%) !important;
+  -webkit-text-fill-color: hsl(190, 100%, 50%) !important;
 }
 
 .wid-card-subtitle {
@@ -154,6 +160,11 @@
   color: hsla(200, 15%, 65%, 1);
   margin: 0;
   letter-spacing: 0.3px;
+  transition: color 0.3s ease;
+}
+
+.wid-card-subtitle:hover {
+  color: hsl(190, 100%, 50%) !important;
 }
 
 .wid-card-desc {
