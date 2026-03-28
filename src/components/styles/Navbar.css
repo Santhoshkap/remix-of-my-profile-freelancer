@@ -13,14 +13,14 @@
   z-index: 9999;
 }
 .header ul {
-  font-size: 12px;
+  font-size: 10px;
   display: flex;
   flex-direction: column;
   margin: 0;
   padding: 0;
   list-style: none;
-  column-gap: 40px;
-  row-gap: 8px;
+  column-gap: 20px;
+  row-gap: 6px;
   align-items: end;
   font-family: "Orbitron", sans-serif;
 }
