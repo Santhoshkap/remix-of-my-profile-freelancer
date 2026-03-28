@@ -1,41 +1,33 @@
 
 
-# Fix Certification Sphere Readability & Colors
+# Fix Certification Spheres — Spread Out & Readable
 
 ## Problems
-1. **Text not readable**: The texture is 512×512 but text is small, spheres rotate freely so text faces away, and emissive intensity is too low — certifications are barely visible
-2. **Colors are dull**: Dark translucent spheres with low-contrast cyan text blend into the dark background
+1. **Spheres clump together** — all 24 spawn in the same small area (`r(20)`) and the strong center-pulling impulse (`-150 * delta`) crushes them into a tight ball
+2. **Text unreadable** — when spheres overlap you can't see individual cert names; they spin and overlap
 
 ## Solution
 
-### 1. Improve `createTextTexture` for maximum readability
-- **Larger, bolder text**: Increase base font sizes (short names like "CISA" → 80px, medium → 60px, long → 44px)
-- **High-contrast colors**: Use bright white text with a colored glow/shadow behind it instead of just cyan
-- **Colorful sphere backgrounds**: Assign each certification a category-based color (e.g., security certs = electric blue, audit = purple, management = teal, AI/tech = green) — fill the sphere with a rich semi-transparent gradient instead of near-black
-- **Add a glowing text stroke**: `ctx.strokeText` with a bright outline so text pops even at angles
-- **Border ring**: Thicker, brighter ring matching the category color
+### 1. Spread initial spawn positions wider
+- Change spawn from `r(20)` to `r(40)` so spheres start much further apart
+- Offset Y spawn from `-25` to `-10` so they don't all drop from way below
 
-### 2. Better material settings
-- Increase `emissiveIntensity` from 0.35 → 0.8 so text glows visibly
-- Reduce `metalness` from 0.5 → 0.2 and `roughness` from 1 → 0.3 for a shinier, more vibrant look
-- Add higher `clearcoat` (0.5) for glossy reflection
+### 2. Weaken the center-pulling force
+- Reduce the Y impulse multiplier from `-150` to `-30` (same as X/Z at `-50` → `-30`)
+- This keeps spheres gently floating rather than slamming into center mass
 
-### 3. Slow down sphere rotation
-- Increase `angularDamping` from 0.15 → 0.9 so spheres don't spin wildly — text stays readable longer
-- This keeps the bouncing/collision physics but prevents rapid spinning
+### 3. Increase linear damping
+- Raise `linearDamping` from `0.75` to `4.0` so spheres slow down quickly and stay spread out instead of bouncing wildly
 
-### 4. Color palette for sphere categories
-```text
-Security (CISA, CISM, CCISO, CC, HITRUST): #0066ff (electric blue)
-GRC (GRCP, GRCA, CRCMP, CSOE):            #8b5cf6 (purple)
-ISO/Audit (ISO *, IRCA):                   #06b6d4 (cyan)
-Privacy (GDPR, DPDP):                      #10b981 (emerald)
-Management (PMP, Scrum, ITIL, Six Sigma):  #f59e0b (amber)
-Tech (IBM AI, CSCP, IPMP, CQI):            #ec4899 (pink)
-```
+### 4. Widen camera FOV
+- Increase `fov` from `32.5` to `45` so the viewport captures more spread-out spheres
 
-Each sphere gets a gradient fill of its category color, making the collection visually diverse and impressive.
+### 5. Make spheres slightly smaller to reduce overlap
+- Reduce scale values from `[0.7, 0.85, 0.95, 0.8, 1.0]` to `[0.55, 0.65, 0.7, 0.6, 0.75]`
+
+### 6. Reduce pointer collider size
+- Shrink pointer `BallCollider` from `2` to `1.5` for gentler interaction — spheres don't explode away on hover
 
 ## Files Modified
-- `src/components/CertificationsSection.tsx` — updated `createTextTexture`, material settings, angular damping, and color mapping
+- `src/components/CertificationsSection.tsx` — spawn positions, impulse forces, damping, FOV, sphere scales
 
