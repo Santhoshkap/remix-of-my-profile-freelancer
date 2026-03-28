@@ -9,6 +9,8 @@ const STATUS_LINES = [
   "ESTABLISHING SECURE CONNECTION...",
   "ANALYZING ATTACK VECTORS...",
   "DECRYPTING PAYLOAD...",
+  "VALIDATING CERTIFICATES...",
+  "INITIALIZING FIREWALL...",
 ];
 
 const HEX_CHARS = "0123456789ABCDEF";
@@ -63,11 +65,20 @@ const Loading = ({ percent }: { percent: number }) => {
     }
   }, [phase, setIsLoading]);
 
-  // Memoize particles so they don't re-render
+  // Memoize particles
   const particles = useMemo(
     () =>
       Array.from({ length: 8 }, (_, i) => (
-        <div key={i} className={`loader-particle loader-particle-${i + 1}`} />
+        <div key={`p${i}`} className={`loader-particle loader-particle-${i + 1}`} />
+      )),
+    []
+  );
+
+  // Matrix rain columns
+  const matrixCols = useMemo(
+    () =>
+      Array.from({ length: 8 }, (_, i) => (
+        <div key={`m${i}`} className="loader-matrix-col" />
       )),
     []
   );
@@ -77,8 +88,19 @@ const Loading = ({ percent }: { percent: number }) => {
       {/* Grid overlay */}
       <div className="loader-grid" />
 
+      {/* CRT scanlines */}
+      <div className="loader-crt" />
+
       {/* Radial pulse glow */}
       <div className="loader-radial-pulse" />
+
+      {/* Orbit rings */}
+      <div className="loader-orbit loader-orbit-1" />
+      <div className="loader-orbit loader-orbit-2" />
+      <div className="loader-orbit loader-orbit-3" />
+
+      {/* Matrix rain */}
+      {matrixCols}
 
       {/* Floating particles */}
       {particles}
@@ -95,11 +117,18 @@ const Loading = ({ percent }: { percent: number }) => {
       <div className="loader-corner loader-corner-bl" />
       <div className="loader-corner loader-corner-br" />
 
+      {/* Top info */}
+      <div className="loader-top-info">
+        <span>SYS://BOOT.SEC</span>
+        <span>v2.7.1</span>
+      </div>
+
       {/* Center content */}
       <div className="loader-center">
-        {/* Logo with rotating ring */}
+        {/* Logo with rotating rings */}
         <div className="loader-logo-wrap">
           <div className="loader-ring" />
+          <div className="loader-ring-inner" />
           <div className="loader-logo">SK</div>
         </div>
         <div className="loader-subtitle">CYBERSECURITY OPERATIONS</div>
