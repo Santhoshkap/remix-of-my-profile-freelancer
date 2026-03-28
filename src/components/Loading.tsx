@@ -130,7 +130,7 @@ const Loading = ({ percent }: { percent: number }) => {
 
   useEffect(() => {
     if (phase === "exit") return;
-    const interval = setInterval(() => setHexStream(randomHex()), 120);
+    const interval = setInterval(() => setHexStream(randomHex()), 200);
     return () => clearInterval(interval);
   }, [phase]);
 
