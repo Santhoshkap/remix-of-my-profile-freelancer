@@ -34,7 +34,7 @@ const skillCategories = [
 
 export default function CertificationsSection() {
   return (
-    <section id="certifications" className="py-20 md:py-32 relative overflow-hidden">
+    <section id="certifications" className="py-20 md:py-32 relative overflow-hidden" style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
       {/* Subtle radial background */}
       <div className="absolute inset-0 z-0 opacity-[0.03]" style={{
         backgroundImage: "radial-gradient(ellipse at 30% 50%, hsl(190 100% 50%), transparent 60%), radial-gradient(ellipse at 70% 50%, hsl(270 80% 60%), transparent 60%)",
