@@ -232,7 +232,7 @@ function CertificationsCanvas() {
   }, []);
 
   const materials = useMemo(() => {
-    return paddedCerts.filter(Boolean).map((cert) => {
+    return certifications.map((cert) => {
       const texture = createTextTexture(cert);
       return new THREE.MeshPhysicalMaterial({
         map: texture,
@@ -248,8 +248,8 @@ function CertificationsCanvas() {
 
   const spheres = useMemo(
     () =>
-      paddedCerts.filter(Boolean).map((_cert, i) => ({
-        scale: [0.7, 0.85, 0.95, 0.8, 1.0][i % 5],
+      certifications.map((_cert, i) => ({
+        scale: 0.85,
         material: materials[i],
         gridTarget: getGridPosition(i) as [number, number, number],
         textureRotationOffset: new THREE.Euler(0, 0, 0),
