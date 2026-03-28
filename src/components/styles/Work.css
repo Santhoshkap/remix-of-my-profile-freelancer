@@ -136,10 +136,10 @@
 }
 
 .carousel-arrow:hover {
-  background: rgba(94, 234, 212, 0.15);
+  background: hsl(190 100% 50% / 0.1);
   border-color: var(--accentColor);
   color: var(--accentColor);
-  box-shadow: 0 0 20px rgba(94, 234, 212, 0.15);
+  box-shadow: 0 0 25px hsl(190 100% 50% / 0.15);
 }
 
 .carousel-arrow-left {
