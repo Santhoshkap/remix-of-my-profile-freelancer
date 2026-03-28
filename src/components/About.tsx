@@ -74,7 +74,7 @@ const About = () => {
             <StaggerItem>
               <p className="about-body font-body">
                 <GlowText text="Across India, the US, Middle East, and Southeast Asia, I've partnered with CISOs, CIOs, founders, and boards to build audit-ready, resilient, and scalable security programs. My work sits at the intersection of compliance, cybersecurity, and business growth — where risk is not just managed, but transformed into" />{" "}
-                <span className="accent-text">trust, revenue, and competitive positioning</span>.
+                <span className="accent-text hover-invert-accent">trust, revenue, and competitive positioning</span>.
               </p>
             </StaggerItem>
 
