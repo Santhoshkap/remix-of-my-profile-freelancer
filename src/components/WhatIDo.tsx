@@ -7,7 +7,7 @@ const cards = [
     title: "GRC & Cybersecurity Strategy",
     subtitle: "Enterprise Risk, Governance & Security Transformation",
     description: "Designing and scaling enterprise-grade GRC and cybersecurity programs aligned with business growth.",
-    tags: ["ISO 27001", "ISO 27701", "ISO 22301", "NIST CSF", "SOC 2", "SOX", "ITGC", "CMMI", "Risk Management", "Control Frameworks"],
+    tags: ["ISO 27001", "ISO 27701", "ISO 22301", "NIST CSF", "SOC 2", "SOX", "ITGC", "CMMI", "HIPAA", "HITRUST", "ISO 42001", "ISO 31000", "Risk Management", "Control Frameworks"],
   },
   {
     icon: "🔐",
