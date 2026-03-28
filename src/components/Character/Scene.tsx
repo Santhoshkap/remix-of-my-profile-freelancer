@@ -35,7 +35,7 @@ const Scene = () => {
         });
       } catch (e) {
         console.warn("WebGL not available, skipping 3D character.");
-        setLoading(false);
+        setLoading(100);
         return;
       }
       renderer.setSize(container.width, container.height);
