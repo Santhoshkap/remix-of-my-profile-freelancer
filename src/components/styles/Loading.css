@@ -177,18 +177,30 @@
 
 .loader-ring {
   position: absolute;
-  inset: 10px;
   border-radius: 50%;
-  border: 2px dashed hsl(190, 100%, 50%, 0.3);
-  animation: ringRotate 8s linear infinite;
 }
 
-.loader-ring-outer {
-  position: absolute;
+.loader-ring-1 {
   inset: 0;
-  border-radius: 50%;
-  border: 1px solid hsl(190, 100%, 50%, 0.15);
+  border: 1.5px solid hsl(190, 100%, 50%, 0.12);
+  animation: ringRotate 20s linear infinite;
+  box-shadow: 0 0 15px hsl(190, 100%, 50%, 0.05), inset 0 0 15px hsl(190, 100%, 50%, 0.03);
+}
+
+.loader-ring-2 {
+  inset: 10px;
+  border: 2px dashed hsl(190, 100%, 50%, 0.25);
   animation: ringRotateReverse 12s linear infinite;
+  box-shadow: 0 0 20px hsl(190, 100%, 50%, 0.08);
+}
+
+.loader-ring-3 {
+  inset: 20px;
+  border: 1px solid hsl(190, 100%, 50%, 0.08);
+  border-top-color: hsl(190, 100%, 50%, 0.4);
+  border-right-color: hsl(190, 100%, 50%, 0.2);
+  animation: ringRotate 6s linear infinite;
+  box-shadow: 0 0 10px hsl(190, 100%, 50%, 0.06);
 }
 
 @keyframes ringRotate {
