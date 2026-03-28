@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./styles/Loading.css";
 import { useLoading } from "../context/LoadingProvider";
-
 import Marquee from "react-fast-marquee";
 
 const Loading = ({ percent }: { percent: number }) => {
@@ -62,8 +61,9 @@ const Loading = ({ percent }: { percent: number }) => {
       <div className="loading-screen">
         <div className="loading-marquee">
           <Marquee>
-            <span> GRC Strategist</span> <span>Cybersecurity Leader</span>
-            <span> Privacy Expert</span> <span>vCISO Advisor</span>
+            <span>GRC Strategist</span> <span>Cybersecurity Leader</span>
+            <span>Privacy Expert</span> <span>vCISO Advisor</span>
+            <span>Risk Management</span> <span>Compliance</span>
           </Marquee>
         </div>
         <div
@@ -75,13 +75,13 @@ const Loading = ({ percent }: { percent: number }) => {
             <div className="loading-container">
               <div className="loading-content">
                 <div className="loading-content-in">
-                  Loading <span>{percent}%</span>
+                  Initializing <span>{percent}%</span>
                 </div>
               </div>
               <div className="loading-box"></div>
             </div>
             <div className="loading-content2">
-              <span>Welcome</span>
+              <span>Access Granted</span>
             </div>
           </div>
         </div>
