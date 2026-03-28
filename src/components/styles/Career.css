@@ -14,17 +14,13 @@
   z-index: 12;
 }
 
-/* Legacy styles kept for compatibility but overridden by tailwind in component */
+/* Career h2 — remove gradient text-fill so hover-invert works */
 .career-section h2 {
   font-size: 70px;
   line-height: 70px;
   font-weight: 400;
   text-align: center;
-  background: linear-gradient(0deg, hsl(190, 100%, 50%), #ffffff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  color: #ffffff;
   margin-top: 50px;
   margin-bottom: 90px;
 }
