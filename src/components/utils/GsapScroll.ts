@@ -31,7 +31,7 @@ export function setCharTimeline(
     scrollTrigger: {
       trigger: ".whatIDO",
       start: "top top",
-      end: "bottom bottom",
+      end: "200% bottom",
       scrub: true,
       invalidateOnRefresh: true,
     },
