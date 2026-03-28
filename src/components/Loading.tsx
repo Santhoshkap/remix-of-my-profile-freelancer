@@ -1,11 +1,42 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import "./styles/Loading.css";
 import { useLoading } from "../context/LoadingProvider";
 
+const STATUS_LINES = [
+  "SCANNING NETWORK...",
+  "VERIFYING CREDENTIALS...",
+  "LOADING THREAT INTEL...",
+  "ESTABLISHING SECURE CONNECTION...",
+  "ANALYZING ATTACK VECTORS...",
+  "DECRYPTING PAYLOAD...",
+];
+
+const HEX_CHARS = "0123456789ABCDEF";
+const randomHex = () =>
+  Array.from({ length: 8 }, () =>
+    HEX_CHARS[Math.floor(Math.random() * 16)] + HEX_CHARS[Math.floor(Math.random() * 16)]
+  ).join(" ");
+
 const Loading = ({ percent }: { percent: number }) => {
   const { setIsLoading } = useLoading();
-  const [phase, setPhase] = useState<"loading" | "ready" | "exit">("loading");
+  const [phase, setPhase] = useState<"loading" | "ready" | "flash" | "exit">("loading");
   const hasTriggered = useRef(false);
+  const [statusIndex, setStatusIndex] = useState(0);
+  const [hexStream, setHexStream] = useState(randomHex);
+
+  // Rotating status text
+  useEffect(() => {
+    if (phase !== "loading") return;
+    const interval = setInterval(() => setStatusIndex((i) => (i + 1) % STATUS_LINES.length), 1500);
+    return () => clearInterval(interval);
+  }, [phase]);
+
+  // Hex data stream
+  useEffect(() => {
+    if (phase === "exit") return;
+    const interval = setInterval(() => setHexStream(randomHex()), 120);
+    return () => clearInterval(interval);
+  }, [phase]);
 
   useEffect(() => {
     if (percent >= 100 && !hasTriggered.current) {
@@ -17,22 +48,46 @@ const Loading = ({ percent }: { percent: number }) => {
   useEffect(() => {
     if (phase === "ready") {
       const timer = setTimeout(() => {
-        setPhase("exit");
-        import("./utils/initialFX").then((module) => {
-          setTimeout(() => {
-            module.initialFX?.();
-            setIsLoading(false);
-          }, 600);
-        });
+        setPhase("flash");
+        setTimeout(() => {
+          setPhase("exit");
+          import("./utils/initialFX").then((module) => {
+            setTimeout(() => {
+              module.initialFX?.();
+              setIsLoading(false);
+            }, 600);
+          });
+        }, 200);
       }, 800);
       return () => clearTimeout(timer);
     }
   }, [phase, setIsLoading]);
 
+  // Memoize particles so they don't re-render
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 8 }, (_, i) => (
+        <div key={i} className={`loader-particle loader-particle-${i + 1}`} />
+      )),
+    []
+  );
+
   return (
     <div className={`loader ${phase === "exit" ? "loader-exit" : ""}`}>
+      {/* Grid overlay */}
+      <div className="loader-grid" />
+
+      {/* Radial pulse glow */}
+      <div className="loader-radial-pulse" />
+
+      {/* Floating particles */}
+      {particles}
+
       {/* Scan line */}
       <div className="loader-scanline" />
+
+      {/* Flash overlay */}
+      {phase === "flash" && <div className="loader-flash" />}
 
       {/* Corner brackets */}
       <div className="loader-corner loader-corner-tl" />
@@ -42,7 +97,19 @@ const Loading = ({ percent }: { percent: number }) => {
 
       {/* Center content */}
       <div className="loader-center">
-        <div className="loader-logo">SK</div>
+        {/* Logo with rotating ring */}
+        <div className="loader-logo-wrap">
+          <div className="loader-ring" />
+          <div className="loader-logo">SK</div>
+        </div>
+        <div className="loader-subtitle">CYBERSECURITY OPERATIONS</div>
+
+        {/* Hex data stream */}
+        <div className="loader-hex">
+          <span className="loader-hex-prefix">0x</span>
+          {hexStream}
+        </div>
+
         <div className="loader-bar-wrap">
           <div className="loader-bar" style={{ width: `${Math.min(percent, 100)}%` }} />
         </div>
@@ -50,8 +117,10 @@ const Loading = ({ percent }: { percent: number }) => {
           <span className="loader-percent-num">{Math.min(percent, 100)}</span>
           <span className="loader-percent-sign">%</span>
         </div>
-        <div className={`loader-status ${phase === "ready" ? "loader-status-ready" : ""}`}>
-          {phase === "ready" ? "ACCESS GRANTED" : "INITIALIZING SYSTEM"}
+        <div className={`loader-status ${phase === "ready" || phase === "flash" ? "loader-status-ready" : ""}`}>
+          {phase === "ready" || phase === "flash"
+            ? "ACCESS GRANTED"
+            : STATUS_LINES[statusIndex]}
         </div>
       </div>
 
