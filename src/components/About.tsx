@@ -48,20 +48,20 @@ const About = () => {
         <div className="about-content-col">
           <SectionReveal>
             <motion.h3
-              className="title font-display"
+              className="title font-display hover-invert"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              About <span style={{ color: "var(--accentColor)" }}>Me</span>
+              About <span className="hover-invert-accent" style={{ color: "var(--accentColor)" }}>Me</span>
             </motion.h3>
           </SectionReveal>
 
           <StaggerContainer className="about-paragraphs" stagger={0.15}>
             <StaggerItem>
               <p className="about-lead font-body">
-                A <span className="accent-text">GRC, Cybersecurity & Privacy leader</span> with
+                A <span className="accent-text hover-invert-accent">GRC, Cybersecurity & Privacy leader</span> with
                 over a decade of global experience helping organisations turn regulatory complexity
                 into strategic business advantage.
               </p>
@@ -74,7 +74,7 @@ const About = () => {
             <StaggerItem>
               <p className="about-body font-body">
                 <GlowText text="Across India, the US, Middle East, and Southeast Asia, I've partnered with CISOs, CIOs, founders, and boards to build audit-ready, resilient, and scalable security programs. My work sits at the intersection of compliance, cybersecurity, and business growth — where risk is not just managed, but transformed into" />{" "}
-                <span className="accent-text">trust, revenue, and competitive positioning</span>.
+                <span className="accent-text hover-invert-accent">trust, revenue, and competitive positioning</span>.
               </p>
             </StaggerItem>
 
@@ -87,7 +87,7 @@ const About = () => {
             <StaggerItem>
               <p className="about-body font-body">
                 <GlowText text="What sets me apart is a rare blend of" />{" "}
-                <span className="accent-text">deep technical expertise, executive communication,
+                <span className="accent-text hover-invert-accent">deep technical expertise, executive communication,
                 and commercial understanding</span>. <GlowText text="I don't just implement controls — I help organisations win deals, build customer confidence, and scale with confidence in regulated environments." />
               </p>
             </StaggerItem>

@@ -308,7 +308,7 @@ function MobileCertBadges() {
             className="group glass rounded-lg px-4 py-2.5 border-glow transition-all duration-300 flex items-center gap-2.5 cursor-default"
           >
             <ShieldCheck className="w-3.5 h-3.5 text-primary/70 group-hover:text-primary transition-colors" />
-            <span className="text-xs md:text-sm font-body font-medium text-foreground/90 tracking-wide">{cert}</span>
+            <span className="text-xs md:text-sm font-body font-medium text-foreground/90 tracking-wide hover-invert">{cert}</span>
           </motion.div>
         </StaggerItem>
       ))}
@@ -334,8 +334,8 @@ export default function CertificationsSection() {
 
       <div className="max-w-5xl mx-auto px-6 md:px-10 relative z-10">
         <SectionReveal>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow tracking-wide">
-            My <span style={{ color: "var(--accentColor)" }}>Certifications</span>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow tracking-wide hover-invert">
+            My <span className="hover-invert-accent" style={{ color: "var(--accentColor)" }}>Certifications</span>
           </h2>
           <motion.div
             initial={{ width: 0 }}

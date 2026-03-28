@@ -110,14 +110,14 @@ const WhatIDo = () => {
             Services
           </motion.span>
           <motion.h2
-            className="wid-heading"
+            className="wid-heading hover-invert"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             What I<br />
-            <span className="wid-heading-accent">Deliver</span>
+            <span className="wid-heading-accent hover-invert-accent">Deliver</span>
           </motion.h2>
         </div>
 
@@ -144,7 +144,7 @@ const WhatIDo = () => {
                 <CardShield index={i} />
                 <div className="wid-card-header">
                   <div>
-                    <h3 className="wid-card-title">{card.title}</h3>
+                    <h3 className="wid-card-title hover-invert">{card.title}</h3>
                     <p className="wid-card-subtitle">{card.subtitle}</p>
                   </div>
                   <motion.span

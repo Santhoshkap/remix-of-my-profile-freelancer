@@ -88,6 +88,7 @@ const Landing = ({ children }: PropsWithChildren) => {
               Hello! I'm
             </motion.h2>
             <motion.h1
+              className="hover-invert"
               initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.8, delay: 1.8, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -105,6 +106,7 @@ const Landing = ({ children }: PropsWithChildren) => {
           </div>
           <div className="landing-info">
             <motion.h3
+              className="hover-invert"
               initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.8, delay: 2.0 }}
@@ -115,7 +117,7 @@ const Landing = ({ children }: PropsWithChildren) => {
               <AnimatePresence mode="wait">
                 <motion.span
                   key={roles[roleIndex]}
-                  className="landing-role"
+                  className="landing-role hover-invert-accent"
                   initial={{ y: 30, opacity: 0, filter: "blur(4px)" }}
                   animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
                   exit={{ y: -30, opacity: 0, filter: "blur(4px)" }}
