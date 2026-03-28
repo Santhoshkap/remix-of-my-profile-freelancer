@@ -15,16 +15,12 @@ import {
 } from "@react-three/rapier";
 
 const certifications = [
-  "CISA", "CISM", "CCISO", "CC", "HITRUST CCSFP",
+  "CISA", "CISM", "CCISO", "CC",
   "GRCP", "GRCA", "CRCMP", "CSOE",
-  "ISO 27001 LA", "ISO 42001 LA", "ISO 9001 LA",
-  "IRCA Lead Auditor", "GDPR Expert", "DPDP Specialist",
-  "PMP", "Scrum Master", "ITIL v4", "Six Sigma GB",
-  "CSCP", "IPMP", "IBM AI Eng.", "CQI",
+  "ISO 27001", "ISO 42001", "ISO 9001", "GDPR",
+  "DPDP", "PMP", "Scrum", "ITIL",
+  "CSCP", "IBM AI", "HITRUST", "HIPAA",
 ];
-
-const paddedCerts = [...certifications];
-while (paddedCerts.length < 24) paddedCerts.push("");
 
 const COLS = 4;
 const ROWS = 6;
