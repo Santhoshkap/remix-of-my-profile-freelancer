@@ -48,13 +48,13 @@ const About = () => {
         <div className="about-content-col">
           <SectionReveal>
             <motion.h3
-              className="title font-display"
+              className="title font-display hover-invert"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              About <span style={{ color: "var(--accentColor)" }}>Me</span>
+              About <span className="hover-invert-accent" style={{ color: "var(--accentColor)" }}>Me</span>
             </motion.h3>
           </SectionReveal>
 
