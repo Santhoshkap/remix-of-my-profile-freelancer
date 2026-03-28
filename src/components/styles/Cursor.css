@@ -43,13 +43,12 @@
   width: 40px;
   height: 40px;
   margin: -20px 0 0 -20px;
-  border: 1.5px dashed hsl(var(--primary) / 0.6);
+  border: none;
   border-radius: 50%;
-  animation: cursor-spin 4s linear infinite;
+  background: transparent;
   transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1),
               height 0.35s cubic-bezier(0.25, 1, 0.5, 1),
               margin 0.35s cubic-bezier(0.25, 1, 0.5, 1),
-              border-color 0.3s,
               background 0.3s,
               opacity 0.2s;
 }
