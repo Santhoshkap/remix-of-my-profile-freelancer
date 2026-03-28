@@ -20,17 +20,53 @@ const About = () => {
         <motion.div
           ref={imageRef}
           className="about-image-col"
+          initial={{ opacity: 0, scale: 0.9, x: -40 }}
+          whileInView={{ opacity: 1, scale: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           style={{ rotateY, y }}
         >
           <div className="headshot-container">
             {/* Corner brackets */}
-            <span className="hud-corner hud-tl" />
-            <span className="hud-corner hud-tr" />
-            <span className="hud-corner hud-bl" />
-            <span className="hud-corner hud-br" />
+            <motion.span
+              className="hud-corner hud-tl"
+              initial={{ opacity: 0, x: -10, y: -10 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            />
+            <motion.span
+              className="hud-corner hud-tr"
+              initial={{ opacity: 0, x: 10, y: -10 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            />
+            <motion.span
+              className="hud-corner hud-bl"
+              initial={{ opacity: 0, x: -10, y: 10 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            />
+            <motion.span
+              className="hud-corner hud-br"
+              initial={{ opacity: 0, x: 10, y: 10 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.9 }}
+            />
             {/* Scan line */}
             <div className="scan-line" />
-            <img src={headshot} alt="Santhosh Kapalavai" className="headshot-img" />
+            <motion.img
+              src={headshot}
+              alt="Santhosh Kapalavai"
+              className="headshot-img"
+              initial={{ opacity: 0, filter: "brightness(1.5) saturate(0)" }}
+              whileInView={{ opacity: 1, filter: "brightness(1) saturate(1)" }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.3 }}
+            />
           </div>
         </motion.div>
 
