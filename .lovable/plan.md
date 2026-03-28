@@ -1,50 +1,21 @@
 
 
-# Plan: Headshots, Resume Fix, About Me Redesign
+# Fix: Remove 3D Character Overlap on About Section
 
-## 1. Add Headshot Photos
+## Problem
+The 3D character model (`.character-model`) is `position: fixed` on desktop and renders on top of the About section, covering the headshot photo. The `z-index: 12` on `.about-section` isn't sufficient because the character canvas sits in a different stacking context.
 
-Copy both uploaded images to `src/assets/` and use them in the About section. Display one as a profile photo with a glowing cyan border and subtle hover animation (scale + glow pulse). The second image can be used as an alternate or in a different section.
+## Solution
 
-**Files**: Copy images, edit `About.tsx`, `About.css`
+**Hide the 3D character when scrolling past the About section** by modifying the GSAP scroll timeline in `GsapScroll.ts`:
 
-## 2. Fix Resume Download
+1. **`src/components/utils/GsapScroll.ts`** — In `tl1` (landing→about transition), add `opacity: 0` to `.character-model` so the 3D character fades out as the user scrolls into the About section. This replaces the current behavior where it just slides left but remains visible and overlapping.
 
-The resume button links to `/Santhosh_Kapalavai.pdf` but the uploaded file needs to be copied to `public/Santhosh_Kapalavai.pdf` (replacing the current one). Copy `user-uploads://Santhosh_Kapalavai_CV-3.pdf` to `public/Santhosh_Kapalavai.pdf`.
+2. **`src/components/styles/Landing.css`** — Ensure `.character-model` on desktop (`min-width: 1025px`) has `z-index` below the about section, and add `pointer-events: none` during the about section scroll range.
 
-**Files**: Copy PDF to `public/Santhosh_Kapalavai.pdf`
+### Specific changes in `GsapScroll.ts`:
+- In `tl1` timeline (lines 66-72): Add `.to(".character-model", { opacity: 0, duration: 0.6 }, 0)` so the character fades out as you scroll from landing to about
+- In `tl2` timeline: Remove or adjust the `.character-model` x-position tweens since the character will already be hidden
 
-## 3. Redesign About Me Section
-
-Restructure `About.tsx` into a two-column layout:
-- **Left column**: Profile headshot with glowing border, animated scan line effect, and corner brackets (cyber HUD style)
-- **Right column**: Enhanced content based on the reference text provided, broken into digestible paragraphs with scroll-reveal animations
-
-Content will include:
-- Opening hook about being a GRC/Cybersecurity/Privacy leader with a decade of global experience
-- Geographic reach (India, US, Middle East, Southeast Asia)
-- Specialization in ISO, SOC 2, HITRUST, vCISO work
-- Unique value prop: technical + executive + commercial blend
-- Aviation-to-cybersecurity origin story (brief)
-- Closing: "clarity, credibility, and a competitive edge"
-
-Animations:
-- Profile image: floating animation with subtle `rotateY` tilt on scroll
-- Glowing accent line divider between paragraphs
-- Each paragraph fades in via `ScrollRevealText` or staggered reveal
-- Cyan accent highlights on key phrases
-
-**CSS changes**: Update `About.css` for two-column grid layout, image container with glow border, responsive stacking on mobile.
-
-**Files**: `About.tsx`, `About.css`
-
-## Files to Modify
-
-| File | Change |
-|------|--------|
-| `public/Santhosh_Kapalavai.pdf` | Replace with new CV |
-| `src/assets/headshot1.jpeg` | Copy headshot (side profile) |
-| `src/assets/headshot2.jpeg` | Copy headshot (arms crossed) |
-| `src/components/About.tsx` | Two-column layout with photo + enhanced content |
-| `src/components/styles/About.css` | Grid layout, image glow effects, responsive |
+This ensures the headshot photo in the About section is fully visible without the 3D character overlapping it.
 
