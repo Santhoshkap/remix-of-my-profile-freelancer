@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Mail, Phone, Linkedin, MapPin, Send } from "lucide-react";
+import { Mail, Phone, Linkedin, MapPin, Send, CheckCircle } from "lucide-react";
 import { SectionReveal, StaggerContainer, StaggerItem, MagneticHover } from "./AnimationUtils";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Contact.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -36,10 +36,10 @@ const Contact = () => {
   }, []);
 
   return (
-    <section id="contact" className="py-28 relative overflow-hidden" ref={containerRef}>
-      <div className="container mx-auto px-4 md:px-8">
+    <section id="contact" className="py-20 md:py-32 relative overflow-hidden" ref={containerRef}>
+      <div className="max-w-5xl mx-auto px-6 md:px-10">
         <SectionReveal>
-          <h2 className="text-3xl md:text-5xl font-display font-bold text-center mb-4 text-glow contact-title">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow contact-title tracking-wide">
             Get In Touch
           </h2>
           <motion.div
@@ -47,86 +47,110 @@ const Contact = () => {
             whileInView={{ width: 80 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="h-0.5 bg-primary/50 mx-auto mb-20"
+            className="h-0.5 bg-primary/50 mx-auto mb-16 md:mb-20"
           />
         </SectionReveal>
 
-        <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-14 max-w-4xl mx-auto">
+          {/* Left: Contact info */}
           <SectionReveal>
-            <p className="text-muted-foreground font-body leading-relaxed mb-8">
+            <p className="text-sm md:text-base text-muted-foreground font-body leading-relaxed mb-8">
               Interested in discussing cybersecurity strategy, GRC transformation,
               or speaking opportunities? Let's connect.
             </p>
-            <StaggerContainer className="space-y-4" stagger={0.1}>
+            <StaggerContainer className="space-y-5" stagger={0.1}>
               {contactLinks.map((item) => (
                 <StaggerItem key={item.label}>
                   <a
                     href={item.href}
                     target={item.href.startsWith("http") ? "_blank" : undefined}
                     rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors group"
+                    className="flex items-center gap-4 text-muted-foreground hover:text-primary transition-colors duration-300 group"
                   >
                     <MagneticHover>
-                      <div className="w-10 h-10 rounded-lg glass border-glow flex items-center justify-center group-hover:box-glow transition-all duration-500">
+                      <div className="w-11 h-11 rounded-lg glass border-glow flex items-center justify-center group-hover:box-glow transition-all duration-500">
                         <item.icon className="w-4 h-4 text-primary" />
                       </div>
                     </MagneticHover>
-                    <span className="text-sm font-body">{item.label}</span>
+                    <span className="text-sm font-body tracking-wide">{item.label}</span>
                   </a>
                 </StaggerItem>
               ))}
             </StaggerContainer>
           </SectionReveal>
 
+          {/* Right: Contact form */}
           <SectionReveal>
             <motion.form
               onSubmit={handleSubmit}
-              className="glass rounded-xl p-6 border-glow space-y-4"
-              whileHover={{ boxShadow: "0 0 30px hsl(190 100% 50% / 0.1)" }}
+              className="glass rounded-2xl p-6 md:p-8 border-glow space-y-5"
+              whileHover={{ boxShadow: "0 0 40px hsl(190 100% 50% / 0.08)" }}
               transition={{ duration: 0.5 }}
             >
               {["Your Name", "Your Email"].map((placeholder, i) => (
-                <motion.div key={placeholder} whileFocus={{ scale: 1.01 }}>
+                <div key={placeholder}>
                   <input
                     type={i === 1 ? "email" : "text"}
                     placeholder={placeholder}
                     required
-                    className="w-full bg-secondary/30 border border-border/50 rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_15px_hsl(190_100%_50%/0.1)] transition-all font-body"
+                    className="w-full bg-secondary/30 border border-border/50 rounded-lg px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_20px_hsl(190_100%_50%/0.08)] transition-all font-body tracking-wide"
                   />
-                </motion.div>
+                </div>
               ))}
               <textarea
                 placeholder="Your Message"
                 rows={4}
                 required
-                className="w-full bg-secondary/30 border border-border/50 rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_15px_hsl(190_100%_50%/0.1)] transition-all resize-none font-body"
+                className="w-full bg-secondary/30 border border-border/50 rounded-lg px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_20px_hsl(190_100%_50%/0.08)] transition-all resize-none font-body tracking-wide"
               />
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.02, boxShadow: "0 0 30px hsl(190 100% 50% / 0.25)" }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm transition-all box-glow flex items-center justify-center gap-2 font-display"
+                className="w-full py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm transition-all box-glow flex items-center justify-center gap-2 font-display tracking-wider"
               >
-                {sent ? (
-                  <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-2">
-                    Message Sent! ✓
-                  </motion.span>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    Send Message
-                  </>
-                )}
+                <AnimatePresence mode="wait">
+                  {sent ? (
+                    <motion.span
+                      key="sent"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      className="flex items-center gap-2"
+                    >
+                      <CheckCircle className="w-4 h-4" />
+                      Message Sent!
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="send"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="flex items-center gap-2"
+                    >
+                      <Send className="w-4 h-4" />
+                      Send Message
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </motion.button>
             </motion.form>
           </SectionReveal>
         </div>
 
-        <div className="mt-20 pt-8 border-t border-border/20 text-center">
-          <p className="text-xs text-muted-foreground/50 font-body">
-            © {new Date().getFullYear()} Santhosh Kapalavai. Securing the digital frontier.
+        {/* Footer */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="mt-24 pt-8 border-t border-border/20 text-center"
+        >
+          <p className="text-xs text-muted-foreground/40 font-body tracking-widest uppercase">
+            © {new Date().getFullYear()} Santhosh Kapalavai · Securing the digital frontier
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
