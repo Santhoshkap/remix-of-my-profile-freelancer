@@ -165,7 +165,7 @@ function CertSphere({
   return (
     <RigidBody
       linearDamping={0.75}
-      angularDamping={0.15}
+      angularDamping={0.9}
       friction={0.2}
       position={[r(20), r(20) - 25, r(20) - 10]}
       ref={api}
