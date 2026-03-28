@@ -3,8 +3,9 @@ import { MdEmail } from "react-icons/md";
 import { FiPhone } from "react-icons/fi";
 import "./styles/SocialIcons.css";
 import { TbNotes } from "react-icons/tb";
-import { useEffect } from "react";
+import { useEffect, type MouseEvent as ReactMouseEvent } from "react";
 import HoverLinks from "./HoverLinks";
+import { openExternalLink } from "../lib/openExternalLink";
 
 const SocialIcons = () => {
   useEffect(() => {
@@ -53,6 +54,11 @@ const SocialIcons = () => {
     });
   }, []);
 
+  const handleExternalNavigation = (e: ReactMouseEvent<HTMLAnchorElement>, url: string) => {
+    e.preventDefault();
+    openExternalLink(url);
+  };
+
   return (
     <div className="icons-section">
       <div className="social-icons" data-cursor="icons" id="social">
@@ -60,7 +66,8 @@ const SocialIcons = () => {
           <a
             href="https://www.linkedin.com/in/santhosh-kapalavai/"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            onClick={(e) => handleExternalNavigation(e, "https://www.linkedin.com/in/santhosh-kapalavai/")}
           >
             <FaLinkedinIn />
           </a>
@@ -87,7 +94,8 @@ const SocialIcons = () => {
         className="resume-button"
         href="/Santhosh_Kapalavai_CV-4.pdf"
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
+        onClick={(e) => handleExternalNavigation(e, `${window.location.origin}/Santhosh_Kapalavai_CV-4.pdf`)}
       >
         <HoverLinks text="RESUME" />
         <span>

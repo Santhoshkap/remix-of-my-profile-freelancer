@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Contact.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { openExternalLink } from "../lib/openExternalLink";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,14 +77,21 @@ const Contact = () => {
               or speaking opportunities? Let's connect.
             </p>
             <StaggerContainer className="space-y-5" stagger={0.1}>
-              {contactLinks.map((item) => (
-                <StaggerItem key={item.label}>
-                  <a
-                    href={item.href}
-                    target={item.href.startsWith("http") ? "_blank" : undefined}
-                    rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="flex items-center gap-4 text-muted-foreground hover:text-primary transition-colors duration-300 group"
-                  >
+              {contactLinks.map((item) => {
+                const isExternal = item.href.startsWith("http");
+
+                return (
+                  <StaggerItem key={item.label}>
+                    <a
+                      href={item.href}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      onClick={isExternal ? (e) => {
+                        e.preventDefault();
+                        openExternalLink(item.href);
+                      } : undefined}
+                      className="flex items-center gap-4 text-muted-foreground hover:text-primary transition-colors duration-300 group"
+                    >
                     <MagneticHover>
                       <div className="w-11 h-11 rounded-lg glass border-glow flex items-center justify-center group-hover:box-glow transition-all duration-500">
                         <item.icon className="w-4 h-4 text-primary" />
@@ -92,7 +100,8 @@ const Contact = () => {
                     <span className="text-sm font-body tracking-wide hover-invert">{item.label}</span>
                   </a>
                 </StaggerItem>
-              ))}
+                );
+              })}
             </StaggerContainer>
           </SectionReveal>
 
