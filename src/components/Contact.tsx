@@ -49,7 +49,7 @@ const Contact = () => {
       <div className="max-w-5xl mx-auto px-6 md:px-10">
         <SectionReveal>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow contact-title tracking-wide">
-            Get In Touch
+            Get In <span style={{ color: "var(--accentColor)" }}>Touch</span>
           </h2>
           <motion.div
             initial={{ width: 0 }}
