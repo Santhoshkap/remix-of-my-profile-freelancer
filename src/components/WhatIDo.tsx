@@ -145,7 +145,7 @@ const WhatIDo = () => {
                 <div className="wid-card-header">
                   <div>
                     <h3 className="wid-card-title hover-invert">{card.title}</h3>
-                    <p className="wid-card-subtitle">{card.subtitle}</p>
+                    <p className="wid-card-subtitle hover-invert">{card.subtitle}</p>
                   </div>
                   <motion.span
                     className="wid-card-icon"
@@ -171,7 +171,7 @@ const WhatIDo = () => {
                   {card.tags.map((tag) => (
                     <motion.span
                       key={tag}
-                      className="wid-tag"
+                      className="wid-tag hover-invert-accent"
                       whileHover={{
                         scale: 1.08,
                         backgroundColor: "hsla(190,100%,50%,0.12)",

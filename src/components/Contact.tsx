@@ -89,7 +89,7 @@ const Contact = () => {
                         <item.icon className="w-4 h-4 text-primary" />
                       </div>
                     </MagneticHover>
-                    <span className="text-sm font-body tracking-wide">{item.label}</span>
+                    <span className="text-sm font-body tracking-wide hover-invert">{item.label}</span>
                   </a>
                 </StaggerItem>
               ))}

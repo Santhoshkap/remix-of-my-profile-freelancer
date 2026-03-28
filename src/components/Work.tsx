@@ -112,7 +112,7 @@ const Work = () => {
                   <div className="carousel-content">
                     <div className="carousel-info">
                       <div className="carousel-number">
-                        <h3>0{index + 1}</h3>
+                        <h3 className="hover-invert-accent">0{index + 1}</h3>
                       </div>
                       <div className="carousel-details">
                         <h4 className="hover-invert">{project.title}</h4>
@@ -120,11 +120,11 @@ const Work = () => {
                           {project.category}
                         </p>
                         <div className="carousel-tools">
-                          <span className="tools-label">{project.toolsLabel}</span>
+                          <span className="tools-label hover-invert-accent">{project.toolsLabel}</span>
                           <p>{project.tools}</p>
                         </div>
                         <div className="carousel-delivery">
-                          <span className="delivery-label">What I Deliver</span>
+                          <span className="delivery-label hover-invert-accent">What I Deliver</span>
                           <p>{project.delivery}</p>
                         </div>
                         {project.highlight && (
