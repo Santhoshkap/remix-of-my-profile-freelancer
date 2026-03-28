@@ -80,109 +80,112 @@ function createTextTexture(text: string): THREE.CanvasTexture {
   return texture;
 }
 
-// --- 3D Sphere that faces camera when in grid mode ---
+// --- 3D Cert ball with billboard text ---
 type CertSphereProps = {
   vec?: THREE.Vector3;
   scale: number;
   r?: typeof THREE.MathUtils.randFloatSpread;
-  material: THREE.MeshPhysicalMaterial;
+  texture: THREE.CanvasTexture;
   isActive: boolean;
   isHovered: boolean;
   gridTarget: [number, number, number];
-  textureRotationOffset: THREE.Euler;
 };
 
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
+const sphereMaterial = new THREE.MeshPhysicalMaterial({
+  color: new THREE.Color("hsl(230, 25%, 12%)"),
+  metalness: 0.6,
+  roughness: 0.4,
+  clearcoat: 0.3,
+});
 
 function CertSphere({
   vec = new THREE.Vector3(),
   scale,
   r = THREE.MathUtils.randFloatSpread,
-  material,
+  texture,
   isActive,
   isHovered,
   gridTarget,
-  textureRotationOffset,
 }: CertSphereProps) {
   const api = useRef<RapierRigidBody | null>(null);
-  const meshRef = useRef<THREE.Mesh>(null);
+  const spriteRef = useRef<THREE.Sprite>(null);
   const targetVec = useMemo(() => new THREE.Vector3(...gridTarget), [gridTarget]);
-  // The rotation that makes the texture face the camera (text centered)
-  const frontRotation = useMemo(() => new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0)), []);
+
+  const spriteMaterial = useMemo(() => {
+    return new THREE.SpriteMaterial({
+      map: texture,
+      transparent: true,
+      depthTest: false,
+    });
+  }, [texture]);
 
   useFrame((_state, delta) => {
     if (!isActive || !api.current) return;
     delta = Math.min(0.1, delta);
 
     if (isHovered) {
-      // Move toward grid position
+      // Spring toward grid position
       const current = api.current.translation();
       const diff = new THREE.Vector3(
         targetVec.x - current.x,
         targetVec.y - current.y,
         targetVec.z - current.z
       );
+      api.current.applyImpulse(diff.multiplyScalar(80 * delta * scale), true);
 
-      const springForce = diff.multiplyScalar(80 * delta * scale);
-      api.current.applyImpulse(springForce, true);
-
+      // Dampen velocity
       const vel = api.current.linvel();
       api.current.applyImpulse(
         new THREE.Vector3(-vel.x * 8 * delta, -vel.y * 8 * delta, -vel.z * 8 * delta),
         true
       );
 
-      // Stop angular velocity
+      // Dampen angular velocity
       const angVel = api.current.angvel();
       api.current.applyTorqueImpulse(
         new THREE.Vector3(-angVel.x * 4 * delta, -angVel.y * 4 * delta, -angVel.z * 4 * delta),
         true
       );
-
-      // Rotate the rigid body to face front
-      const currentRot = api.current.rotation();
-      const currentQuat = new THREE.Quaternion(currentRot.x, currentRot.y, currentRot.z, currentRot.w);
-      currentQuat.slerp(frontRotation, Math.min(1, 8 * delta));
-      api.current.setRotation({ x: currentQuat.x, y: currentQuat.y, z: currentQuat.z, w: currentQuat.w }, true);
     } else {
       const impulse = vec
         .copy(api.current.translation())
         .normalize()
         .multiply(
-          new THREE.Vector3(
-            -50 * delta * scale,
-            -150 * delta * scale,
-            -50 * delta * scale
-          )
+          new THREE.Vector3(-50 * delta * scale, -150 * delta * scale, -50 * delta * scale)
         );
       api.current.applyImpulse(impulse, true);
+    }
+
+    // Sprite always follows the rigid body position
+    if (spriteRef.current && api.current) {
+      const pos = api.current.translation();
+      spriteRef.current.position.set(pos.x, pos.y, pos.z + 0.05);
     }
   });
 
   return (
-    <RigidBody
-      linearDamping={0.75}
-      angularDamping={0.15}
-      friction={0.2}
-      position={[r(20), r(20) - 25, r(20) - 10]}
-      ref={api}
-      colliders={false}
-    >
-      <BallCollider args={[scale]} />
-      <CylinderCollider
-        rotation={[Math.PI / 2, 0, 0]}
-        position={[0, 0, 1.2 * scale]}
-        args={[0.15 * scale, 0.275 * scale]}
-      />
-      <mesh
-        ref={meshRef}
-        castShadow
-        receiveShadow
-        scale={scale}
-        geometry={sphereGeometry}
-        material={material}
-      />
-    </RigidBody>
+    <>
+      <RigidBody
+        linearDamping={0.75}
+        angularDamping={0.15}
+        friction={0.2}
+        position={[r(20), r(20) - 25, r(20) - 10]}
+        ref={api}
+        colliders={false}
+      >
+        <BallCollider args={[scale]} />
+        <mesh
+          castShadow
+          receiveShadow
+          scale={scale}
+          geometry={sphereGeometry}
+          material={sphereMaterial}
+        />
+      </RigidBody>
+      {/* Billboard sprite - always faces camera */}
+      <sprite ref={spriteRef} scale={[scale * 2.1, scale * 2.1, 1]} material={spriteMaterial} />
+    </>
   );
 }
 
