@@ -76,7 +76,7 @@ export function setCharTimeline(
         .to(".character-model", { opacity: 1, duration: 1, delay: 2 }, 0)
         .to(
           camera.position,
-          { z: 90, y: 8.4, duration: 6, delay: 2, ease: "power3.inOut" },
+          { z: 100, y: 8.4, duration: 6, delay: 2, ease: "power3.inOut" },
           0
         )
         .to(".about-section", { y: "30%", duration: 6 }, 0)
