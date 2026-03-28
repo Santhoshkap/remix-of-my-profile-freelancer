@@ -1,61 +1,50 @@
 
 
-# Fix: Hero Color, Spacing/Scrolling Issues, and UI Polish
+# Fix: Character Animation Overlap, Size, and Landing Page Polish
 
-## Problems Identified
+## Problems
 
-1. **Hero section "GRC & Cybersecurity" text color** — The rotating role text below it is cyan (`hsl(190,100%,50%)`), but the `h3` "GRC & Cybersecurity" is also cyan via `color: var(--accentColor)`. User wants it **white** to match "SANTHOSH" on the left side.
-
-2. **Content getting cut off / sections not flowing as one page** — The About section uses `min-height: var(--vh)` on desktop, but the content overflows. The `ScrollSmoother` with `speed: 1.7` accelerates scrolling, causing sections to appear cut. Multiple sections have fixed heights (`height: var(--vh)`, `height: 100vh`) that clip content.
-
-3. **About section heading partially hidden** — The "ABOUT ME" h3 is too close to the top edge when scrolled into view.
+1. **3D character overlaps "What I Deliver" cards** — The GSAP scroll timeline in `GsapScroll.ts` targets `.whatIDO` class, but the redesigned section uses `.wid-section`. So `tl3` (which moves the character off-screen) never fires.
+2. **Character continues showing through Experience/Certifications** — Same root cause: `tl3` never triggers, so the fixed-position character stays visible.
+3. **Character is too large and overlaps card text** — Need to reduce the character model size in the "What I Deliver" view.
+4. **Landing page is a plain black screen** — User wants a cybersecurity-themed animation on the initial view (before loading completes or as background).
 
 ## Plan
 
-### 1. Hero Section — Change "GRC & Cybersecurity" to White
+### 1. Fix Character Animation Class Mismatch
+**File: `src/components/utils/GsapScroll.ts`**
+- Change `tl3` trigger from `.whatIDO` to `.wid-section` (the new class name)
+- This restores the scroll-based character hide: as user scrolls past "What I Deliver", the character moves to `y: -100%` and disappears before Career section
+
+### 2. Reduce Character Size in "What I Deliver" View
+**File: `src/components/utils/GsapScroll.ts`**
+- In `tl2`, adjust the camera zoom or position so the character appears smaller when transitioning into the "What I Deliver" section
+- Change `x: "-12%"` to `x: "-25%"` to push the character further left, reducing overlap with cards
+- Add camera zoom increase (e.g. `z: 85` instead of `75`) to make the character appear smaller
+
+### 3. Add Cybersecurity Background Animation to Landing
+**File: `src/components/Landing.tsx`**
+- Add a subtle animated background with floating cyber elements: a grid pattern, scanning lines, and particle dots
+- Use CSS-only animations (keyframes) for performance — no heavy libraries
+- Elements: faint grid lines, slow-moving scan line, subtle floating dots with cyan glow
+
 **File: `src/components/styles/Landing.css`**
-- Change `.landing-info h3` color from `var(--accentColor)` to `#ffffff` (white) across all breakpoints
-- Keep the rotating role text (`landing-role`) as cyan — that stays as-is
+- Add `.landing-cyber-bg` with a CSS grid pattern overlay using `background-image: linear-gradient` for grid lines
+- Add a scanning line animation (`@keyframes scan`) that moves top-to-bottom continuously
+- Keep everything subtle (low opacity) so it doesn't compete with the 3D character or text
 
-### 2. Fix Section Heights to Prevent Clipping
-**File: `src/components/styles/About.css`**
-- On desktop (`min-width: 1025px`): add `padding-top: 120px` to ensure heading clears the navbar
-- Keep `min-height: var(--vh)` and `height: auto` (already correct)
+### 4. Ensure WhatIDo Section Has the Legacy Class
+**File: `src/components/WhatIDo.tsx`**
+- Add `whatIDO` as an additional class to the section element: `className="wid-section whatIDO"`
+- This is the simplest fix — keeps both the new styling and the GSAP trigger working
 
-**File: `src/components/styles/WhatIDo.css`**
-- On desktop: change `.whatIDO` from `height: 100vh` to `min-height: 100vh; height: auto` so content doesn't clip
-- Add `background-color: var(--backgroundColor)` and `z-index: 12` to mask the 3D character layer
+## Technical Details
 
-**File: `src/components/styles/Career.css`**
-- Add `padding-top: 80px` to `.career-section` to give breathing room from the section above
+**Root cause**: When the "What I Do" section was redesigned, the class changed from `whatIDO` to `wid-section`, breaking the GSAP ScrollTrigger that hides the 3D character. Adding `whatIDO` back as a secondary class restores the animation without affecting the new design.
 
-**File: `src/components/styles/Work.css`**
-- Add `z-index: 12` and ensure `background-color: var(--backgroundColor)` is set
-
-**File: `src/index.css`**
-- `.techstack`: change `height: var(--vh)` to `min-height: var(--vh); height: auto`
-- Remove `margin-bottom: -100px` which causes overlap with the Contact section
-
-### 3. Reduce ScrollSmoother Speed
-**File: `src/components/Navbar.tsx`**
-- Reduce `speed` from `1.7` to `1.0` (normal speed) — the 1.7x speed is a major cause of content appearing to jump/cut between sections because the scroll distance is artificially compressed
-
-### 4. Ensure All Sections Have Proper Background + Z-Index Stacking
-Each section below the 3D character needs `background-color: var(--backgroundColor)` and appropriate `z-index` to mask the fixed-position character canvas:
-- About: z-index 15 (already set)
-- WhatIDo: bump to z-index 12, add background
-- Career: z-index 12 (already set via inline style)
-- Certifications: z-index 12 (already set via inline style)
-- Work: z-index 12, add background
-- TechStack: z-index 12, add background
-- Contact: z-index 12 (already set via inline style)
-
-### Files Modified
-- `src/components/styles/Landing.css` — h3 color to white
-- `src/components/styles/About.css` — padding-top increase
-- `src/components/styles/WhatIDo.css` — min-height, background, z-index
-- `src/components/styles/Career.css` — padding-top
-- `src/components/styles/Work.css` — z-index, background
-- `src/index.css` — techstack height fix, margin fix
-- `src/components/Navbar.tsx` — reduce scroll speed
+**Files modified:**
+- `src/components/WhatIDo.tsx` — add `whatIDO` class back
+- `src/components/utils/GsapScroll.ts` — adjust character position/size in tl2
+- `src/components/Landing.tsx` — add cyber background elements
+- `src/components/styles/Landing.css` — cyber background animations
 
