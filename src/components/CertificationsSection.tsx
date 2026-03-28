@@ -251,7 +251,7 @@ function CertificationsCanvas() {
   const spheres = useMemo(
     () =>
       certifications.map((_cert, i) => ({
-        scale: [0.7, 0.85, 0.95, 0.8, 1.0][i % 5],
+        scale: [0.55, 0.65, 0.7, 0.6, 0.75][i % 5],
         material: materials[i],
       })),
     [materials]
