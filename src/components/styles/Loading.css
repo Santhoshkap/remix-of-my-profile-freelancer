@@ -259,49 +259,155 @@
 .shield-svg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 15px hsl(190, 100%, 50%, 0.3));
+  filter: drop-shadow(0 0 20px hsl(190, 100%, 50%, 0.35));
 }
 
-.shield-path {
-  animation: shieldPulse 3s ease-in-out infinite;
+/* ── Outer shield draw-in ── */
+.shield-path-outer {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: shieldDrawIn 2s ease-out forwards, shieldBreathePremium 4s ease-in-out 2s infinite;
 }
 
-@keyframes shieldPulse {
-  0%, 100% {
-    stroke-opacity: 0.4;
-    filter: url(#shieldGlow);
-  }
-  50% {
-    stroke-opacity: 0.8;
-  }
+@keyframes shieldDrawIn {
+  to { stroke-dashoffset: 0; }
 }
 
-.shield-inner {
-  animation: shieldInnerRotate 20s linear infinite;
-  transform-origin: 50px 60px;
+@keyframes shieldBreathePremium {
+  0%, 100% { stroke-opacity: 0.6; filter: url(#shieldGlowPremium); }
+  50% { stroke-opacity: 1; }
 }
 
-@keyframes shieldInnerRotate {
-  0% { stroke-dashoffset: 0; }
-  100% { stroke-dashoffset: -200; }
+/* ── Mid shield layer ── */
+.shield-path-mid {
+  stroke-dasharray: 350;
+  stroke-dashoffset: 350;
+  animation: shieldDrawIn 2s ease-out 0.3s forwards;
 }
 
-.lock-body, .lock-shackle {
-  animation: lockPulse 2s ease-in-out infinite;
+/* ── Inner dashed shield ── */
+.shield-path-inner {
+  animation: shieldInnerSpin 25s linear infinite;
 }
 
-@keyframes lockPulse {
-  0%, 100% { stroke-opacity: 0.5; }
-  50% { stroke-opacity: 0.9; }
+@keyframes shieldInnerSpin {
+  to { stroke-dashoffset: -200; }
+}
+
+/* ── Energy field ellipses ── */
+.shield-energy-field {
+  animation: energyFieldPulse 3s ease-in-out infinite;
+}
+
+.shield-energy-field-2 {
+  animation: energyFieldPulse 3s ease-in-out 1.5s infinite;
+}
+
+@keyframes energyFieldPulse {
+  0%, 100% { transform: scale(1); opacity: 0.08; }
+  50% { transform: scale(1.08); opacity: 0.2; }
+}
+
+/* ── Circuit lines draw-in ── */
+.circuit-line {
+  stroke-opacity: 0;
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+}
+
+.c1 { animation: circuitDraw 0.6s ease-out 1s forwards, circuitPulse 3s ease-in-out 1.6s infinite; }
+.c2 { animation: circuitDraw 0.6s ease-out 1.2s forwards, circuitPulse 3s ease-in-out 1.8s infinite; }
+.c3 { animation: circuitDraw 0.6s ease-out 1.4s forwards, circuitPulse 3s ease-in-out 2s infinite; }
+.c4 { animation: circuitDraw 0.6s ease-out 1.6s forwards, circuitPulse 3s ease-in-out 2.2s infinite; }
+.c5 { animation: circuitDraw 0.6s ease-out 1.8s forwards, circuitPulse 3s ease-in-out 2.4s infinite; }
+.c6 { animation: circuitDraw 0.6s ease-out 2s forwards, circuitPulse 3s ease-in-out 2.6s infinite; }
+
+@keyframes circuitDraw {
+  to { stroke-dashoffset: 0; stroke-opacity: 0.25; }
+}
+
+@keyframes circuitPulse {
+  0%, 100% { stroke-opacity: 0.15; }
+  50% { stroke-opacity: 0.4; }
+}
+
+/* ── Circuit nodes ── */
+.circuit-node {
+  opacity: 0;
+}
+
+.cn1 { animation: nodeAppear 0.3s ease-out 1.3s forwards, nodePulse 2s ease-in-out 1.6s infinite; }
+.cn2 { animation: nodeAppear 0.3s ease-out 1.5s forwards, nodePulse 2s ease-in-out 1.8s infinite; }
+.cn3 { animation: nodeAppear 0.3s ease-out 1.7s forwards, nodePulse 2s ease-in-out 2s infinite; }
+.cn4 { animation: nodeAppear 0.3s ease-out 1.9s forwards, nodePulse 2s ease-in-out 2.2s infinite; }
+.cn5 { animation: nodeAppear 0.3s ease-out 2.1s forwards, nodePulse 2s ease-in-out 2.4s infinite; }
+
+@keyframes nodeAppear {
+  to { opacity: 0.5; }
+}
+
+@keyframes nodePulse {
+  0%, 100% { opacity: 0.3; r: 1; }
+  50% { opacity: 0.8; r: 1.8; }
+}
+
+/* ── Lock animations ── */
+.lock-body {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: shieldDrawIn 1s ease-out 0.8s forwards, lockPulsePremium 2.5s ease-in-out 1.8s infinite;
+}
+
+.lock-shackle {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: shieldDrawIn 0.8s ease-out 1.2s forwards, lockPulsePremium 2.5s ease-in-out 2s infinite;
+}
+
+@keyframes lockPulsePremium {
+  0%, 100% { stroke-opacity: 0.6; }
+  50% { stroke-opacity: 1; }
+}
+
+.lock-keyhole-glow {
+  opacity: 0;
+  animation: keyholeGlowPulse 2.5s ease-in-out 1.5s infinite;
+}
+
+@keyframes keyholeGlowPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.3); }
 }
 
 .lock-keyhole {
-  animation: keyholeGlow 2s ease-in-out infinite;
+  opacity: 0;
+  animation: nodeAppear 0.4s ease-out 1.5s forwards, keyholeBreath 2s ease-in-out 2s infinite;
 }
 
-@keyframes keyholeGlow {
-  0%, 100% { fill-opacity: 0.5; r: 2; }
-  50% { fill-opacity: 1; r: 2.5; }
+.lock-keyhole-slot {
+  opacity: 0;
+  animation: nodeAppear 0.4s ease-out 1.6s forwards;
+}
+
+@keyframes keyholeBreath {
+  0%, 100% { fill-opacity: 0.8; }
+  50% { fill-opacity: 1; }
+}
+
+/* ── Sparkle particles ── */
+.shield-sparkle {
+  opacity: 0;
+}
+
+.s1 { animation: sparklePulse 3s ease-in-out 2s infinite; }
+.s2 { animation: sparklePulse 3s ease-in-out 2.5s infinite; }
+.s3 { animation: sparklePulse 3s ease-in-out 3s infinite; }
+.s4 { animation: sparklePulse 3s ease-in-out 3.5s infinite; }
+.s5 { animation: sparklePulse 3s ease-in-out 4s infinite; }
+
+@keyframes sparklePulse {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 0.7; transform: scale(1.5); }
 }
 
 .shield-check {
