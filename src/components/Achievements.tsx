@@ -15,7 +15,7 @@ const Achievements = () => {
   return (
     <section
       id="achievements"
-      className="py-10 md:py-16 relative overflow-hidden"
+      className="py-6 md:py-10 relative overflow-hidden"
       style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}
     >
       <div className="max-w-5xl mx-auto px-6 md:px-10">
