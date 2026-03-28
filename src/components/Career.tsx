@@ -40,7 +40,7 @@ const experiences = [
   },
   {
     title: "Quality Engineer",
-    company: "Vision Group of Aviation",
+    company: "Vision Group of Aviation · Cambodia & Philippines",
     period: "2016 – 2017",
     highlights: [
       "Quality maintenance engineering for aviation operations in Phnom Penh, Cambodia",
