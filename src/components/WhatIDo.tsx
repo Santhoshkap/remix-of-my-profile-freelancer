@@ -145,7 +145,7 @@ const WhatIDo = () => {
                 <div className="wid-card-header">
                   <div>
                     <h3 className="wid-card-title hover-invert">{card.title}</h3>
-                    <p className="wid-card-subtitle">{card.subtitle}</p>
+                    <p className="wid-card-subtitle hover-invert">{card.subtitle}</p>
                   </div>
                   <motion.span
                     className="wid-card-icon"

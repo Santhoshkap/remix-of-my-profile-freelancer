@@ -124,7 +124,7 @@ const Work = () => {
                           <p>{project.tools}</p>
                         </div>
                         <div className="carousel-delivery">
-                          <span className="delivery-label">What I Deliver</span>
+                          <span className="delivery-label hover-invert-accent">What I Deliver</span>
                           <p>{project.delivery}</p>
                         </div>
                         {project.highlight && (
