@@ -50,8 +50,12 @@
 .carousel-content {
   display: flex;
   align-items: center;
-  gap: 60px;
+  gap: 40px;
   width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .carousel-info {
