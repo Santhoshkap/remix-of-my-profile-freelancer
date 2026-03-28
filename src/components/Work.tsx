@@ -1,7 +1,9 @@
 import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
+import { SectionReveal } from "./AnimationUtils";
 
 const projects = [
   {
@@ -33,11 +35,13 @@ const projects = [
 const Work = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [direction, setDirection] = useState(0);
 
   const goToSlide = useCallback(
-    (index: number) => {
+    (index: number, dir: number) => {
       if (isAnimating) return;
       setIsAnimating(true);
+      setDirection(dir);
       setCurrentIndex(index);
       setTimeout(() => setIsAnimating(false), 500);
     },
@@ -45,42 +49,46 @@ const Work = () => {
   );
 
   const goToPrev = useCallback(() => {
-    const newIndex =
-      currentIndex === 0 ? projects.length - 1 : currentIndex - 1;
-    goToSlide(newIndex);
+    const newIndex = currentIndex === 0 ? projects.length - 1 : currentIndex - 1;
+    goToSlide(newIndex, -1);
   }, [currentIndex, goToSlide]);
 
   const goToNext = useCallback(() => {
-    const newIndex =
-      currentIndex === projects.length - 1 ? 0 : currentIndex + 1;
-    goToSlide(newIndex);
+    const newIndex = currentIndex === projects.length - 1 ? 0 : currentIndex + 1;
+    goToSlide(newIndex, 1);
   }, [currentIndex, goToSlide]);
 
   return (
     <div className="work-section" id="work">
       <div className="work-container section-container">
-        <h2>
-          My <span>Work</span>
-        </h2>
+        <SectionReveal>
+          <h2>
+            My <span>Work</span>
+          </h2>
+        </SectionReveal>
 
         <div className="carousel-wrapper">
           {/* Navigation Arrows */}
-          <button
+          <motion.button
             className="carousel-arrow carousel-arrow-left"
             onClick={goToPrev}
             aria-label="Previous project"
             data-cursor="disable"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
           >
             <MdArrowBack />
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             className="carousel-arrow carousel-arrow-right"
             onClick={goToNext}
             aria-label="Next project"
             data-cursor="disable"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
           >
             <MdArrowForward />
-          </button>
+          </motion.button>
 
           {/* Slides */}
           <div className="carousel-track-container">
@@ -123,13 +131,14 @@ const Work = () => {
           {/* Dot Indicators */}
           <div className="carousel-dots">
             {projects.map((_, index) => (
-              <button
+              <motion.button
                 key={index}
-                className={`carousel-dot ${index === currentIndex ? "carousel-dot-active" : ""
-                  }`}
-                onClick={() => goToSlide(index)}
+                className={`carousel-dot ${index === currentIndex ? "carousel-dot-active" : ""}`}
+                onClick={() => goToSlide(index, index > currentIndex ? 1 : -1)}
                 aria-label={`Go to project ${index + 1}`}
                 data-cursor="disable"
+                whileHover={{ scale: 1.3 }}
+                whileTap={{ scale: 0.9 }}
               />
             ))}
           </div>
