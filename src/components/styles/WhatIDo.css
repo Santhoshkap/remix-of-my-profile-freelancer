@@ -130,6 +130,8 @@
   align-items: flex-start;
   gap: 16px;
   margin-bottom: 10px;
+  position: relative;
+  z-index: 2;
 }
 
 .wid-card-icon {
@@ -146,12 +148,14 @@
   color: #ffffff;
   margin: 0 0 4px;
   letter-spacing: 0.5px;
-  transition: color 0.3s ease, -webkit-text-fill-color 0.3s ease;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
-.wid-card-title:hover {
+.wid-card:hover .wid-card-title,
+.wid-card:focus-within .wid-card-title {
   color: hsl(190, 100%, 50%) !important;
   -webkit-text-fill-color: hsl(190, 100%, 50%) !important;
+  text-shadow: 0 0 12px hsla(190, 100%, 50%, 0.4);
 }
 
 .wid-card-subtitle {
@@ -163,7 +167,8 @@
   transition: color 0.3s ease;
 }
 
-.wid-card-subtitle:hover {
+.wid-card:hover .wid-card-subtitle,
+.wid-card:focus-within .wid-card-subtitle {
   color: hsl(190, 100%, 50%) !important;
 }
 
