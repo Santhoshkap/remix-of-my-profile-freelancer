@@ -204,8 +204,8 @@ const Career = () => {
     <section id="career" className="py-10 md:py-16 relative overflow-hidden" ref={containerRef} style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
       <div className="max-w-5xl mx-auto px-6 md:px-10">
         <SectionReveal>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow career-title tracking-wide">
-            My <span style={{ color: "var(--accentColor)" }}>Experience</span>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow career-title tracking-wide hover-invert">
+            My <span className="hover-invert-accent" style={{ color: "var(--accentColor)" }}>Experience</span>
           </h2>
           <motion.div
             initial={{ width: 0 }}
