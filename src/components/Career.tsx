@@ -15,58 +15,58 @@ const Career = () => {
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Co-Founder</h4>
-                <h5>CallHQ.ai</h5>
+                <h4>Senior Manager – GRC</h4>
+                <h5>Dexian Pvt. Ltd</h5>
               </div>
               <h3>NOW</h3>
             </div>
             <p>
-              Building CallHQ.ai, a voice AI platform for
-              automating customer calls, support, and conversions.
+              Built and scaled global GRC & cybersecurity advisory services.
+              Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR,
+              DPDP, and NIST frameworks. Serving as vCISO for enterprise clients.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Adobe</h4>
-                <h5>6+ years · Noida</h5>
+                <h4>Risk & Compliance Lead</h4>
+                <h5>Accenture · Chennai/Canada</h5>
               </div>
-              <h3>2017–24</h3>
+              <h3>2018–23</h3>
             </div>
             <p>
-              Senior Lead Software Engineer (Feb 2024 – May 2024). Lead Software
-              Engineer (Feb 2021 – Feb 2024). Software Engineer II (Dec 2017 –
-              Feb 2021): internationalization, globalization, and localization for
-              Adobe Technical Communication Suite; functional and linguistic testing
-              strategy; in-house tooling; collaboration with product and engineering
-              for high-quality localized releases.
+              Directed cross-functional audit teams for 1st and 2nd party audits,
+              supply chain audits, and ITGC validations. Enhanced audit frameworks
+              with walkthroughs, evidence matrices, and continuous improvement
+              metrics. Supported SOX compliance attestations.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Consultant</h4>
-                <h5>Genpact Headstrong </h5>
+                <h4>Sr. Representative</h4>
+                <h5>SRK Aviacom (Indian Air Force)</h5>
+              </div>
+              <h3>2017–18</h3>
+            </div>
+            <p>
+              Interfaced with Air Force stakeholders to align aircraft maintenance
+              and documentation to safety and airworthiness norms. Led internal
+              audits, client walkthroughs, and incident investigations.
+            </p>
+          </div>
+          <div className="career-info-box">
+            <div className="career-info-in">
+              <div className="career-role">
+                <h4>Quality Engineer</h4>
+                <h5>Vision Group of Aviation</h5>
               </div>
               <h3>2016–17</h3>
             </div>
             <p>
-              Sep 2016 – Nov 2017. Developed and maintained WCF services consumed
-              by the UI; deployment support across environments; NUnit tests and
-              coverage; bug fixes from QA and users; database work.
-            </p>
-          </div>
-          <div className="career-info-box">
-            <div className="career-info-in">
-              <div className="career-role">
-                <h4>Sf Engineer</h4>
-                <h5>Infogain</h5>
-              </div>
-              <h3>2013-16</h3>
-            </div>
-            <p>
-              Software engineering across enterprise projects, contributing to
-              design, development, and delivery of business applications.
+              Quality maintenance engineering for aviation operations in
+              Phnom Penh, Cambodia — ensuring regulatory compliance and
+              airworthiness standards across fleet operations.
             </p>
           </div>
         </div>

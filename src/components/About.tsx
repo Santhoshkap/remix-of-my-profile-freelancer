@@ -6,11 +6,13 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">About Me</h3>
         <p className="para">
-          I am currently co-founder of CallHQ.ai, building real-time voice AI for
-          businesses. I am a technologist at heart with strong business judgment—
-          I enjoy going from product strategy to hands-on engineering. My background
-          spans leadership at Adobe, founding Broki and CallHQ, and shipping
-          full-stack products end to end.
+          A globally respected GRC, Cybersecurity & Privacy strategist trusted by
+          CISOs, CIOs, and boards across four continents. Known for turning
+          regulatory complexity into strategic business advantage — building
+          audit-ready organisations, resilient security postures, and lasting
+          client trust across SaaS, BFSI, Healthcare, and Technology. Ranked among
+          India's Top 10 Tech Leaders (2025) and an ISACA-published author read
+          worldwide.
         </p>
       </div>
     </div>

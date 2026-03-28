@@ -5,32 +5,28 @@ import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
 const projects = [
   {
-    title: "CallHQ",
-    category: "Voice AI Calling Platform",
-    tools: "Voice AI, Calling Automation, CRM Integrations",
-    image: "/images/callhq.png",
-    link: "https://callhq.ai",
+    title: "GRC Programme Implementation",
+    category: "Enterprise Governance & Risk Management",
+    tools: "ISO 27001, SOC 2, NIST, CMMI, Risk Registers, SoA, Control Catalogs",
+    image: "/images/grc-dashboard.jpg",
   },
   {
-    title: "Whatsapp Automation",
-    category: "WABA Application",
-    tools: "WhatsApp Business API, Workflow Automation, Notifications",
-    image: "/images/whatsapp.png",
-    link: "https://whatsapp.callhq.ai",
+    title: "SOC 2 & Compliance Automation",
+    category: "Continuous Compliance & Audit Readiness",
+    tools: "Drata, Sprinto, Thoropass, Evidence Management, Control Mapping",
+    image: "/images/soc2-compliance.jpg",
   },
   {
-    title: "Broki",
-    category: "Real Estate Platform for FnB Industry",
-    tools: "Property Discovery, Lead Management, Marketplace Workflows",
-    image: "/images/broki.png",
-    link: "https://broki.in",
+    title: "Privacy & Data Protection",
+    category: "GDPR, DPDP Act & HIPAA Compliance",
+    tools: "Data Flow Mapping, DPIAs, RoPA, Consent Governance, Cross-Border Transfers",
+    image: "/images/privacy-compliance.jpg",
   },
   {
-    title: "Orrdr.com",
-    category: "Ecommerce Platform and Mobile App",
-    tools: "Ecommerce, Mobile Experience, Order Management",
-    image: "/images/orrdr.png",
-    link: "https://orrdr.com",
+    title: "vCISO Advisory Services",
+    category: "Board-Level Cybersecurity Strategy",
+    tools: "Cyber Risk Roadmaps, ITGC, Board Reporting, Enterprise Risk Management",
+    image: "/images/vciso-advisory.jpg",
   },
 ];
 
@@ -107,7 +103,7 @@ const Work = () => {
                           {project.category}
                         </p>
                         <div className="carousel-tools">
-                          <span className="tools-label">Tools & Features</span>
+                          <span className="tools-label">Frameworks & Tools</span>
                           <p>{project.tools}</p>
                         </div>
                       </div>
@@ -116,7 +112,6 @@ const Work = () => {
                       <WorkImage
                         image={project.image}
                         alt={project.title}
-                        link={project.link}
                       />
                     </div>
                   </div>
