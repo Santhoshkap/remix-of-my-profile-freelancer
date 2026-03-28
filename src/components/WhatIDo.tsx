@@ -43,7 +43,7 @@ const cardVariants = {
 
 const WhatIDo = () => {
   return (
-    <section className="wid-section">
+    <section className="wid-section whatIDO">
       <div className="wid-inner">
         {/* Left — Title */}
         <div className="wid-left">

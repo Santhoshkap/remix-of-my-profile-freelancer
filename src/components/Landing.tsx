@@ -17,6 +17,18 @@ const Landing = ({ children }: PropsWithChildren) => {
   return (
     <>
       <div className="landing-section" id="landingDiv">
+        {/* Cybersecurity background animation */}
+        <div className="landing-cyber-bg">
+          <div className="cyber-grid" />
+          <div className="cyber-scanline" />
+          <div className="cyber-particle" style={{ top: "15%", left: "10%", animationDelay: "0s" }} />
+          <div className="cyber-particle" style={{ top: "35%", left: "80%", animationDelay: "1.2s" }} />
+          <div className="cyber-particle" style={{ top: "60%", left: "25%", animationDelay: "2.4s" }} />
+          <div className="cyber-particle" style={{ top: "75%", left: "65%", animationDelay: "0.8s" }} />
+          <div className="cyber-particle" style={{ top: "20%", left: "50%", animationDelay: "3.1s" }} />
+          <div className="cyber-particle" style={{ top: "85%", left: "40%", animationDelay: "1.8s" }} />
+        </div>
+
         <div className="landing-container">
           <div className="landing-intro">
             <motion.h2
