@@ -58,7 +58,7 @@ const SocialIcons = () => {
       <div className="social-icons" data-cursor="icons" id="social">
         <span>
           <a
-            href="https://www.linkedin.com/in/santhoshkapalavai"
+            href="https://www.linkedin.com/in/santhosh-kapalavai/"
             target="_blank"
             rel="noreferrer"
           >
@@ -85,7 +85,7 @@ const SocialIcons = () => {
       </div>
       <a
         className="resume-button"
-        href="/Santhosh_Kapalavai.pdf"
+        href="/Santhosh_Kapalavai_CV-4.pdf"
         target="_blank"
         rel="noreferrer"
       >
