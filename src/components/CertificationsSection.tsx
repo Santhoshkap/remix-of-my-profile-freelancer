@@ -23,6 +23,20 @@ const certifications = [
   "CSCP", "IPMP", "IBM AI Eng.", "CQI",
 ];
 
+function getCertColor(cert: string): { bg: string; ring: string; text: string } {
+  if (["CISA", "CISM", "CCISO", "CC", "HITRUST CCSFP"].includes(cert))
+    return { bg: "rgba(0, 102, 255, 0.7)", ring: "#3399ff", text: "#ffffff" };
+  if (["GRCP", "GRCA", "CRCMP", "CSOE"].includes(cert))
+    return { bg: "rgba(139, 92, 246, 0.7)", ring: "#a78bfa", text: "#ffffff" };
+  if (cert.startsWith("ISO") || cert.startsWith("IRCA"))
+    return { bg: "rgba(6, 182, 212, 0.7)", ring: "#22d3ee", text: "#ffffff" };
+  if (["GDPR Expert", "DPDP Specialist"].includes(cert))
+    return { bg: "rgba(16, 185, 129, 0.7)", ring: "#34d399", text: "#ffffff" };
+  if (["PMP", "Scrum Master", "ITIL v4", "Six Sigma GB"].includes(cert))
+    return { bg: "rgba(245, 158, 11, 0.7)", ring: "#fbbf24", text: "#ffffff" };
+  return { bg: "rgba(236, 72, 153, 0.7)", ring: "#f472b6", text: "#ffffff" };
+}
+
 const skillCategories = [
   {
     title: "GRC & Risk Management",
