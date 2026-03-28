@@ -1,33 +1,43 @@
 
 
-# Fix Certification Spheres — Spread Out & Readable
+# 3D Physics Certifications Section
 
-## Problems
-1. **Spheres clump together** — all 24 spawn in the same small area (`r(20)`) and the strong center-pulling impulse (`-150 * delta`) crushes them into a tight ball
-2. **Text unreadable** — when spheres overlap you can't see individual cert names; they spin and overlap
+## Overview
+Replace the current flat certification badges with the same 3D physics-based bouncing sphere animation used in TechStack. Each certification will be rendered as text on a sphere that floats, collides, and reacts to the mouse cursor — creating an interactive, visually stunning certifications display.
 
-## Solution
+## Certifications List (24 items)
+CISA, CISM, CCISO, CC, HITRUST CCSFP, GRCP, GRCA, CRCMP, CSOE, ISO 27001 Lead Auditor, ISO 42001 Lead Auditor, ISO 9001 Lead Auditor, IRCA Registered Lead Auditor, GDPR Expert, DPDP Implementation Specialist, PMP, Scrum Master, ITIL v4, Six Sigma Green Belt, CSCP, IPMP, IBM AI Engineering, CQI
 
-### 1. Spread initial spawn positions wider
-- Change spawn from `r(20)` to `r(40)` so spheres start much further apart
-- Offset Y spawn from `-25` to `-10` so they don't all drop from way below
+## Approach
 
-### 2. Weaken the center-pulling force
-- Reduce the Y impulse multiplier from `-150` to `-30` (same as X/Z at `-50` → `-30`)
-- This keeps spheres gently floating rather than slamming into center mass
+### 1. Rewrite `CertificationsSection.tsx`
+- Remove the old flat badge grid for certifications
+- Keep the skill categories cards below (GRC, Cybersecurity, Privacy, Audit)
+- Add a 3D Canvas section similar to TechStack but with certification text on spheres
 
-### 3. Increase linear damping
-- Raise `linearDamping` from `0.75` to `4.0` so spheres slow down quickly and stay spread out instead of bouncing wildly
+### 2. 3D Certification Spheres
+- Generate textures dynamically using **CanvasTexture**: for each certification string, draw text onto a canvas (white/cyan text on a dark translucent background), then use it as both `map` and `emissiveMap` on a `MeshPhysicalMaterial`
+- Create ~24 spheres (one per certification) with varied scales (0.6-1.0)
+- Same physics setup: zero-gravity, impulse toward center, ball colliders, pointer interaction
+- Spheres bounce off each other and react to mouse cursor — identical behavior to TechStack
 
-### 4. Widen camera FOV
-- Increase `fov` from `32.5` to `45` so the viewport captures more spread-out spheres
+### 3. Scroll-based Activation
+- Use IntersectionObserver or scroll listener on the `#certifications` section to activate/deactivate physics (same pattern as TechStack uses with `isActive`)
 
-### 5. Make spheres slightly smaller to reduce overlap
-- Reduce scale values from `[0.7, 0.85, 0.95, 0.8, 1.0]` to `[0.55, 0.65, 0.7, 0.6, 0.75]`
+### 4. Layout
+- Section heading "Certifications & Skills" stays
+- 3D Canvas takes up ~500px height below heading, above the skill category cards
+- Canvas has transparent background so the section's radial gradient shows through
+- On mobile (< 1024px), fall back to simple animated badges (no 3D) since the physics canvas is heavy
 
-### 6. Reduce pointer collider size
-- Shrink pointer `BallCollider` from `2` to `1.5` for gentler interaction — spheres don't explode away on hover
+### 5. Texture Generation Utility
+- A helper function `createTextTexture(text: string): THREE.CanvasTexture` that:
+  - Creates a 256x256 canvas
+  - Fills with semi-transparent dark background
+  - Draws certification text centered in white/cyan
+  - Returns as THREE.CanvasTexture
 
 ## Files Modified
-- `src/components/CertificationsSection.tsx` — spawn positions, impulse forces, damping, FOV, sphere scales
+- `src/components/CertificationsSection.tsx` — full rewrite with 3D canvas + fallback badges
+- No new files needed; reuses same Three.js + Rapier physics stack already in the project
 
