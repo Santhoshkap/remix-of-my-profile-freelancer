@@ -45,6 +45,7 @@ const Navbar = () => {
     <>
       <div className="header">
         <a href="/#" className="navbar-title" data-cursor="disable">
+          <img src={headshot} alt="SK" className="navbar-avatar" />
           SK
         </a>
         <ul>
