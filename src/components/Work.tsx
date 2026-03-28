@@ -9,25 +9,34 @@ const projects = [
   {
     title: "GRC Programme Implementation",
     category: "Enterprise Governance & Risk Management",
-    tools: "ISO 27001, SOC 2, NIST, CMMI, Risk Registers, SoA, Control Catalogs",
+    toolsLabel: "Frameworks & Standards",
+    tools: "ISO 27001 · ISO 27701 · ISO 22301 · NIST CSF · SOC 2 · SOX · ITGC · CMMI · Enterprise Risk Management",
+    delivery: "End-to-end GRC program design, control frameworks, risk registers, SoA, audit readiness, and scalable governance models",
     image: "/images/grc-dashboard.jpg",
   },
   {
     title: "SOC 2 & Compliance Automation",
     category: "Continuous Compliance & Audit Readiness",
-    tools: "Drata, Sprinto, Thoropass, Evidence Management, Control Mapping",
+    toolsLabel: "Tools & Automation",
+    tools: "Drata · Sprinto · Thoropass · Hyperproof · Archer GRC · Evidence Management · Control Mapping",
+    delivery: "Automated compliance programs, continuous monitoring, audit workflows, and scalable control automation for SaaS & cloud",
+    highlight: "Automation & Innovation — Built and enabled automated GRC and compliance platforms — helping organizations scale continuous compliance, reduce manual effort, and accelerate audit readiness",
     image: "/images/soc2-compliance.jpg",
   },
   {
     title: "Privacy & Data Protection",
     category: "GDPR, DPDP Act & HIPAA Compliance",
-    tools: "Data Flow Mapping, DPIAs, RoPA, Consent Governance, Cross-Border Transfers",
+    toolsLabel: "Privacy Frameworks & Practices",
+    tools: "GDPR · DPDP Act · HIPAA · DPIA · RoPA · Data Mapping · Consent Governance · Cross-Border Transfers",
+    delivery: "End-to-end privacy programs, data lifecycle governance, regulatory alignment, and privacy risk reduction",
     image: "/images/privacy-compliance.jpg",
   },
   {
     title: "vCISO Advisory Services",
     category: "Board-Level Cybersecurity Strategy",
-    tools: "Cyber Risk Roadmaps, ITGC, Board Reporting, Enterprise Risk Management",
+    toolsLabel: "Strategy & Risk Leadership",
+    tools: "Cyber Risk Roadmaps · ITGC · Board Reporting · Vendor Risk · Third-Party Risk · Enterprise Risk",
+    delivery: "Strategic advisory, security roadmaps, executive reporting, and translating cyber risk into business decisions",
     image: "/images/vciso-advisory.jpg",
   },
 ];
@@ -111,9 +120,18 @@ const Work = () => {
                           {project.category}
                         </p>
                         <div className="carousel-tools">
-                          <span className="tools-label">Frameworks & Tools</span>
+                          <span className="tools-label">{project.toolsLabel}</span>
                           <p>{project.tools}</p>
                         </div>
+                        <div className="carousel-delivery">
+                          <span className="delivery-label">What I Deliver</span>
+                          <p>{project.delivery}</p>
+                        </div>
+                        {project.highlight && (
+                          <div className="carousel-highlight">
+                            <p>{project.highlight}</p>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="carousel-image-wrapper">
