@@ -112,6 +112,24 @@ const Career = () => {
                 className="absolute left-[18px] md:left-1/2 w-3 h-3 rounded-full bg-primary box-glow -translate-x-1.5 mt-6 z-10"
               />
 
+              {/* Empty side with floating icon */}
+              <div className={`hidden md:flex md:w-1/2 items-center ${i % 2 === 0 ? "md:pr-10 justify-end" : "md:pl-10 justify-start"}`}>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3, type: "spring" }}
+                  className="relative"
+                >
+                  <motion.div
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
+                  >
+                    {exp.sideIcon}
+                  </motion.div>
+                </motion.div>
+              </div>
+
               <div className={`ml-12 md:ml-0 md:w-1/2 ${i % 2 === 0 ? "md:pl-10" : "md:pr-10 md:text-right"}`}>
                 <Tilt3D intensity={10}>
                   <MagneticHover>
