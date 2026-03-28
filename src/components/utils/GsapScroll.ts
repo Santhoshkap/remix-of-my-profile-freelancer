@@ -27,12 +27,11 @@ export function setCharTimeline(
       invalidateOnRefresh: true,
     },
   });
-  // Character exits when scrolling into Career/Experience section
   const tl3 = gsap.timeline({
     scrollTrigger: {
-      trigger: ".career-section",
-      start: "top 80%",
-      end: "top 20%",
+      trigger: ".whatIDO",
+      start: "top top",
+      end: "bottom bottom",
       scrub: true,
       invalidateOnRefresh: true,
     },
@@ -77,7 +76,7 @@ export function setCharTimeline(
         .to(".character-model", { opacity: 1, duration: 1, delay: 2 }, 0)
         .to(
           camera.position,
-          { z: 100, y: 15.0, duration: 6, delay: 2, ease: "power3.inOut" },
+          { z: 100, y: 10.0, duration: 6, delay: 2, ease: "power3.inOut" },
           0
         )
         .to(".about-section", { y: "30%", duration: 6 }, 0)
@@ -111,15 +110,15 @@ export function setCharTimeline(
           0.3
         );
 
-      // Character stays through What I Deliver, exits on Career
       tl3
         .fromTo(
           ".character-model",
           { y: "0%" },
-          { y: "-130%", duration: 1, ease: "power2.in" },
+          { y: "-120%", duration: 4, ease: "none", delay: 1 },
           0
         )
-        .to(character.rotation, { x: -0.04, duration: 1 }, 0);
+        .fromTo(".whatIDO", { y: 0 }, { y: "15%", duration: 2 }, 0)
+        .to(character.rotation, { x: -0.04, duration: 2, delay: 1 }, 0);
     }
   } else {
     if (character) {
