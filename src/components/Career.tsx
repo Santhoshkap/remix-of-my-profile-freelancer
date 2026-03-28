@@ -84,7 +84,7 @@ const Career = () => {
   }, []);
 
   return (
-    <section id="career" className="py-20 md:py-32 relative overflow-hidden" ref={containerRef}>
+    <section id="career" className="py-20 md:py-32 relative overflow-hidden" ref={containerRef} style={{ backgroundColor: "var(--backgroundColor)", zIndex: 12 }}>
       <div className="max-w-5xl mx-auto px-6 md:px-10">
         <SectionReveal>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-center mb-3 text-glow career-title tracking-wide">
