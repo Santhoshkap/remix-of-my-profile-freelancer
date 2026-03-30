@@ -1,44 +1,40 @@
 
 
-# Fix Mobile Work Cards & Update Location
+## Plan: Freelancer-Style Profile Updates
 
-## 1. Mobile Work Cards Fix (`src/components/Work.tsx` + `src/components/styles/Work.css`)
+### Change 1: Replace Resume with Profile PDF
 
-**Problem**: On mobile (390px), the carousel cards overflow — images take too much space and content gets cramped.
+**What:** The "RESUME" button in the bottom-right corner currently links to a GitHub-hosted resume PDF. We'll replace it with the uploaded `Santhosh_Profile.pdf`.
 
-**Solution**:
-- Hide the `carousel-image-wrapper` on mobile (≤768px) — keep only text content
-- Reduce font sizes and spacing for mobile
-- Reduce the carousel number size
-- Ensure the carousel info fills the full width
+**Steps:**
+1. Copy `user-uploads://Santhosh_Profile.pdf` to `public/Santhosh_Profile.pdf` so it's served as a static asset
+2. Update `SocialIcons.tsx` — change the href and onClick URL from the GitHub resume link to `/Santhosh_Profile.pdf`
+3. Change the button label from "RESUME" to "PROFILE" to match the new document
 
-**CSS changes** — add a new mobile breakpoint at `max-width: 768px`:
-```css
-@media only screen and (max-width: 768px) {
-  .carousel-image-wrapper { display: none; }
-  .carousel-content { padding: 0 10px; }
-  .carousel-slide { padding: 20px 0; }
-  .carousel-number h3 { font-size: 28px; }
-  .carousel-details h4 { font-size: 17px; }
-  .carousel-category { font-size: 13px; }
-  .carousel-tools p, .carousel-delivery p { font-size: 12px; }
-  .carousel-highlight p { font-size: 11px; }
-  .carousel-info { gap: 15px; }
-  .work-section h2 { font-size: 32px; margin-bottom: 20px; }
-  .carousel-arrow { width: 34px; height: 34px; font-size: 16px; }
-  .carousel-arrow-left { left: 5px; }
-  .carousel-arrow-right { right: 5px; }
-  .carousel-dots { margin-top: 20px; gap: 8px; }
-}
-```
+### Change 2: Reword Experience Section for Freelancer Positioning
 
-## 2. Location Update (`src/components/Contact.tsx`)
+**What:** The first experience entry says "2023 – Present" and uses language like "Serving as vCISO" which implies current full-time employment. We need to reframe all entries as past/completed engagements.
 
-**Line 16**: Change `"India / Global"` → `"Bangalore, India"`
+**Steps in `Career.tsx`:**
 
-## Files Modified
-| File | Change |
-|------|--------|
-| `src/components/styles/Work.css` | Add 768px mobile breakpoint hiding images, adjusting sizes |
-| `src/components/Contact.tsx` | Update location label |
+1. **First entry (Dexian)** — Change period from `"2023 – Present"` to `"2023 – 2025"`. Rewrite highlights to past tense:
+   - "Built and scaled global GRC & cybersecurity advisory services"
+   - "Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DPDP, and NIST frameworks"
+   - "Served as vCISO for enterprise clients" (was "Serving")
+
+2. **Second entry (Accenture)** — Already past tense, no changes needed.
+
+3. **Third entry (SRK Aviacom)** — Already past tense, no changes needed.
+
+4. **Fourth entry (Vision Group)** — Rewrite to past tense:
+   - "Led quality maintenance engineering for aviation operations in Phnom Penh, Cambodia"
+   - "Ensured regulatory compliance and airworthiness standards across fleet operations"
+
+5. **Section title** — Keep "My Experience" as-is (works well for freelancer positioning — shows track record).
+
+### Technical Details
+
+- **Files modified:** `src/components/SocialIcons.tsx`, `src/components/Career.tsx`
+- **Files added:** `public/Santhosh_Profile.pdf`
+- **No design/layout changes** — only content and link updates
 
