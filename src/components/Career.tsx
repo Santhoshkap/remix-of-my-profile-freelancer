@@ -52,6 +52,16 @@ const experiences = [
       "Ensured regulatory compliance and airworthiness standards across fleet operations",
     ],
   },
+  {
+    title: "Analyst",
+    company: "Air Works · India",
+    period: "2015 – 2016",
+    Icon: Wrench,
+    highlights: [
+      "Conducted compliance audits and quality inspections for aircraft maintenance operations",
+      "Supported airworthiness documentation and regulatory reporting processes",
+    ],
+  },
 ];
 
 /* 3D Holographic icon animation */
