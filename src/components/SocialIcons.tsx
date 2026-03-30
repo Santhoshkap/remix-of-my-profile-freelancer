@@ -95,7 +95,7 @@ const SocialIcons = () => {
         href="/Santhosh_Profile.pdf"
         target="_blank"
         rel="noopener noreferrer"
-        onClick={(e) => handleExternalNavigation(e, "/Santhosh_Profile.pdf")}
+        
       >
         <HoverLinks text="PROFILE" />
         <span>
