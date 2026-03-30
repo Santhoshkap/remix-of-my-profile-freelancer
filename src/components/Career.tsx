@@ -48,8 +48,8 @@ const experiences = [
     period: "2016 – 2017",
     Icon: Wrench,
     highlights: [
-      "Quality maintenance engineering for aviation operations in Phnom Penh, Cambodia",
-      "Ensuring regulatory compliance and airworthiness standards across fleet operations",
+      "Led quality maintenance engineering for aviation operations in Phnom Penh, Cambodia",
+      "Ensured regulatory compliance and airworthiness standards across fleet operations",
     ],
   },
 ];
