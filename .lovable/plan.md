@@ -1,25 +1,14 @@
 
 
-## Plan: Add Air Works Analyst Experience
+## Fix: Profile Button Opening PDF Twice
 
-Add a fifth experience entry to the Career timeline in `src/components/Career.tsx`.
+**Problem:** Clicking the PROFILE button opens the PDF in a new tab (via `openExternalLink`) AND also navigates the current page to the PDF (because the fallback in `openExternalLink` sets `window.location.href`). In the Lovable preview iframe, `window.open` may be blocked, so the fallback triggers and replaces the current page.
 
-### New Entry
+**Fix in `src/components/SocialIcons.tsx` (line 98):**
+Remove the `onClick` handler from the resume button. Keep just the native `<a href="/Santhosh_Profile.pdf" target="_blank">` behavior — this is sufficient to open the PDF in a new tab without the double-navigation issue.
 
-| Field | Value |
-|-------|-------|
-| Title | Analyst |
-| Company | Air Works · India |
-| Period | 2015 – 2016 |
-| Icon | `Wrench` (reuse — aviation/maintenance context) |
-| Highlights | Two bullet points aligned with aviation quality/compliance theme from other entries |
+**Change:**
+- Line 98: Delete `onClick={(e) => handleExternalNavigation(e, "/Santhosh_Profile.pdf")}`
 
-**Highlights:**
-- "Conducted compliance audits and quality inspections for aircraft maintenance operations"
-- "Supported airworthiness documentation and regulatory reporting processes"
-
-### Technical Detail
-
-- **File:** `src/components/Career.tsx` — append one object to the `experiences` array after the Vision Group entry
-- No new imports needed — `Wrench` icon is already imported
+One file, one line removed. The native anchor with `target="_blank"` handles new-tab opening correctly.
 
