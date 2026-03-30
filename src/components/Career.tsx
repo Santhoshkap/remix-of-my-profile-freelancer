@@ -13,12 +13,12 @@ const experiences = [
   {
     title: "Senior Manager – GRC",
     company: "Dexian India Technologies Pvt. Ltd – Global",
-    period: "2023 – Present",
+    period: "2023 – 2025",
     Icon: Shield,
     highlights: [
       "Built and scaled global GRC & cybersecurity advisory services",
       "Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DPDP, and NIST frameworks",
-      "Serving as vCISO for enterprise clients",
+      "Served as vCISO for enterprise clients",
     ],
   },
   {
@@ -48,8 +48,8 @@ const experiences = [
     period: "2016 – 2017",
     Icon: Wrench,
     highlights: [
-      "Quality maintenance engineering for aviation operations in Phnom Penh, Cambodia",
-      "Ensuring regulatory compliance and airworthiness standards across fleet operations",
+      "Led quality maintenance engineering for aviation operations in Phnom Penh, Cambodia",
+      "Ensured regulatory compliance and airworthiness standards across fleet operations",
     ],
   },
 ];
