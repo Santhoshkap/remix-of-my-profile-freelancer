@@ -17,7 +17,7 @@ const experiences = [
     Icon: Shield,
     highlights: [
       "Built and scaled global GRC & cybersecurity advisory services",
-      "Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DPDP, and NIST frameworks",
+      "Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DORA, DPDP, and NIST frameworks",
       "Served as vCISO for enterprise clients",
     ],
   },

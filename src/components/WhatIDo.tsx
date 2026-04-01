@@ -8,14 +8,14 @@ const cards = [
     title: "GRC & Cybersecurity Strategy",
     subtitle: "Enterprise Risk, Governance & Security Transformation",
     description: "Designing and scaling enterprise-grade GRC and cybersecurity programs aligned with business growth.",
-    tags: ["ISO 27001", "ISO 27701", "ISO 22301", "NIST CSF", "SOC 2", "SOX", "ITGC", "CMMI", "HIPAA", "HITRUST", "ISO 42001", "ISO 31000", "Risk Management", "Control Frameworks"],
+    tags: ["ISO 27001", "ISO 27701", "ISO 22301", "NIST CSF", "SOC 2", "SOX", "ITGC", "CMMI", "HIPAA", "HITRUST", "ISO 42001", "ISO 31000", "DORA", "Risk Management", "Control Frameworks"],
   },
   {
     icon: "🔐",
     title: "Privacy & Compliance",
     subtitle: "Data Protection & Regulatory Excellence",
     description: "Building end-to-end privacy and compliance programs that strengthen trust and regulatory readiness.",
-    tags: ["GDPR", "DPDP Act", "HIPAA", "DPIA", "RoPA", "PDPL", "CCPA", "Data Mapping", "Cross-Border Transfers", "Privacy Engineering", "Compliance Automation"],
+    tags: ["GDPR", "DORA", "DPDP Act", "HIPAA", "DPIA", "RoPA", "PDPL", "CCPA", "Data Mapping", "Cross-Border Transfers", "Privacy Engineering", "Compliance Automation"],
   },
   {
     icon: "🎯",
