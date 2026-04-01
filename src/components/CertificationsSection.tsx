@@ -18,8 +18,8 @@ const certifications = [
   "CISA", "CISM", "CCISO", "CC",
   "GRCP", "GRCA", "CRCMP", "CSOE",
   "ISO 27001", "ISO 42001", "ISO 9001", "GDPR",
-  "DPDP", "PMP", "Scrum", "ITIL",
-  "CSCP", "IBM AI", "HITRUST", "HIPAA",
+  "DPDP", "DORA", "PMP", "Scrum",
+  "ITIL", "CSCP", "IBM AI", "HITRUST", "HIPAA",
 ];
 
 const COLS = 5;

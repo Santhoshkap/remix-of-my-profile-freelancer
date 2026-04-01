@@ -15,7 +15,7 @@ const cards = [
     title: "Privacy & Compliance",
     subtitle: "Data Protection & Regulatory Excellence",
     description: "Building end-to-end privacy and compliance programs that strengthen trust and regulatory readiness.",
-    tags: ["GDPR", "DPDP Act", "HIPAA", "DPIA", "RoPA", "PDPL", "CCPA", "Data Mapping", "Cross-Border Transfers", "Privacy Engineering", "Compliance Automation"],
+    tags: ["GDPR", "DORA", "DPDP Act", "HIPAA", "DPIA", "RoPA", "PDPL", "CCPA", "Data Mapping", "Cross-Border Transfers", "Privacy Engineering", "Compliance Automation"],
   },
   {
     icon: "🎯",

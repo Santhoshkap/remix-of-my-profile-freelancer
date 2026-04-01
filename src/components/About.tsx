@@ -145,7 +145,7 @@ const About = () => {
 
             <StaggerItem>
               <p className="about-body font-body">
-                <GlowText text="From leading enterprise-wide ISO, SOC 2, HITRUST, and privacy programs to serving as a vCISO for high-growth SaaS and regulated organisations, I specialise in designing frameworks that are not only compliant — but practical, efficient, and aligned to real business outcomes." />
+                <GlowText text="From leading enterprise-wide ISO, SOC 2, HITRUST, DORA, and privacy programs to serving as a vCISO for high-growth SaaS and regulated organisations, I specialise in designing frameworks that are not only compliant — but practical, efficient, and aligned to real business outcomes." />
               </p>
             </StaggerItem>
 
