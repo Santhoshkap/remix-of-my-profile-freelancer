@@ -1,14 +1,25 @@
 
 
-## Fix: Profile Button Opening PDF Twice
+## Plan: Add DORA References Across Profile
 
-**Problem:** Clicking the PROFILE button opens the PDF in a new tab (via `openExternalLink`) AND also navigates the current page to the PDF (because the fallback in `openExternalLink` sets `window.location.href`). In the Lovable preview iframe, `window.open` may be blocked, so the fallback triggers and replaces the current page.
+DORA (Digital Operational Resilience Act) is an EU regulation for financial sector ICT risk management — fits naturally alongside GDPR in your profile. Here's where to weave it in:
 
-**Fix in `src/components/SocialIcons.tsx` (line 98):**
-Remove the `onClick` handler from the resume button. Keep just the native `<a href="/Santhosh_Profile.pdf" target="_blank">` behavior — this is sufficient to open the PDF in a new tab without the double-navigation issue.
+### Changes
 
-**Change:**
-- Line 98: Delete `onClick={(e) => handleExternalNavigation(e, "/Santhosh_Profile.pdf")}`
+**1. `src/components/Career.tsx` — Dexian experience highlights**
+- Update line 20 to include DORA in the frameworks list:
+  `"Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DORA, DPDP, and NIST frameworks"`
 
-One file, one line removed. The native anchor with `target="_blank"` handles new-tab opening correctly.
+**2. `src/components/WhatIDo.tsx` — Two cards**
+- **GRC card** (line 11): Add `"DORA"` to the tags array
+- **Privacy & Compliance card** (line 18): Add `"DORA"` to the tags array
+
+**3. `src/components/CertificationsSection.tsx` — Certifications grid**
+- Add `"DORA"` to the certifications array (line 22)
+
+**4. `src/components/About.tsx` — About paragraph**
+- Update line 148 to mention DORA alongside other frameworks:
+  `"From leading enterprise-wide ISO, SOC 2, HITRUST, DORA, and privacy programs..."`
+
+**5 files touched, text-only changes — no layout or design impact.**
 
