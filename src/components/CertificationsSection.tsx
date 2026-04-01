@@ -23,7 +23,7 @@ const certifications = [
 ];
 
 const COLS = 5;
-const ROWS = 4;
+const ROWS = 5;
 const GRID_SPACING_X = 3.2;
 const GRID_SPACING_Y = 3.0;
 
