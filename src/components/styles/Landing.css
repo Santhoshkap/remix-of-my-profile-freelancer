@@ -239,12 +239,10 @@
 
 @media screen and (min-width: 1025px) {
   .character-model {
-    height: 70vh;
-    max-height: 700px;
-    bottom: 5%;
+    height: 100vh;
+    bottom: 0;
     z-index: 11;
     position: fixed;
-    opacity: 0;
   }
   .character-model::after,
   .character-model::before { display: none; }

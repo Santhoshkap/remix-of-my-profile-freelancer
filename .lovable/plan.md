@@ -1,34 +1,25 @@
 
 
-## Plan: Fix 3D Character Size in Services Section
+## Plan: Add DORA References Across Profile
 
-### Problem
-After removing the landing/about timelines, the character appears at full `100vh` height on desktop, making it oversized and overlapping the service cards. The original design had the character scale down as it transitioned through sections — that scaling is now missing.
+DORA (Digital Operational Resilience Act) is an EU regulation for financial sector ICT risk management — fits naturally alongside GDPR in your profile. Here's where to weave it in:
 
 ### Changes
 
-**1. `src/components/styles/Landing.css` — Reduce character size on desktop**
+**1. `src/components/Career.tsx` — Dexian experience highlights**
+- Update line 20 to include DORA in the frameworks list:
+  `"Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DORA, DPDP, and NIST frameworks"`
 
-In the `@media (min-width: 1025px)` block (line 240-247), change `.character-model` from `height: 100vh` to a smaller, contained size that fits alongside the service cards:
+**2. `src/components/WhatIDo.tsx` — Two cards**
+- **GRC card** (line 11): Add `"DORA"` to the tags array
+- **Privacy & Compliance card** (line 18): Add `"DORA"` to the tags array
 
-- Change `height: 100vh` → `height: 70vh`
-- Add `max-height: 700px` to cap it on very tall screens
-- Add `bottom: 5%` to position it properly within the section
+**3. `src/components/CertificationsSection.tsx` — Certifications grid**
+- Add `"DORA"` to the certifications array (line 22)
 
-**2. `src/components/utils/GsapScroll.ts` — Add scale-down in the timeline**
+**4. `src/components/About.tsx` — About paragraph**
+- Update line 148 to mention DORA alongside other frameworks:
+  `"From leading enterprise-wide ISO, SOC 2, HITRUST, DORA, and privacy programs..."`
 
-In the `tlServices` timeline, add a `scale` property to the `.character-model` fade-in so the character enters at a reasonable size:
-
-- Change the fade-in `fromTo` (line 60-65) to include `scale: 0.85` as the final state
-- This keeps the character proportional to the cards beside it
-
-**3. `src/components/utils/GsapScroll.ts` — Adjust camera zoom**
-
-After setting the desk pose (line 54-56), increase `camera.zoom` to ~1.4 and call `camera.updateProjectionMatrix()` to make the 3D model render smaller within its canvas.
-
-### Summary
-| File | Change |
-|------|--------|
-| `src/components/styles/Landing.css` | Reduce desktop `.character-model` height from 100vh to 70vh, add max-height |
-| `src/components/utils/GsapScroll.ts` | Add camera zoom adjustment + scale in fade-in animation |
+**5 files touched, text-only changes — no layout or design impact.**
 
