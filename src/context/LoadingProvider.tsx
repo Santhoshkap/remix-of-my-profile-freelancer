@@ -19,12 +19,26 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
   const [isLoading, setIsLoading] = useState(true);
   const [loading, setLoading] = useState(0);
 
+  // Auto-complete loading since the 3D model is removed
+  useEffect(() => {
+    let frame = 0;
+    const interval = setInterval(() => {
+      frame += 1;
+      const progress = Math.min(frame * 5, 100);
+      setLoading(progress);
+      if (progress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => setIsLoading(false), 1500);
+      }
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+
   const value = {
     isLoading,
     setIsLoading,
     setLoading,
   };
-  useEffect(() => {}, [loading]);
 
   return (
     <LoadingContext.Provider value={value as LoadingType}>
