@@ -248,6 +248,7 @@
   .landing-info h3 { font-size: 25px; }
   .landing-role { font-size: 40px; }
   .landing-role-container { height: 60px; }
+  .landing-liner { font-size: 13px; max-width: 420px; }
 }
 
 @media screen and (min-width: 1025px) {
