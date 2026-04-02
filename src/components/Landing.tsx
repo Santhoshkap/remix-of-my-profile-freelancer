@@ -1,10 +1,10 @@
-import { PropsWithChildren, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Landing.css";
 
 const roles = ["Implementer", "Auditor", "Advisor", "Strategist", "Leader"];
 
-const Landing = ({ children }: PropsWithChildren) => {
+const Landing = () => {
   const [roleIndex, setRoleIndex] = useState(0);
 
   useEffect(() => {
@@ -21,7 +21,6 @@ const Landing = ({ children }: PropsWithChildren) => {
         <div className="landing-cyber-bg">
           <div className="cyber-grid" />
           <div className="cyber-scanline" />
-          {/* Particles */}
           <div className="cyber-particle" style={{ top: "15%", left: "10%", animationDelay: "0s" }} />
           <div className="cyber-particle" style={{ top: "35%", left: "80%", animationDelay: "1.2s" }} />
           <div className="cyber-particle" style={{ top: "60%", left: "25%", animationDelay: "2.4s" }} />
@@ -29,59 +28,38 @@ const Landing = ({ children }: PropsWithChildren) => {
           <div className="cyber-particle" style={{ top: "20%", left: "50%", animationDelay: "3.1s" }} />
           <div className="cyber-particle" style={{ top: "85%", left: "40%", animationDelay: "1.8s" }} />
 
-          {/* 3D Floating geometric shapes */}
           <motion.div
             className="cyber-geo cyber-geo-cube"
             style={{ top: "12%", right: "12%" }}
-            animate={{
-              rotateX: [0, 360],
-              rotateY: [0, 360],
-              rotateZ: [0, 180],
-            }}
+            animate={{ rotateX: [0, 360], rotateY: [0, 360], rotateZ: [0, 180] }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           />
           <motion.div
             className="cyber-geo cyber-geo-octahedron"
             style={{ bottom: "20%", right: "8%" }}
-            animate={{
-              rotateX: [0, -360],
-              rotateY: [0, 360],
-              y: [0, -15, 0],
-            }}
+            animate={{ rotateX: [0, -360], rotateY: [0, 360], y: [0, -15, 0] }}
             transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="cyber-geo cyber-geo-ring"
             style={{ top: "40%", left: "5%" }}
-            animate={{
-              rotateY: [0, 360],
-              rotateX: [65, 65],
-              scale: [1, 1.1, 1],
-            }}
+            animate={{ rotateY: [0, 360], rotateX: [65, 65], scale: [1, 1.1, 1] }}
             transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
           />
           <motion.div
             className="cyber-geo cyber-geo-pyramid"
             style={{ bottom: "30%", left: "15%" }}
-            animate={{
-              rotateY: [0, 360],
-              y: [0, -10, 0],
-            }}
+            animate={{ rotateY: [0, 360], y: [0, -10, 0] }}
             transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
           />
 
-          {/* 3D Holographic data ring */}
           <motion.div
             className="cyber-holo-ring"
             style={{ top: "25%", right: "20%" }}
-            animate={{
-              rotateX: [65, 65],
-              rotateZ: [0, 360],
-            }}
+            animate={{ rotateX: [65, 65], rotateZ: [0, 360] }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
           />
 
-          {/* Floating hex data */}
           <motion.div
             className="cyber-hex-stream"
             style={{ top: "8%", right: "5%" }}
@@ -99,7 +77,6 @@ const Landing = ({ children }: PropsWithChildren) => {
             SHA-256 VERIFIED
           </motion.div>
 
-          {/* Animated connection lines */}
           <svg className="cyber-lines-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
             <motion.line
               x1="0" y1="200" x2="1000" y2="400"
@@ -182,7 +159,6 @@ const Landing = ({ children }: PropsWithChildren) => {
             </div>
           </div>
         </div>
-        {children}
       </div>
     </>
   );
