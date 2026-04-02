@@ -1,23 +1,22 @@
 
 
-## Plan: Remove Hero Section Animation Only
+## Plan: Remove 3D Character Intro Animation
 
 ### What changes
 
-**File: `src/components/utils/GsapScroll.ts`**
+**File: `src/components/Character/utils/animationUtils.ts`**
 
-Gut the `setLandingTimeline` function — remove all the GSAP timeline code inside it so it becomes a no-op. The function signature stays so callers don't break, but it does nothing.
+The `startIntro()` function (lines 35-46) plays the "introAnimation" clip on the character model when the page loads. This is what makes the character do its entrance pose.
 
-Specifically, lines 40-59 get replaced with just a `return;` statement. This removes:
-- Character rotation on scroll (y: 0 → 0.7)
-- Camera zoom (z: 22)
-- Character model slide left and fade out
-- Landing container fade/slide
-- About-me slide-in
+**Change:** Make `startIntro()` a no-op — remove the clip lookup, reset, and play call, and the blink animation timeout. The function signature stays so callers don't break.
 
-**No other files or functions touched.** `setAboutToWhatTimeline`, `setWhatIDoTimeline`, and `setAllTimeline` remain exactly as they are.
+Specifically:
+- Lines 35-46: Replace the body of `startIntro()` with just `return;`
+- Also remove the initial `introAction.play()` on line 15 which pre-starts the intro clip immediately on load (lines 9-14 find and play it before `startIntro` is even called)
+
+**No other files touched.** The typing animation, hover eyebrow animation, and blink will remain. The scroll-based animations in `GsapScroll.ts` are unaffected.
 
 ### Result
 
-The hero section will be static (no scroll-driven animation). The "What I Deliver" section animations, about-section transition, and career timeline all continue working independently.
+The character will appear in its default T-pose/idle state immediately without any entrance animation sequence.
 
