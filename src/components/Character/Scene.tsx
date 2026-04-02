@@ -72,6 +72,7 @@ const Scene = () => {
           screenLight = character.getObjectByName("screenlight") || null;
           progress.loaded().then(() => {
             light.turnOnLights();
+            animations.startIntro();
           });
           window.addEventListener("resize", () =>
             handleResize(renderer, camera, canvasDiv, character)
