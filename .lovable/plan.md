@@ -1,39 +1,34 @@
 
 
-## Plan: Restrict 3D Character to "What I Deliver" Section Only
+## Plan: Fix 3D Character Size in Services Section
 
 ### Problem
-The 3D character currently appears in the hero/landing section and animates through About into the "What I Deliver" section via three GSAP scroll timelines (tl1, tl2, tl3). You want it to only appear in the "What I Deliver" section.
+After removing the landing/about timelines, the character appears at full `100vh` height on desktop, making it oversized and overlapping the service cards. The original design had the character scale down as it transitioned through sections — that scaling is now missing.
 
 ### Changes
 
-**1. `src/components/utils/GsapScroll.ts` — Rewrite `setCharTimeline`**
+**1. `src/components/styles/Landing.css` — Reduce character size on desktop**
 
-Remove `tl1` (landing) and `tl2` (about) timelines entirely. Replace with a single timeline triggered by `.whatIDO`:
+In the `@media (min-width: 1025px)` block (line 240-247), change `.character-model` from `height: 100vh` to a smaller, contained size that fits alongside the service cards:
 
-- Character starts hidden (opacity 0) and becomes visible when scrolling into the "What I Deliver" section
-- Keep the desk/monitor animation, screen light flicker, and neck bone rotation — but trigger them all from the `.whatIDO` scroll trigger
-- Character fades in at the start of the section, positioned to the left (x: -40%), already in the "at desk" pose
-- Keep `tl3`'s exit animation (character moves up and out as you scroll past)
-- On mobile (<=1024px), keep existing behavior (just show `.what-box-in`)
+- Change `height: 100vh` → `height: 70vh`
+- Add `max-height: 700px` to cap it on very tall screens
+- Add `bottom: 5%` to position it properly within the section
 
-**2. `src/components/styles/Landing.css` — Hide character initially on desktop**
+**2. `src/components/utils/GsapScroll.ts` — Add scale-down in the timeline**
 
-On desktop (min-width: 1025px), set `.character-model` to start with `opacity: 0` so it doesn't flash in the hero section. The GSAP timeline will animate it to visible when reaching the services section.
+In the `tlServices` timeline, add a `scale` property to the `.character-model` fade-in so the character enters at a reasonable size:
 
-**3. `src/components/MainContainer.tsx` — No changes needed**
+- Change the fade-in `fromTo` (line 60-65) to include `scale: 0.85` as the final state
+- This keeps the character proportional to the cards beside it
 
-The character container is already positioned fixed on desktop, so it can appear at any scroll point. No structural changes required.
+**3. `src/components/utils/GsapScroll.ts` — Adjust camera zoom**
 
-### What stays the same
-- The 3D model loading, lighting, head-tracking, and intro animation logic in Scene.tsx
-- The career timeline in `setAllTimeline()`
-- Mobile layout behavior
-- All other section animations
+After setting the desk pose (line 54-56), increase `camera.zoom` to ~1.4 and call `camera.updateProjectionMatrix()` to make the 3D model render smaller within its canvas.
 
 ### Summary
 | File | Change |
 |------|--------|
-| `src/components/utils/GsapScroll.ts` | Remove tl1 + tl2, rewrite to single whatIDO-triggered timeline |
-| `src/components/styles/Landing.css` | Set initial `opacity: 0` on desktop `.character-model` |
+| `src/components/styles/Landing.css` | Reduce desktop `.character-model` height from 100vh to 70vh, add max-height |
+| `src/components/utils/GsapScroll.ts` | Add camera zoom adjustment + scale in fade-in animation |
 
