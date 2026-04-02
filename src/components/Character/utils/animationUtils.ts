@@ -26,7 +26,11 @@ const setAnimations = (gltf: GLTF) => {
     }
   }
   function startIntro() {
-    return;
+    // Just start the blink animation immediately (no intro entrance)
+    const blink = gltf.animations.find((clip) => clip.name === "Blink");
+    if (blink) {
+      mixer.clipAction(blink).play().fadeIn(0.5);
+    }
   }
   function hover(gltf: GLTF, hoverDiv: HTMLDivElement) {
     let eyeBrowUpAction = createBoneAction(
