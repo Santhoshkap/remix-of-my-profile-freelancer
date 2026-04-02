@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import GlobeBackground from "./GlobeBackground";
 import "./styles/Landing.css";
 
 const roles = ["Implementer", "Auditor", "Advisor", "Strategist", "Leader"];
@@ -108,6 +109,7 @@ const Landing = () => {
         </div>
 
         <div className="landing-container">
+          <GlobeBackground />
           <div className="landing-intro">
             <motion.h2
               className="hover-invert-accent"
