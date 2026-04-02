@@ -1,25 +1,38 @@
 
 
-## Plan: Add DORA References Across Profile
+## Plan: Add Impact Liner to Hero Section + Verify Scrolling
 
-DORA (Digital Operational Resilience Act) is an EU regulation for financial sector ICT risk management — fits naturally alongside GDPR in your profile. Here's where to weave it in:
+### 1. Add a tagline/liner below the name in the hero section
 
-### Changes
+**File: `src/components/Landing.tsx`**
 
-**1. `src/components/Career.tsx` — Dexian experience highlights**
-- Update line 20 to include DORA in the frameworks list:
-  `"Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DORA, DPDP, and NIST frameworks"`
+Add a one-liner tagline between the name and the bottom info area — something like:
 
-**2. `src/components/WhatIDo.tsx` — Two cards**
-- **GRC card** (line 11): Add `"DORA"` to the tags array
-- **Privacy & Compliance card** (line 18): Add `"DORA"` to the tags array
+> "Securing Digital Resilience Through Governance, Risk & Compliance"
 
-**3. `src/components/CertificationsSection.tsx` — Certifications grid**
-- Add `"DORA"` to the certifications array (line 22)
+This will be added as a `motion.p` element inside `.landing-intro`, right after the `h1` (line 158), with a fade+blur entrance animation matching the existing style. It will use the accent color and a slightly smaller Orbitron font.
 
-**4. `src/components/About.tsx` — About paragraph**
-- Update line 148 to mention DORA alongside other frameworks:
-  `"From leading enterprise-wide ISO, SOC 2, HITRUST, DORA, and privacy programs..."`
+**File: `src/components/styles/Landing.css`**
 
-**5 files touched, text-only changes — no layout or design impact.**
+Add styles for `.landing-liner`:
+- Orbitron font, ~14px on mobile scaling up at breakpoints
+- Accent color with subtle text-shadow glow
+- Letter-spacing for the cyber aesthetic
+- Responsive sizing at 768px, 1025px, and 1600px breakpoints
+
+### 2. Verify scrolling works
+
+**File: `src/components/Navbar.tsx`**
+
+The nav links use `smoother.scrollTo()` on desktop (>1024px) but on mobile they fall through to native `#hash` navigation. Since the content is inside `#smooth-wrapper > #smooth-content`, native hash scrolling may not work on mobile.
+
+**Fix:** Remove the `if (window.innerWidth > 1024)` check so `smoother.scrollTo()` is used on all screen sizes. Also add `e.preventDefault()` unconditionally to prevent the hash from interfering.
+
+### Summary
+
+| File | Change |
+|------|--------|
+| `src/components/Landing.tsx` | Add `motion.p` liner after the name |
+| `src/components/styles/Landing.css` | Add `.landing-liner` styles + responsive |
+| `src/components/Navbar.tsx` | Remove desktop-only guard on scroll navigation |
 
