@@ -292,168 +292,61 @@
   .landing-role-container { height: 80px; }
 }
 
-/* Cybersecurity background animation */
-.landing-cyber-bg {
+/* ── Globe canvas container ──────────────────────────────────────── */
+.landing-globe-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  pointer-events: none;
   overflow: hidden;
-  pointer-events: none;
 }
 
-.cyber-grid {
+.landing-globe-bg canvas {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ── Left-side veil: keeps text crisp over the globe ─────────────── */
+.landing-text-veil {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(hsla(190, 100%, 50%, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, hsla(190, 100%, 50%, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-.cyber-scanline {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 2px;
+  z-index: 1;
+  pointer-events: none;
   background: linear-gradient(
-    90deg,
-    transparent 0%,
-    hsla(190, 100%, 50%, 0.15) 20%,
-    hsla(190, 100%, 50%, 0.3) 50%,
-    hsla(190, 100%, 50%, 0.15) 80%,
-    transparent 100%
+    to right,
+    var(--backgroundColor, #020510) 0%,
+    var(--backgroundColor, #020510) 25%,
+    color-mix(in srgb, var(--backgroundColor, #020510) 70%, transparent) 42%,
+    transparent 58%
   );
-  box-shadow: 0 0 20px hsla(190, 100%, 50%, 0.1);
-  animation: cyber-scan 6s linear infinite;
 }
 
-@keyframes cyber-scan {
-  0% { top: -2px; opacity: 0; }
-  5% { opacity: 1; }
-  95% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
-
-.cyber-particle {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: hsla(190, 100%, 50%, 0.5);
-  box-shadow: 0 0 8px hsla(190, 100%, 50%, 0.3);
-  animation: cyber-float 5s ease-in-out infinite;
-}
-
-@keyframes cyber-float {
-  0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
-  50% { transform: translateY(-20px) scale(1.4); opacity: 0.7; }
-}
-
-/* Floating hex data */
-.cyber-hex-stream {
-  position: absolute;
-  font-family: "Orbitron", monospace;
-  font-size: 9px;
-  letter-spacing: 3px;
-  color: hsl(190, 100%, 50%);
-  text-transform: uppercase;
-  z-index: 1;
-}
-
-/* Connection lines SVG */
-.cyber-lines-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-/* 3D Floating geometric shapes */
-.cyber-geo {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  border: 1.5px solid hsla(190, 100%, 50%, 0.15);
-  transform-style: preserve-3d;
-  perspective: 600px;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.cyber-geo-cube {
-  box-shadow: 0 0 15px hsla(190, 100%, 50%, 0.08), inset 0 0 10px hsla(190, 100%, 50%, 0.04);
-}
-
-.cyber-geo-octahedron {
-  width: 30px;
-  height: 30px;
-  border-radius: 2px;
-  border-color: hsla(190, 100%, 50%, 0.12);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  background: hsla(190, 100%, 50%, 0.04);
-  box-shadow: 0 0 20px hsla(190, 100%, 50%, 0.06);
-}
-
-.cyber-geo-ring {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 1.5px solid hsla(190, 100%, 50%, 0.12);
-  background: transparent;
-  box-shadow: 0 0 12px hsla(190, 100%, 50%, 0.06), inset 0 0 12px hsla(190, 100%, 50%, 0.03);
-}
-
-.cyber-geo-pyramid {
-  width: 35px;
-  height: 35px;
-  border: none;
-  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-  background: hsla(190, 100%, 50%, 0.05);
-  box-shadow: 0 0 15px hsla(190, 100%, 50%, 0.06);
-  border-bottom: 1.5px solid hsla(190, 100%, 50%, 0.15);
-}
-
-/* Holographic data ring */
-.cyber-holo-ring {
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 1px dashed hsla(190, 100%, 50%, 0.1);
-  box-shadow: 0 0 20px hsla(190, 100%, 50%, 0.05), inset 0 0 20px hsla(190, 100%, 50%, 0.03);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.cyber-holo-ring::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  border-radius: 50%;
-  border: 1px solid hsla(190, 100%, 50%, 0.08);
-}
-
-.cyber-holo-ring::after {
-  content: "";
-  position: absolute;
-  inset: 16px;
-  border-radius: 50%;
-  border: 1px dotted hsla(190, 100%, 50%, 0.06);
-}
-
-@media screen and (max-width: 768px) {
-  .cyber-geo, .cyber-holo-ring {
-    display: none;
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .landing-text-veil {
+    background: linear-gradient(
+      to right,
+      var(--backgroundColor, #020510) 0%,
+      var(--backgroundColor, #020510) 28%,
+      transparent 58%
+    );
   }
-  .cyber-hex-stream {
-    display: none;
+}
+
+.landing-container {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 1024px) {
+  .landing-text-veil {
+    background: rgba(2, 5, 16, 0.72);
   }
-  .cyber-lines-svg {
-    display: none;
+  .landing-globe-bg canvas {
+    opacity: 0.5;
   }
-  .character-model {
-    height: 85vh;
-    bottom: 20px;
-  }
+}
+
+.landing-cyber-bg {
+  display: none !important;
 }
