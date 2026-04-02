@@ -1,6 +1,22 @@
 import * as THREE from "three";
 import gsap from "gsap";
 
+export function setGlobeTimeline(
+  globe: THREE.Group,
+  _camera: THREE.PerspectiveCamera
+) {
+  // Scroll-driven fade out of globe as user scrolls past hero
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: "#hero-section",
+      start: "top top",
+      end: "bottom top",
+      scrub: true,
+      invalidateOnRefresh: true,
+    },
+  }).to(globe.scale, { x: 0.5, y: 0.5, z: 0.5, duration: 1 }, 0);
+}
+
 export function setCharTimeline(
   character: THREE.Object3D<THREE.Object3DEventMap> | null,
   camera: THREE.PerspectiveCamera
