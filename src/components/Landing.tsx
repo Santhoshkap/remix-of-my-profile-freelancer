@@ -109,6 +109,7 @@ const Landing = () => {
         </div>
 
         <div className="landing-container">
+          <GlobeBackground />
           <div className="landing-intro">
             <motion.h2
               className="hover-invert-accent"
