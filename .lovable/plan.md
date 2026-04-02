@@ -1,27 +1,53 @@
 
 
-## Plan: Hide 3D Character from Hero Section
+## Plan: Add 3D Globe Animation to Hero Section
 
-### Problem
-The 3D character model is rendered in the hero section. Simply removing it will break the loading screen — the loader waits for the character model to call `setLoading(100)`, so the site would get stuck on the loading screen forever.
+### Concept
+Create a slowly rotating 3D wireframe/holographic Earth globe that sits behind the hero text as a background element. The globe will use the cyber theme colors (hsl 190 cyan) and be semi-transparent so text remains clearly readable on top.
+
+### Layout
+
+```text
+┌──────────────────────────────────┐
+│         HERO SECTION             │
+│                                  │
+│  "Hello I'm"    ┌──────────┐    │
+│  SANTHOSH       │  3D GLOBE│    │
+│  KAPALAVAI      │ (behind  │    │
+│                 │  text)   │    │
+│  GRC & Cyber    └──────────┘    │
+│  [Implementer]                   │
+└──────────────────────────────────┘
+Desktop: Globe on right side, behind the info text
+Mobile: Globe centered, behind all text, smaller
+```
 
 ### Changes
 
-**1. `src/App.tsx`** — Remove CharacterModel entirely
-- Remove the `lazy` import of CharacterModel
-- Remove the `<Suspense><CharacterModel /></Suspense>` block from the JSX
-- MainContainer's `children` will be empty (no visual change needed since nothing renders)
+**1. New component: `src/components/GlobeBackground.tsx`**
+- Uses `@react-three/fiber` Canvas + `@react-three/drei` (Sphere geometry)
+- Renders a wireframe sphere with cyan-colored edges matching the cyber theme
+- Slow auto-rotation on Y axis
+- Semi-transparent (opacity ~0.15-0.25) so text reads clearly over it
+- Subtle glow effect using emissive material
+- No user interaction needed — purely decorative
 
-**2. `src/components/MainContainer.tsx`** — Remove children pass-through
-- Remove `PropsWithChildren` usage and `children` prop
-- Remove `{isDesktopView && children}` (line 39)
-- Remove `{!isDesktopView && children}` from Landing (line 43), just render `<Landing />`
+**2. `src/components/Landing.tsx`**
+- Import and render `<GlobeBackground />` inside `.landing-container`
+- Position it absolutely behind the text content using a wrapper div with `z-index: 0` and `pointer-events: none`
 
-**3. `src/context/LoadingProvider.tsx`** — Auto-complete loading
-- Add a `useEffect` that sets loading to 100 and `isLoading` to false after a short delay (~3 seconds) to let the loading animation play, since no model will trigger completion anymore
+**3. `src/components/styles/Landing.css`**
+- Add `.landing-globe` styles:
+  - Absolute positioned, right-aligned on desktop, centered on mobile
+  - ~500px width/height on desktop, ~300px on mobile
+  - `z-index: 1` (behind text which is `z-index: 9`)
+  - `opacity: 0.3` for subtle background effect
+  - Responsive breakpoints matching existing layout
 
-**4. `src/components/Landing.tsx`** — Remove `PropsWithChildren`
-- Remove `children` prop and `{children}` render since the character is no longer passed in
-
-This keeps all CSS and character source files intact (in case you want to re-enable later) but completely hides the 3D model from the site.
+### Technical Details
+- Uses existing `three`, `@react-three/fiber`, and `@react-three/drei` dependencies (already installed)
+- Globe rendered as wireframe `SphereGeometry` with `MeshBasicMaterial` (no lighting needed)
+- Optional: add dot-style points on sphere surface for a data-visualization look
+- Canvas has `alpha: true` for transparent background
+- `frameloop="always"` for continuous rotation
 
