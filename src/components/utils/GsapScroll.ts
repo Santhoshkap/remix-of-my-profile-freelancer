@@ -5,10 +5,13 @@ export function setGlobeTimeline(
   globe: THREE.Group,
   _camera: THREE.PerspectiveCamera
 ) {
-  // Scroll-driven fade out of globe as user scrolls past hero
+  const trigger = document.querySelector("#hero-section")
+    ? "#hero-section"
+    : ".landing-section";
+
   gsap.timeline({
     scrollTrigger: {
-      trigger: "#hero-section",
+      trigger,
       start: "top top",
       end: "bottom top",
       scrub: true,

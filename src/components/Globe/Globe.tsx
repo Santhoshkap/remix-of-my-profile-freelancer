@@ -162,7 +162,7 @@ const Globe = () => {
     };
   }, []);
 
-  return <div className="globe-model" ref={canvasDiv} />;
+  return <div className="globe-model h-full w-full" ref={canvasDiv} />;
 };
 
 export default Globe;
