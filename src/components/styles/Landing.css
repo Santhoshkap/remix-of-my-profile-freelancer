@@ -235,10 +235,10 @@
 @media screen and (min-width: 500px) {
   .landing-circle2 { display: block; }
   .character-model { z-index: 0; }
-  .landing-info h3 { font-size: 18px; }
   .landing-intro h2 { font-size: 18px; }
   .landing-intro h1 { font-size: 30px; line-height: 30px; }
   .landing-role { font-size: 28px; }
+  .landing-liner { font-size: 11px; }
 }
 
 @media screen and (min-width: 768px) {
