@@ -1,17 +1,6 @@
-/**
- * Landing.tsx — updated hero section with 3D globe
- *
- * Drop in as: src/components/Landing.tsx
- * The globe replaces the old cyber-bg animation.
- * All text, role-cycling, and children logic stays identical.
- */
-
-import { PropsWithChildren, useState, useEffect, lazy, Suspense } from "react";
+import { PropsWithChildren, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Landing.css";
-
-// Lazy-load the heavy Globe so it never blocks the loading screen
-const GlobeHero = lazy(() => import("./GlobeHero"));
 
 const roles = ["Implementer", "Auditor", "Advisor", "Strategist", "Leader"];
 
@@ -28,18 +17,119 @@ const Landing = ({ children }: PropsWithChildren) => {
   return (
     <>
       <div className="landing-section" id="landingDiv">
+        {/* Cybersecurity background animation */}
+        <div className="landing-cyber-bg">
+          <div className="cyber-grid" />
+          <div className="cyber-scanline" />
+          {/* Particles */}
+          <div className="cyber-particle" style={{ top: "15%", left: "10%", animationDelay: "0s" }} />
+          <div className="cyber-particle" style={{ top: "35%", left: "80%", animationDelay: "1.2s" }} />
+          <div className="cyber-particle" style={{ top: "60%", left: "25%", animationDelay: "2.4s" }} />
+          <div className="cyber-particle" style={{ top: "75%", left: "65%", animationDelay: "0.8s" }} />
+          <div className="cyber-particle" style={{ top: "20%", left: "50%", animationDelay: "3.1s" }} />
+          <div className="cyber-particle" style={{ top: "85%", left: "40%", animationDelay: "1.8s" }} />
 
-        {/* ── 3D Globe (fills the section as background) ── */}
-        <div className="landing-globe-bg" aria-hidden="true">
-          <Suspense fallback={null}>
-            <GlobeHero />
-          </Suspense>
+          {/* 3D Floating geometric shapes */}
+          <motion.div
+            className="cyber-geo cyber-geo-cube"
+            style={{ top: "12%", right: "12%" }}
+            animate={{
+              rotateX: [0, 360],
+              rotateY: [0, 360],
+              rotateZ: [0, 180],
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className="cyber-geo cyber-geo-octahedron"
+            style={{ bottom: "20%", right: "8%" }}
+            animate={{
+              rotateX: [0, -360],
+              rotateY: [0, 360],
+              y: [0, -15, 0],
+            }}
+            transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="cyber-geo cyber-geo-ring"
+            style={{ top: "40%", left: "5%" }}
+            animate={{
+              rotateY: [0, 360],
+              rotateX: [65, 65],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className="cyber-geo cyber-geo-pyramid"
+            style={{ bottom: "30%", left: "15%" }}
+            animate={{
+              rotateY: [0, 360],
+              y: [0, -10, 0],
+            }}
+            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          {/* 3D Holographic data ring */}
+          <motion.div
+            className="cyber-holo-ring"
+            style={{ top: "25%", right: "20%" }}
+            animate={{
+              rotateX: [65, 65],
+              rotateZ: [0, 360],
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          />
+
+          {/* Floating hex data */}
+          <motion.div
+            className="cyber-hex-stream"
+            style={{ top: "8%", right: "5%" }}
+            animate={{ opacity: [0.05, 0.15, 0.05] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          >
+            0xF4A3 · 0x9B7E
+          </motion.div>
+          <motion.div
+            className="cyber-hex-stream"
+            style={{ bottom: "15%", left: "3%" }}
+            animate={{ opacity: [0.08, 0.18, 0.08] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+          >
+            SHA-256 VERIFIED
+          </motion.div>
+
+          {/* Animated connection lines */}
+          <svg className="cyber-lines-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+            <motion.line
+              x1="0" y1="200" x2="1000" y2="400"
+              stroke="hsl(190, 100%, 50%)"
+              strokeWidth="0.5"
+              strokeOpacity="0.06"
+              animate={{ strokeOpacity: [0.03, 0.08, 0.03] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.line
+              x1="200" y1="0" x2="800" y2="1000"
+              stroke="hsl(190, 100%, 50%)"
+              strokeWidth="0.5"
+              strokeOpacity="0.04"
+              animate={{ strokeOpacity: [0.02, 0.06, 0.02] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            />
+            <motion.circle
+              cx="500" cy="300"
+              r="80"
+              fill="none"
+              stroke="hsl(190, 100%, 50%)"
+              strokeWidth="0.5"
+              strokeDasharray="4 6"
+              animate={{ r: [80, 120, 80], strokeOpacity: [0.05, 0.1, 0.05] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </svg>
         </div>
 
-        {/* ── Left-side gradient so text stays readable ── */}
-        <div className="landing-text-veil" aria-hidden="true" />
-
-        {/* ── Hero text (unchanged from original) ── */}
         <div className="landing-container">
           <div className="landing-intro">
             <motion.h2
@@ -50,7 +140,6 @@ const Landing = ({ children }: PropsWithChildren) => {
             >
               Hello! I'm
             </motion.h2>
-
             <motion.h1
               className="hover-invert"
               initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
@@ -68,7 +157,6 @@ const Landing = ({ children }: PropsWithChildren) => {
               </motion.span>
             </motion.h1>
           </div>
-
           <div className="landing-info">
             <motion.h3
               className="hover-invert"
@@ -78,7 +166,6 @@ const Landing = ({ children }: PropsWithChildren) => {
             >
               GRC & Cybersecurity
             </motion.h3>
-
             <div className="landing-role-container">
               <AnimatePresence mode="wait">
                 <motion.span
@@ -95,8 +182,6 @@ const Landing = ({ children }: PropsWithChildren) => {
             </div>
           </div>
         </div>
-
-        {/* ── 3D Character model (passed in by MainContainer) ── */}
         {children}
       </div>
     </>
