@@ -304,6 +304,7 @@
   .landing-info h3 { font-size: 35px; }
   .landing-role { font-size: 55px; }
   .landing-role-container { height: 80px; }
+  .landing-liner { font-size: 16px; max-width: 520px; }
 }
 
 /* Cybersecurity background animation */
