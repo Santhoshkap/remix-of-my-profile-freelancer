@@ -12,7 +12,7 @@ import {
   generateNodePositions,
 } from "./utils/globeGeometry";
 import { GlobeAnimator } from "./utils/globeAnimation";
-import { setGlobeTimeline, setAllTimeline } from "../utils/GsapScroll";
+import { setGlobeTimeline, setAllTimeline } from "../../components/utils/GsapScroll";
 
 const GLOBE_RADIUS = 5;
 const NODE_COUNT = 50;
