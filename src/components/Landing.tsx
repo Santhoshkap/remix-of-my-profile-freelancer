@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import GlobeBackground from "./GlobeBackground";
 import "./styles/Landing.css";
 
 const roles = ["Implementer", "Auditor", "Advisor", "Strategist", "Leader"];
