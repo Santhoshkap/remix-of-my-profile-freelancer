@@ -28,10 +28,12 @@ const Navbar = () => {
     links.forEach((elem) => {
       let element = elem as HTMLAnchorElement;
       element.addEventListener("click", (e) => {
-        e.preventDefault();
-        let elem = e.currentTarget as HTMLAnchorElement;
-        let section = elem.getAttribute("data-href");
-        smoother.scrollTo(section, true, "top top");
+        if (window.innerWidth > 1024) {
+          e.preventDefault();
+          let elem = e.currentTarget as HTMLAnchorElement;
+          let section = elem.getAttribute("data-href");
+          smoother.scrollTo(section, true, "top top");
+        }
       });
     });
     window.addEventListener("resize", () => {

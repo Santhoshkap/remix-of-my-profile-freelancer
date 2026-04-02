@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import "./App.css";
 
-const HeroVisual = lazy(() => import("./components/Globe/Globe"));
+const CharacterModel = lazy(() => import("./components/Character"));
 const MainContainer = lazy(() => import("./components/MainContainer"));
 import { LoadingProvider } from "./context/LoadingProvider";
 
@@ -12,9 +12,7 @@ const App = () => {
         <Suspense>
           <MainContainer>
             <Suspense>
-              <div className="character-model">
-                <HeroVisual />
-              </div>
+              <CharacterModel />
             </Suspense>
           </MainContainer>
         </Suspense>
