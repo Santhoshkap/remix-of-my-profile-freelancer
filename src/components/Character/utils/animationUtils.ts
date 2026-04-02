@@ -6,6 +6,13 @@ const setAnimations = (gltf: GLTF) => {
   let character = gltf.scene;
   let mixer = new THREE.AnimationMixer(character);
   if (gltf.animations) {
+    const introClip = gltf.animations.find(
+      (clip) => clip.name === "introAnimation"
+    );
+    const introAction = mixer.clipAction(introClip!);
+    introAction.setLoop(THREE.LoopOnce, 1);
+    introAction.clampWhenFinished = true;
+    introAction.play();
     const clipNames = ["key1", "key2", "key5", "key6"];
     clipNames.forEach((name) => {
       const clip = THREE.AnimationClip.findByName(gltf.animations, name);
@@ -26,11 +33,16 @@ const setAnimations = (gltf: GLTF) => {
     }
   }
   function startIntro() {
-    // Just start the blink animation immediately (no intro entrance)
-    const blink = gltf.animations.find((clip) => clip.name === "Blink");
-    if (blink) {
-      mixer.clipAction(blink).play().fadeIn(0.5);
-    }
+    const introClip = gltf.animations.find(
+      (clip) => clip.name === "introAnimation"
+    );
+    const introAction = mixer.clipAction(introClip!);
+    introAction.clampWhenFinished = true;
+    introAction.reset().play();
+    setTimeout(() => {
+      const blink = gltf.animations.find((clip) => clip.name === "Blink");
+      mixer.clipAction(blink!).play().fadeIn(0.5);
+    }, 2500);
   }
   function hover(gltf: GLTF, hoverDiv: HTMLDivElement) {
     let eyeBrowUpAction = createBoneAction(

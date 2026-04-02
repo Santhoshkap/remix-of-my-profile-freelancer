@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { setLandingTimeline, setAboutToWhatTimeline, setWhatIDoTimeline, setAllTimeline } from "../../utils/GsapScroll";
+import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
 
 export default function handleResize(
   renderer: THREE.WebGLRenderer,
@@ -21,8 +21,6 @@ export default function handleResize(
       trigger.kill();
     }
   });
-  setLandingTimeline(character, camera);
-  setAboutToWhatTimeline(character, camera);
-  setWhatIDoTimeline(character);
+  setCharTimeline(character, camera);
   setAllTimeline();
 }

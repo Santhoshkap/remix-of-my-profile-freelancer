@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { DRACOLoader, GLTF, GLTFLoader } from "three-stdlib";
-import { setLandingTimeline, setAboutToWhatTimeline, setWhatIDoTimeline, setAllTimeline } from "../../utils/GsapScroll";
+import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
 import { decryptFile } from "./decrypt";
 
 const setCharacter = (
@@ -51,9 +51,7 @@ const setCharacter = (
               }
             });
             resolve(gltf);
-            setLandingTimeline(character, camera);
-            setAboutToWhatTimeline(character, camera);
-            setWhatIDoTimeline(character);
+            setCharTimeline(character, camera);
             setAllTimeline();
             character!.getObjectByName("footR")!.position.y = 3.36;
             character!.getObjectByName("footL")!.position.y = 3.36;

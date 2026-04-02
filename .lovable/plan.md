@@ -1,22 +1,25 @@
 
 
-## Plan: Remove 3D Character Intro Animation
+## Plan: Add DORA References Across Profile
 
-### What changes
+DORA (Digital Operational Resilience Act) is an EU regulation for financial sector ICT risk management — fits naturally alongside GDPR in your profile. Here's where to weave it in:
 
-**File: `src/components/Character/utils/animationUtils.ts`**
+### Changes
 
-The `startIntro()` function (lines 35-46) plays the "introAnimation" clip on the character model when the page loads. This is what makes the character do its entrance pose.
+**1. `src/components/Career.tsx` — Dexian experience highlights**
+- Update line 20 to include DORA in the frameworks list:
+  `"Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DORA, DPDP, and NIST frameworks"`
 
-**Change:** Make `startIntro()` a no-op — remove the clip lookup, reset, and play call, and the blink animation timeout. The function signature stays so callers don't break.
+**2. `src/components/WhatIDo.tsx` — Two cards**
+- **GRC card** (line 11): Add `"DORA"` to the tags array
+- **Privacy & Compliance card** (line 18): Add `"DORA"` to the tags array
 
-Specifically:
-- Lines 35-46: Replace the body of `startIntro()` with just `return;`
-- Also remove the initial `introAction.play()` on line 15 which pre-starts the intro clip immediately on load (lines 9-14 find and play it before `startIntro` is even called)
+**3. `src/components/CertificationsSection.tsx` — Certifications grid**
+- Add `"DORA"` to the certifications array (line 22)
 
-**No other files touched.** The typing animation, hover eyebrow animation, and blink will remain. The scroll-based animations in `GsapScroll.ts` are unaffected.
+**4. `src/components/About.tsx` — About paragraph**
+- Update line 148 to mention DORA alongside other frameworks:
+  `"From leading enterprise-wide ISO, SOC 2, HITRUST, DORA, and privacy programs..."`
 
-### Result
-
-The character will appear in its default T-pose/idle state immediately without any entrance animation sequence.
+**5 files touched, text-only changes — no layout or design impact.**
 
