@@ -239,8 +239,9 @@
 
 @media screen and (min-width: 1025px) {
   .character-model {
-    height: 100vh;
-    bottom: 0;
+    height: 70vh;
+    max-height: 700px;
+    bottom: 5%;
     z-index: 11;
     position: fixed;
     opacity: 0;

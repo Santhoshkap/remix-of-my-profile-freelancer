@@ -54,13 +54,15 @@ export function setCharTimeline(
       character.rotation.y = 0.92;
       character.rotation.x = 0.12;
       if (neckBone) neckBone.rotation.x = 0.6;
+      camera.zoom = 1.4;
+      camera.updateProjectionMatrix();
 
       tlServices
         // Fade in the character at the start of the services section
         .fromTo(
           ".character-model",
-          { opacity: 0, x: "-40%", pointerEvents: "none" },
-          { opacity: 1, duration: 2 },
+          { opacity: 0, x: "-40%", scale: 1, pointerEvents: "none" },
+          { opacity: 1, scale: 0.85, duration: 2 },
           0
         )
         // Show monitor and screen light
