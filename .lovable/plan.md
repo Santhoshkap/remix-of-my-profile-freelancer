@@ -1,25 +1,39 @@
 
 
-## Plan: Add DORA References Across Profile
+## Plan: Restrict 3D Character to "What I Deliver" Section Only
 
-DORA (Digital Operational Resilience Act) is an EU regulation for financial sector ICT risk management — fits naturally alongside GDPR in your profile. Here's where to weave it in:
+### Problem
+The 3D character currently appears in the hero/landing section and animates through About into the "What I Deliver" section via three GSAP scroll timelines (tl1, tl2, tl3). You want it to only appear in the "What I Deliver" section.
 
 ### Changes
 
-**1. `src/components/Career.tsx` — Dexian experience highlights**
-- Update line 20 to include DORA in the frameworks list:
-  `"Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DORA, DPDP, and NIST frameworks"`
+**1. `src/components/utils/GsapScroll.ts` — Rewrite `setCharTimeline`**
 
-**2. `src/components/WhatIDo.tsx` — Two cards**
-- **GRC card** (line 11): Add `"DORA"` to the tags array
-- **Privacy & Compliance card** (line 18): Add `"DORA"` to the tags array
+Remove `tl1` (landing) and `tl2` (about) timelines entirely. Replace with a single timeline triggered by `.whatIDO`:
 
-**3. `src/components/CertificationsSection.tsx` — Certifications grid**
-- Add `"DORA"` to the certifications array (line 22)
+- Character starts hidden (opacity 0) and becomes visible when scrolling into the "What I Deliver" section
+- Keep the desk/monitor animation, screen light flicker, and neck bone rotation — but trigger them all from the `.whatIDO` scroll trigger
+- Character fades in at the start of the section, positioned to the left (x: -40%), already in the "at desk" pose
+- Keep `tl3`'s exit animation (character moves up and out as you scroll past)
+- On mobile (<=1024px), keep existing behavior (just show `.what-box-in`)
 
-**4. `src/components/About.tsx` — About paragraph**
-- Update line 148 to mention DORA alongside other frameworks:
-  `"From leading enterprise-wide ISO, SOC 2, HITRUST, DORA, and privacy programs..."`
+**2. `src/components/styles/Landing.css` — Hide character initially on desktop**
 
-**5 files touched, text-only changes — no layout or design impact.**
+On desktop (min-width: 1025px), set `.character-model` to start with `opacity: 0` so it doesn't flash in the hero section. The GSAP timeline will animate it to visible when reaching the services section.
+
+**3. `src/components/MainContainer.tsx` — No changes needed**
+
+The character container is already positioned fixed on desktop, so it can appear at any scroll point. No structural changes required.
+
+### What stays the same
+- The 3D model loading, lighting, head-tracking, and intro animation logic in Scene.tsx
+- The career timeline in `setAllTimeline()`
+- Mobile layout behavior
+- All other section animations
+
+### Summary
+| File | Change |
+|------|--------|
+| `src/components/utils/GsapScroll.ts` | Remove tl1 + tl2, rewrite to single whatIDO-triggered timeline |
+| `src/components/styles/Landing.css` | Set initial `opacity: 0` on desktop `.character-model` |
 
