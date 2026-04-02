@@ -1,25 +1,27 @@
 
 
-## Plan: Add DORA References Across Profile
+## Plan: Hide 3D Character from Hero Section
 
-DORA (Digital Operational Resilience Act) is an EU regulation for financial sector ICT risk management — fits naturally alongside GDPR in your profile. Here's where to weave it in:
+### Problem
+The 3D character model is rendered in the hero section. Simply removing it will break the loading screen — the loader waits for the character model to call `setLoading(100)`, so the site would get stuck on the loading screen forever.
 
 ### Changes
 
-**1. `src/components/Career.tsx` — Dexian experience highlights**
-- Update line 20 to include DORA in the frameworks list:
-  `"Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DORA, DPDP, and NIST frameworks"`
+**1. `src/App.tsx`** — Remove CharacterModel entirely
+- Remove the `lazy` import of CharacterModel
+- Remove the `<Suspense><CharacterModel /></Suspense>` block from the JSX
+- MainContainer's `children` will be empty (no visual change needed since nothing renders)
 
-**2. `src/components/WhatIDo.tsx` — Two cards**
-- **GRC card** (line 11): Add `"DORA"` to the tags array
-- **Privacy & Compliance card** (line 18): Add `"DORA"` to the tags array
+**2. `src/components/MainContainer.tsx`** — Remove children pass-through
+- Remove `PropsWithChildren` usage and `children` prop
+- Remove `{isDesktopView && children}` (line 39)
+- Remove `{!isDesktopView && children}` from Landing (line 43), just render `<Landing />`
 
-**3. `src/components/CertificationsSection.tsx` — Certifications grid**
-- Add `"DORA"` to the certifications array (line 22)
+**3. `src/context/LoadingProvider.tsx`** — Auto-complete loading
+- Add a `useEffect` that sets loading to 100 and `isLoading` to false after a short delay (~3 seconds) to let the loading animation play, since no model will trigger completion anymore
 
-**4. `src/components/About.tsx` — About paragraph**
-- Update line 148 to mention DORA alongside other frameworks:
-  `"From leading enterprise-wide ISO, SOC 2, HITRUST, DORA, and privacy programs..."`
+**4. `src/components/Landing.tsx`** — Remove `PropsWithChildren`
+- Remove `children` prop and `{children}` render since the character is no longer passed in
 
-**5 files touched, text-only changes — no layout or design impact.**
+This keeps all CSS and character source files intact (in case you want to re-enable later) but completely hides the 3D model from the site.
 
