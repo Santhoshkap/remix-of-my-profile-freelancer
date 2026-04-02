@@ -13,7 +13,7 @@ const App = () => {
         <Suspense>
           <MainContainer>
             <Suspense>
-              <CharacterModel />
+              <EarthGlobe />
             </Suspense>
           </MainContainer>
         </Suspense>
