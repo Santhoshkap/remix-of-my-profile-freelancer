@@ -1,25 +1,22 @@
 
 
-## Plan: Add DORA References Across Profile
+## Plan: Add 3D Globe Hero Background
 
-DORA (Digital Operational Resilience Act) is an EU regulation for financial sector ICT risk management — fits naturally alongside GDPR in your profile. Here's where to weave it in:
+Replace the cyber-bg animation in the landing section with a 3D rotating globe built with @react-three/fiber.
 
 ### Changes
 
-**1. `src/components/Career.tsx` — Dexian experience highlights**
-- Update line 20 to include DORA in the frameworks list:
-  `"Led programs across ISO 27001, SOC 2, SOX, HITRUST, HIPAA, GDPR, DORA, DPDP, and NIST frameworks"`
+**1. Create `src/components/GlobeHero.tsx`** (new file)
+- Copy the uploaded file as-is — 3D globe with Earth texture, city markers, fly-lines, orbital rings, stars, and atmospheric GLSL shaders
 
-**2. `src/components/WhatIDo.tsx` — Two cards**
-- **GRC card** (line 11): Add `"DORA"` to the tags array
-- **Privacy & Compliance card** (line 18): Add `"DORA"` to the tags array
+**2. Replace `src/components/Landing.tsx`**
+- Copy the uploaded file as-is — removes the old `landing-cyber-bg` div and its children, adds lazy-loaded `<GlobeHero />` inside a `.landing-globe-bg` container, plus a `.landing-text-veil` gradient overlay
+- Hero text content stays identical
 
-**3. `src/components/CertificationsSection.tsx` — Certifications grid**
-- Add `"DORA"` to the certifications array (line 22)
+**3. Append globe CSS to `src/components/styles/Landing.css`**
+- Keep all existing rules (lines 1–293: layout, text, character model, responsive breakpoints)
+- Remove the old cyber-bg rules (lines 295–459: `.landing-cyber-bg`, `.cyber-grid`, `.cyber-scanline`, `.cyber-particle`, `.cyber-geo-*`, `.cyber-holo-ring`, `.cyber-hex-stream`, `.cyber-lines-svg`, and their mobile media query)
+- Append the new globe CSS: `.landing-globe-bg`, `.landing-text-veil`, mobile overlay, and `.landing-cyber-bg { display: none }` fallback
 
-**4. `src/components/About.tsx` — About paragraph**
-- Update line 148 to mention DORA alongside other frameworks:
-  `"From leading enterprise-wide ISO, SOC 2, HITRUST, DORA, and privacy programs..."`
-
-**5 files touched, text-only changes — no layout or design impact.**
+### No other files are touched — About, Career, WhatIDo, etc. remain unchanged.
 
