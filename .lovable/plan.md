@@ -1,53 +1,42 @@
 
 
-## Plan: Add 3D Globe Animation to Hero Section
+## Plan: Realistic Cybersecurity-Themed 3D Earth Globe
 
 ### Concept
-Create a slowly rotating 3D wireframe/holographic Earth globe that sits behind the hero text as a background element. The globe will use the cyber theme colors (hsl 190 cyan) and be semi-transparent so text remains clearly readable on top.
+Replace the current wireframe sphere with a **realistic Earth globe** using NASA earth textures — a dark/night earth map with cyan-glowing city lights and country outlines, matching the cybersecurity theme.
 
-### Layout
+### Approach
+Use NASA's publicly hosted earth texture images (loaded via `THREE.TextureLoader`) on a sphere with custom shaders/materials to create a dark cyber-styled globe:
 
-```text
-┌──────────────────────────────────┐
-│         HERO SECTION             │
-│                                  │
-│  "Hello I'm"    ┌──────────┐    │
-│  SANTHOSH       │  3D GLOBE│    │
-│  KAPALAVAI      │ (behind  │    │
-│                 │  text)   │    │
-│  GRC & Cyber    └──────────┘    │
-│  [Implementer]                   │
-└──────────────────────────────────┘
-Desktop: Globe on right side, behind the info text
-Mobile: Globe centered, behind all text, smaller
-```
+- **Night-side earth texture** — shows city lights glowing in cyan
+- **Atmosphere glow** — cyan halo around the globe using a custom shader or a slightly larger transparent sphere
+- **Slow auto-rotation** — continuous Y-axis spin
+- Semi-transparent so hero text remains readable
+
+### Textures (loaded from CDN — no local files needed)
+- **Earth surface**: NASA Blue Marble night lights texture (free, public domain) — we'll tint it with the cyan cyber color
+- **Bump map** (optional): for subtle surface relief
+- Textures loaded from `https://unpkg.com/three-globe/example/img/` which hosts standard earth textures
 
 ### Changes
 
-**1. New component: `src/components/GlobeBackground.tsx`**
-- Uses `@react-three/fiber` Canvas + `@react-three/drei` (Sphere geometry)
-- Renders a wireframe sphere with cyan-colored edges matching the cyber theme
+**1. `src/components/GlobeBackground.tsx`** — Complete rewrite
+- Load earth night texture + optional bump map via `useLoader(TextureLoader, url)`
+- Render a `SphereGeometry` with `MeshStandardMaterial` using the night earth map
+- Add a second slightly larger sphere with a custom cyan atmosphere glow (additive blending, transparent)
+- Keep the orbital rings from current design for the cyber feel
 - Slow auto-rotation on Y axis
-- Semi-transparent (opacity ~0.15-0.25) so text reads clearly over it
-- Subtle glow effect using emissive material
-- No user interaction needed — purely decorative
+- Add `ambientLight` + `pointLight` for realistic lighting
 
-**2. `src/components/Landing.tsx`**
-- Import and render `<GlobeBackground />` inside `.landing-container`
-- Position it absolutely behind the text content using a wrapper div with `z-index: 0` and `pointer-events: none`
-
-**3. `src/components/styles/Landing.css`**
-- Add `.landing-globe` styles:
-  - Absolute positioned, right-aligned on desktop, centered on mobile
-  - ~500px width/height on desktop, ~300px on mobile
-  - `z-index: 1` (behind text which is `z-index: 9`)
-  - `opacity: 0.3` for subtle background effect
-  - Responsive breakpoints matching existing layout
+**2. `src/components/styles/Landing.css`** — Minor adjustments
+- Increase `.landing-globe` opacity from `0.35` to `0.5` for the realistic globe to be more visible
+- Adjust sizing if needed for the realistic earth to look proportional
 
 ### Technical Details
-- Uses existing `three`, `@react-three/fiber`, and `@react-three/drei` dependencies (already installed)
-- Globe rendered as wireframe `SphereGeometry` with `MeshBasicMaterial` (no lighting needed)
-- Optional: add dot-style points on sphere surface for a data-visualization look
-- Canvas has `alpha: true` for transparent background
-- `frameloop="always"` for continuous rotation
+- Uses existing `three` and `@react-three/fiber` (no new dependencies)
+- `@react-three/drei`'s `useTexture` or Three's `TextureLoader` for loading textures
+- Atmosphere effect: second sphere with `BackSide` rendering, cyan color, additive blending
+- Earth tinted dark with cyan city lights for the cybersecurity aesthetic
+- Canvas stays transparent with `alpha: true`
+- `pointer-events: none` preserved so it doesn't interfere with text interaction
 
